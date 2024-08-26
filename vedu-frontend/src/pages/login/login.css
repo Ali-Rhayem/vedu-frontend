@@ -23,9 +23,13 @@ body {
 }
 
 .login-box {
-    padding: 40px;
-    width: 50%;
-    text-align: center;
-    position: relative;
-    z-index: 1;
-  }
+  padding: 40px;
+  width: 50%;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.login-box h2 {
+  color: #00cfff;
+}
