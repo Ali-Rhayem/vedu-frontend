@@ -1,10 +1,43 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+
+      const data = await response.json();
+
+      localStorage.setItem("token", data.access_token);
+
+      console.log("Login successful", data);
+      navigate("/home"); 
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   return (
     <div className="login-wrapper">
@@ -12,7 +45,7 @@ function Login() {
         <div className="login-box">
           <h2>Welcome</h2>
           <p>Login into your account</p>
-          <form>
+          <form onSubmit={handleLogin}>
             <div className="input-group">
               <label>Email</label>
               <input
