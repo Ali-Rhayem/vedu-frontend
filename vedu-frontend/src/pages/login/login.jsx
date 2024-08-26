@@ -39,6 +39,10 @@ function Login() {
     }
   };
 
+  const handleRegister = () => {
+    navigate("/register");
+  };
+
   return (
     <div className="login-wrapper">
       <div className="login-container">
@@ -76,7 +80,7 @@ function Login() {
             </button>
           </form>
           <div className="create-account">
-            <a>Create account ?</a>
+            <a onClick={handleRegister}>Create account ?</a>
           </div>
         </div>
         <div className="blue-side"></div>
