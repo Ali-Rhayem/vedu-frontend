@@ -82,3 +82,8 @@ body {
   margin-bottom: 10px;
   cursor: pointer;
 }
+
+.google-button {
+  background-color: #444;
+  color: #fff;
+}
