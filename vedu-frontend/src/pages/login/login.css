@@ -33,3 +33,8 @@ body {
 .login-box h2 {
   color: #00cfff;
 }
+
+.login-box p {
+  color: #888;
+  margin-bottom: 20px;
+}
