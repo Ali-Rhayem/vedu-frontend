@@ -87,3 +87,16 @@ body {
   background-color: #444;
   color: #fff;
 }
+
+.create-account a {
+  color: #888;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.blue-side {
+  width: 50%;
+  background-color: #00cfff;
+  border-top-left-radius: 200px;
+  border-bottom-left-radius: 200px;
+}
