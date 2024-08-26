@@ -3,6 +3,8 @@ import "./Login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <div className="login-wrapper">
       <div className="login-container">
@@ -21,7 +23,12 @@ function Login() {
             </div>
             <div className="input-group">
               <label>Password</label>
-              <input type="password" placeholder="***********" />
+              <input
+                type="password"
+                placeholder="***********"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
             <div className="forgot-password">
               <a href="#">Forgot your password?</a>
