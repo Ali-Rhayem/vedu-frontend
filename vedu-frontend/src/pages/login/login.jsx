@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -72,12 +72,8 @@ function Login() {
             <div className="forgot-password">
               <a href="#">Forgot your password?</a>
             </div>
-            <button type="submit" className="login-button">
-              Sign in
-            </button>
-            <button type="button" className="google-button">
-              Connect with Google
-            </button>
+            <button type="submit" className="login-button">Sign in</button>
+            <button type="button" className="google-button">Connect with Google</button>
           </form>
           <div className="create-account">
             <a onClick={handleRegister}>Create account ?</a>
