@@ -64,3 +64,8 @@ body {
   margin-bottom: 20px;
   text-align: center;
 }
+
+.forgot-password a {
+  color: #888;
+  text-decoration: none;
+}
