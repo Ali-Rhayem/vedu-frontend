@@ -4,6 +4,7 @@ import "./Login.css";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
   return (
     <div className="login-wrapper">
@@ -30,6 +31,7 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
+            {error && <p className="error-message">{error}</p>}
             <div className="forgot-password">
               <a href="#">Forgot your password?</a>
             </div>
