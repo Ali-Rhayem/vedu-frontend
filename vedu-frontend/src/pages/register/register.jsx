@@ -14,6 +14,40 @@ function Register() {
     navigate("/login");
   };
 
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    const requestBody = {
+      name: name,
+      email: email,
+      password: password,
+      password_confirmation: passwordConfirmation,
+    };
+
+    try {
+      const response = await fetch("http://localhost:8000/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Registration failed");
+      }
+
+      const data = await response.json();
+      console.log("Registration successful", data);
+
+      navigate("/login");
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   return (
     <div className="register-wrapper">
       <div className="register-container">
@@ -25,7 +59,7 @@ function Register() {
         </div>
         <div className="register-box">
           <h2>Register</h2>
-          <form>
+          <form onSubmit={handleRegister}>
             <div className="input-group">
               <label>Username</label>
               <input
