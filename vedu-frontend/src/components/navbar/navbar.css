@@ -14,3 +14,9 @@
   background-color: #3a3a3a;
   color: #fff;
 }
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
