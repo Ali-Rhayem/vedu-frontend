@@ -89,3 +89,10 @@ body {
 .class-card h4 {
   margin-bottom: 10px;
 }
+
+.class-info {
+  margin-top: 10px;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
