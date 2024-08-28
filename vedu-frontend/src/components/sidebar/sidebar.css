@@ -26,3 +26,10 @@
   display: flex;
   align-items: center;
 }
+
+.sidebar ul li.active a {
+  background-color: #00cfff;
+  color: #141414;
+  padding: 10px;
+  border-radius: 5px;
+}
