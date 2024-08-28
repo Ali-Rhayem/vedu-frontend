@@ -87,3 +87,8 @@ body {
 .profile-name {
   margin-top: 15px;
 }
+
+.info-group {
+  display: flex;
+  justify-content: space-between;
+}
