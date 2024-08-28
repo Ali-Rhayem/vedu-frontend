@@ -134,3 +134,10 @@ body {
 .confirm-button:hover {
   background-color: #009fe3;
 }
+
+.Container {
+  width: 90%;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
