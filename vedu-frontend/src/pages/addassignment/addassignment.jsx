@@ -6,6 +6,7 @@ import Navbar from "../../components/navbar/navbar";
 function AddAssignment() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [dueDate, setDueDate] = useState("");
 
   return (
     <div className="add-assignment-page">
@@ -69,7 +70,11 @@ function AddAssignment() {
             <div className="form-right">
               <div className="form-group">
                 <label>Due Date</label>
-                <input type="date" />
+                <input
+                  type="date"
+                  value={dueDate}
+                  onChange={(e) => setDueDate(e.target.value)}
+                />
               </div>
 
               <div className="form-group">
