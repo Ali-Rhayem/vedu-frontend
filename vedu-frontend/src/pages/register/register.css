@@ -53,3 +53,15 @@ body {
   background-color: #333;
   color: #ddd;
 }
+
+.register-button {
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  border: none;
+  background-color: #00cfff;
+  color: #141414;
+  font-size: 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
