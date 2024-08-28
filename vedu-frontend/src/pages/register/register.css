@@ -91,3 +91,8 @@ body {
   text-align: center;
   color: #fff;
 }
+
+.blue-side-register img {
+  max-width: 100px;
+  margin-bottom: 20px;
+}
