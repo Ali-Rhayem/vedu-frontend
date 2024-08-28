@@ -44,3 +44,11 @@ body {
 .profile-picture {
   margin-bottom: 20px;
 }
+
+.profile-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #ccc; 
+  margin: 0 auto;
+}
