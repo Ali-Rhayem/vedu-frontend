@@ -1,12 +1,14 @@
 import React from "react";
 import "./editaddress.css";
 import Sidebar from "../../components/sidebar/sidebar";
+import Navbar from "../../components/navbar/navbar";
 
 function EditAddress() {
   return (
     <div className="edit-address-page">
       <Sidebar />
       <div className="Container">
+        <Navbar />
         <div className="content">
           <div className="address-content">
             <h3>Edit Address</h3>
