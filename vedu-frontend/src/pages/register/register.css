@@ -21,3 +21,11 @@ body {
   width: 100%;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
+
+.register-box {
+  padding: 40px;
+  width: 50%;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
