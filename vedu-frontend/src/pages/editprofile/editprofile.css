@@ -57,3 +57,21 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.info-group label {
+  margin-bottom: 5px;
+  color: #00cfff;
+}
+
+.info-group input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #444;
+  background-color: #333;
+  color: #ddd;
+  outline: none;
+}
+
+.info-group input::placeholder {
+  color: #888;
+}
