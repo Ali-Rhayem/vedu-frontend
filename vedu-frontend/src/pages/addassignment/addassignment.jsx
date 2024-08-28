@@ -59,12 +59,24 @@ function AddAssignment() {
                 <div className="form-group">
                   <label>Attach files</label>
                   <div className="file-upload">
-                    <input type="file" multiple />
+                    <input type="file" multiple onChange={handleFileUpload} />
                     <button type="button" className="upload-button">
                       Upload
                     </button>
                   </div>
-                  <div className="uploaded-files"></div>
+                  <div className="uploaded-files">
+                    {files.map((file, index) => (
+                      <div key={index} className="uploaded-file">
+                        <span>{file.name}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveFile(index)}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="form-actions">
