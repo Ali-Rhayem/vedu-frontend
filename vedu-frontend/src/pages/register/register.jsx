@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 function Register() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
 
   const handleLogin = () => {
     navigate("/login");
@@ -37,6 +38,9 @@ function Register() {
               <input
                 type="email"
                 placeholder="Example@gmail.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
             <div className="input-group">
