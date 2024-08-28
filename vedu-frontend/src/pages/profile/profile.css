@@ -83,3 +83,7 @@ body {
   border-radius: 50%;
   object-fit: cover;
 }
+
+.profile-name {
+  margin-top: 15px;
+}
