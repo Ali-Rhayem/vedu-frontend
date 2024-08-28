@@ -76,3 +76,12 @@ body {
   color: #00cfff;
   margin-bottom: 20px;
 }
+
+.class-card {
+  background-color: #2b2b2b;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border-left: 4px solid #00cfff;
+  color: #fff;
+}
