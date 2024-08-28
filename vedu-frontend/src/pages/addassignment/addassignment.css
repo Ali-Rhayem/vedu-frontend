@@ -50,3 +50,13 @@ body {
 .form-group textarea {
   height: 100px;
 }
+
+.file-upload {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.uploaded-files {
+  margin-top: 10px;
+}
