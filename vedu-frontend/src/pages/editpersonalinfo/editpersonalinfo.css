@@ -96,3 +96,7 @@ body {
   color: #ddd;
   outline: none;
 }
+
+.info-group input::placeholder {
+  color: #888;
+}
