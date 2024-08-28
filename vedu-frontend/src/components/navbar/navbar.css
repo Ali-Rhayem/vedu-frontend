@@ -6,3 +6,11 @@
   padding: 10px 20px;
   color: #fff;
 }
+
+.search-bar input {
+  padding: 8px;
+  border-radius: 20px;
+  border: none;
+  background-color: #3a3a3a;
+  color: #fff;
+}
