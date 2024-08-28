@@ -49,3 +49,7 @@
   padding: 10px 15px;
   cursor: pointer;
 }
+
+.profile-dropdown ul li:hover {
+  background-color: #444;
+}
