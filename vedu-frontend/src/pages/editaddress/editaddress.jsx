@@ -5,7 +5,8 @@ import Navbar from "../../components/navbar/navbar";
 
 function EditAddress() {
   const [country, setCountry] = useState("");
-  const [city, setCity] = useState("New York");
+  const [city, setCity] = useState("");
+  const [code, setCode] = useState("");
 
   return (
     <div className="edit-address-page">
