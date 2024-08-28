@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 function Register() {
   const navigate = useNavigate();
 
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
   return (
     <div className="register-wrapper">
       <div className="register-container">
@@ -48,7 +52,7 @@ function Register() {
             <button type="submit" className="register-button">Register</button>
           </form>
           <div className="login-link">
-            <a>Already have an account? Login</a>
+            <a onClick={handleLogin}>Already have an account? Login</a>
           </div>
         </div>
       </div>
