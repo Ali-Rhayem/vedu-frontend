@@ -76,3 +76,10 @@ body {
   flex-direction: column;
   gap: 10px;
 }
+
+.profile-image img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
