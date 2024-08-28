@@ -32,7 +32,12 @@ function EditAddress() {
                 </div>
                 <div className="info-group">
                   <label>City</label>
-                  <input type="text" placeholder="Example" />
+                  <input
+                    type="text"
+                    placeholder="Example"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                  />
                 </div>
                 <div className="info-group">
                   <label>Code</label>
