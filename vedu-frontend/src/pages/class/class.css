@@ -45,3 +45,7 @@ body {
   margin-bottom: 20px;
   color: #fff;
 }
+
+.class-header h3 {
+  margin: 0 0 10px;
+}
