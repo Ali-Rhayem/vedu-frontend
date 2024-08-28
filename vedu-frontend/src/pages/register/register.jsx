@@ -7,6 +7,8 @@ function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+
 
   const handleLogin = () => {
     navigate("/login");
@@ -59,6 +61,9 @@ function Register() {
               <input
                 type="password"
                 placeholder="***********"
+                value={passwordConfirmation}
+                onChange={(e) => setPasswordConfirmation(e.target.value)}
+                required
               />
             </div>
             <button type="submit" className="register-button">Register</button>
