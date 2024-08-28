@@ -15,3 +15,13 @@ body {
   flex-direction: column;
   padding: 20px;
 }
+
+.profile-content {
+  background-color: #2b2b2b;
+  padding: 40px;
+  border-radius: 15px;
+  color: #fff;
+  width: 90%;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
