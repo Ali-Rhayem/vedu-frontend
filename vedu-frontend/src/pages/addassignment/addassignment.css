@@ -119,3 +119,10 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.Container {
+  width: 90%;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
