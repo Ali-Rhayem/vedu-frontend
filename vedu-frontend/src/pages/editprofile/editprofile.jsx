@@ -4,7 +4,8 @@ import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
 
 function EditProfile() {
-    const [firstName, setFirstName] = useState("Ali");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
 
 
   return (
@@ -35,6 +36,8 @@ function EditProfile() {
                   <input
                     type="text"
                     placeholder="Example"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
                   />
                 </div>
                 <div className="info-group">
