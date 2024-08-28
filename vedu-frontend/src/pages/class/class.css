@@ -49,3 +49,9 @@ body {
 .class-header h3 {
   margin: 0 0 10px;
 }
+
+.class-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
