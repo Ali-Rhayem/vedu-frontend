@@ -42,7 +42,12 @@ function EditAddress() {
                 </div>
                 <div className="info-group">
                   <label>Code</label>
-                  <input type="text" placeholder="0000" />
+                  <input
+                    type="text"
+                    placeholder="0000"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                  />
                 </div>
               </div>
             </div>
