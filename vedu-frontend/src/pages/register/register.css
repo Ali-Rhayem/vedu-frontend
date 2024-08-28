@@ -86,3 +86,8 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.blue-side-register .content {
+  text-align: center;
+  color: #fff;
+}
