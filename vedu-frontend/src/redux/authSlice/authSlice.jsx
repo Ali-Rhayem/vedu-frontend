@@ -16,9 +16,16 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       state.error = null;
       console.log('State after loginSuccess:', state);
+    },
+    logout(state) {
+      console.log('Logout Action Triggered');
+      state.token = null;
+      state.isAuthenticated = false;
+      state.error = null;
+      console.log('State after logout:', state);
     }
   },
 });
 
-export const { loginSuccess } = authSlice.actions;
+export const { loginSuccess, logout } = authSlice.actions;
 export default authSlice.reducer;
