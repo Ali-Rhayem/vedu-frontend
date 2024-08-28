@@ -24,3 +24,13 @@
 .profile-info {
   cursor: pointer;
 }
+
+.profile-dropdown {
+  display: none;
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: #282828;
+  border: 1px solid #444;
+  border-radius: 5px;
+}
