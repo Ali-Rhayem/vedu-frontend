@@ -70,3 +70,9 @@ body {
   margin-top: 20px;
   color: #888;
 }
+
+.login-link a {
+  color: #888;
+  text-decoration: none;
+  cursor: pointer;
+}
