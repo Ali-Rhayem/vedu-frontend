@@ -4,7 +4,7 @@ import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
 
 function EditPersonalInfo() {
-  const [name, setName] = useState("Ali Rhayem");
+  const [name, setName] = useState("");
 
   return (
     <div className="edit-personal-info-page">
