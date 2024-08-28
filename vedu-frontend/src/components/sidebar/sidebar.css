@@ -19,3 +19,10 @@
 .sidebar ul li {
   margin-bottom: 20px;
 }
+
+.sidebar ul li a {
+  color: #00cfff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
