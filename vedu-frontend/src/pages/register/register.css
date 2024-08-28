@@ -33,3 +33,8 @@ body {
 .register-box h2 {
   color: #00cfff;
 }
+
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
