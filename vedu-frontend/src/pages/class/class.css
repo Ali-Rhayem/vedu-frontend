@@ -97,3 +97,28 @@ body {
   padding: 20px;
   border-radius: 10px;
 }
+
+.stream-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #3a3a3a;
+}
+
+.stream-icon {
+  margin-right: 15px;
+  color: #00cfff;
+}
+
+.stream-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.stream-content p {
+  margin: 0;
+  color: #fff;
+}
