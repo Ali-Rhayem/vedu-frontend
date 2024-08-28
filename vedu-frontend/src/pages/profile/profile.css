@@ -50,3 +50,8 @@ body {
   align-items: center;
   margin-bottom: 15px;
 }
+
+.section-header h4 {
+  margin: 0;
+  color: #00cfff;
+}
