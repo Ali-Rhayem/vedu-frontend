@@ -34,6 +34,14 @@ function Home() {
     fetchCourses();
   }, []);
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
     <div className="home-page">
       <Sidebar />
