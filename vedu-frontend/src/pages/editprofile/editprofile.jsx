@@ -10,7 +10,7 @@ function EditProfile() {
     const [bio, setBio] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-
+    const [phoneNumber, setPhoneNumber] = useState("123456789");
 
   return (
     <div className="edit-profile-page">
@@ -85,6 +85,8 @@ function EditProfile() {
                   <input
                     type="text"
                     placeholder="123456789"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
                   />
                 </div>
               </div>
