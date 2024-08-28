@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import "./editpersonalinfo.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
 
 function EditPersonalInfo() {
+  const [name, setName] = useState("Ali Rhayem");
+
   return (
     <div className="edit-personal-info-page">
       <Sidebar />
@@ -24,7 +26,12 @@ function EditPersonalInfo() {
               <div className="profile-info">
                 <div className="info-group">
                   <label>Name</label>
-                  <input type="text" placeholder="Example" />
+                  <input
+                    type="text"
+                    placeholder="Example"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
                 </div>
               </div>
               <div className="form-actions">
