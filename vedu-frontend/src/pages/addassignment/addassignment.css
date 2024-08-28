@@ -25,3 +25,24 @@ body {
 .form-right {
   width: 48%;
 }
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #00cfff;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #555;
+  background-color: #333;
+  color: #ddd;
+}
