@@ -24,3 +24,9 @@ body {
 .content::-webkit-scrollbar {
   display: none;
 }
+
+.user-profile .profile-info {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}

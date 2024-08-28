@@ -16,6 +16,12 @@
   color: #fff;
 }
 
+.user-profile .profile-info {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
 .user-profile {
   display: flex;
   align-items: center;
