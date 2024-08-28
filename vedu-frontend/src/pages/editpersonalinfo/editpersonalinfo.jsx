@@ -1,10 +1,12 @@
 import React from "react";
 import "./editpersonalinfo.css";
 import Navbar from "../../components/navbar/navbar";
+import Sidebar from "../../components/sidebar/sidebar";
 
 function EditPersonalInfo() {
   return (
     <div className="edit-personal-info-page">
+      <Sidebar />
       <div className="Container">
         <Navbar />
         <div className="content">
