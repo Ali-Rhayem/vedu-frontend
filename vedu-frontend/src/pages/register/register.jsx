@@ -8,7 +8,7 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-
+  const [error, setError] = useState(null);
 
   const handleLogin = () => {
     navigate("/login");
@@ -66,7 +66,10 @@ function Register() {
                 required
               />
             </div>
-            <button type="submit" className="register-button">Register</button>
+            {error && <p className="error-message">{error}</p>}
+            <button type="submit" className="register-button">
+              Register
+            </button>
           </form>
           <div className="login-link">
             <a onClick={handleLogin}>Already have an account? Login</a>
