@@ -68,3 +68,9 @@ body {
   background-color: #00cfff;
   color: #141414;
 }
+
+.class-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
