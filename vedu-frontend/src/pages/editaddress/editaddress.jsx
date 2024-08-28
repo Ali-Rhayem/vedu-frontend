@@ -1,9 +1,11 @@
 import React from "react";
-import "./EditAddress.css";
+import "./editaddress.css";
+import Sidebar from "../../components/sidebar/sidebar";
 
 function EditAddress() {
   return (
     <div className="edit-address-page">
+      <Sidebar />
       <div className="Container">
         <div className="content">
           <div className="address-content">
@@ -16,24 +18,15 @@ function EditAddress() {
               <div className="address-info">
                 <div className="info-group">
                   <label>Country</label>
-                  <input
-                    type="text"
-                    placeholder="Example"
-                  />
+                  <input type="text" placeholder="Example" />
                 </div>
                 <div className="info-group">
                   <label>City</label>
-                  <input
-                    type="text"
-                    placeholder="Example"
-                  />
+                  <input type="text" placeholder="Example" />
                 </div>
                 <div className="info-group">
                   <label>Code</label>
-                  <input
-                    type="text"
-                    placeholder="0000"
-                  />
+                  <input type="text" placeholder="0000" />
                 </div>
               </div>
             </div>
