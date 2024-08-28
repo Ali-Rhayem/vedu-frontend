@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import "./editaddress.css";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
 
 function EditAddress() {
+  const [country, setCountry] = useState("");
+
   return (
     <div className="edit-address-page">
       <Sidebar />
