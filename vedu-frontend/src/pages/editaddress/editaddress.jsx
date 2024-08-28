@@ -19,8 +19,6 @@ function EditAddress() {
                   <input
                     type="text"
                     placeholder="Example"
-                    value={country}
-                    onChange={(e) => setCountry(e.target.value)}
                   />
                 </div>
                 <div className="info-group">
@@ -28,8 +26,6 @@ function EditAddress() {
                   <input
                     type="text"
                     placeholder="Example"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
                   />
                 </div>
                 <div className="info-group">
@@ -37,8 +33,6 @@ function EditAddress() {
                   <input
                     type="text"
                     placeholder="0000"
-                    value={code}
-                    onChange={(e) => setCode(e.target.value)}
                   />
                 </div>
               </div>
