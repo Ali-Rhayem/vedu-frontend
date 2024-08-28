@@ -122,3 +122,12 @@ body {
   margin: 0;
   color: #fff;
 }
+
+.view-button {
+  padding: 5px 15px;
+  border-radius: 5px;
+  border: 1px solid #00cfff;
+  background-color: #141414;
+  color: #00cfff;
+  cursor: pointer;
+}
