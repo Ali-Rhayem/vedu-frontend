@@ -81,3 +81,36 @@ body {
   justify-content: flex-end;
   gap: 10px;
 }
+
+.cancel-button,
+.add-button,
+.upload-button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.cancel-button {
+  background-color: #555;
+  color: #ddd;
+}
+
+.add-button {
+  background-color: #00cfff;
+  color: #141414;
+}
+
+.upload-button {
+  background-color: #00cfff;
+  color: #141414;
+}
+
+.cancel-button:hover {
+  background-color: #777;
+}
+
+.add-button:hover,
+.upload-button:hover {
+  background-color: #009fe3;
+}
