@@ -20,3 +20,7 @@ body {
   overflow-y: auto;
   height: 100vh;
 }
+
+.content::-webkit-scrollbar {
+  display: none;
+}
