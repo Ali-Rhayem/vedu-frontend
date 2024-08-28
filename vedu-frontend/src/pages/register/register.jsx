@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import "./register.css";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
   const navigate = useNavigate();
+  const [name, setName] = useState("");
 
   const handleLogin = () => {
     navigate("/login");
@@ -26,6 +27,9 @@ function Register() {
               <input
                 type="text"
                 placeholder="Example"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
               />
             </div>
             <div className="input-group">
