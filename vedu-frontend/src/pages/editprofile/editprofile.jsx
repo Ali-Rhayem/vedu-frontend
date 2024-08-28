@@ -6,6 +6,7 @@ import Sidebar from "../../components/sidebar/sidebar";
 function EditProfile() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
 
 
   return (
@@ -45,6 +46,8 @@ function EditProfile() {
                   <input
                     type="email"
                     placeholder="Example@gmail.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="info-group">
