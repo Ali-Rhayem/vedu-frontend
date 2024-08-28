@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import "./editprofile.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
 
 function EditProfile() {
+    const [firstName, setFirstName] = useState("Ali");
 
 
   return (
@@ -25,6 +26,8 @@ function EditProfile() {
                   <input
                     type="text"
                     placeholder="Example"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
                   />
                 </div>
                 <div className="info-group">
