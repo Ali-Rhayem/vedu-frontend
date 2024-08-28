@@ -32,3 +32,10 @@ body {
   text-align: center;
   font-size: 1.5em;
 }
+
+.address-section {
+  background-color: #1f1f1f;
+  padding: 25px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
