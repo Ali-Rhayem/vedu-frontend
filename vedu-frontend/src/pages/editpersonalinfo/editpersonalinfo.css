@@ -71,3 +71,7 @@ body {
 .change-photo-button:hover {
   text-decoration: underline;
 }
+
+.profile-info {
+  margin-top: 20px;
+}
