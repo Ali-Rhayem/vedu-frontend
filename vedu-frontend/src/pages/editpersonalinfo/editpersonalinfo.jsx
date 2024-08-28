@@ -1,11 +1,12 @@
 import React from "react";
 import "./editpersonalinfo.css";
+import Navbar from "../../components/navbar/navbar";
 
 function EditPersonalInfo() {
-
   return (
     <div className="edit-personal-info-page">
       <div className="Container">
+        <Navbar />
         <div className="content">
           <div className="profile-content">
             <h3>Edit Profile</h3>
@@ -21,19 +22,12 @@ function EditPersonalInfo() {
               <div className="profile-info">
                 <div className="info-group">
                   <label>Name</label>
-                  <input
-                    type="text"
-                    placeholder="Example"
-                  />
+                  <input type="text" placeholder="Example" />
                 </div>
               </div>
               <div className="form-actions">
-                <button className="cancel-button">
-                  Cancel
-                </button>
-                <button className="confirm-button">
-                  Confirm
-                </button>
+                <button className="cancel-button">Cancel</button>
+                <button className="confirm-button">Confirm</button>
               </div>
             </div>
           </div>
