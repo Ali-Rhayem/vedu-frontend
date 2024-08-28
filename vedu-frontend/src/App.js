@@ -6,6 +6,7 @@ import Home from "./pages/home/home.jsx"
 import Class from "./pages/class/class.jsx"
 import Profile from './pages/profile/profile.jsx';
 import EditProfile from './pages/editprofile/editprofile.jsx';
+import EditPersonalInfo from './pages/editpersonalinfo/editpersonalinfo.jsx';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/class" element={<Class />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/edit-profile" element={<EditPersonalInfo />} />
       </Routes>
     </Router>
   );
