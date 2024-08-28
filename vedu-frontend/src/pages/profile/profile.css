@@ -68,3 +68,11 @@ body {
 .edit-button:hover {
   background-color: #009fe3;
 }
+
+.profile-info,
+.personal-info,
+.address-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
