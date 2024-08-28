@@ -74,3 +74,20 @@ body {
   gap: 10px;
   margin-bottom: 20px;
 }
+
+.join-button,
+.announce-button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  color: #141414;
+}
+
+.join-button {
+  background-color: #00cfff;
+}
+
+.announce-button {
+  background-color: #00cfff;
+}
