@@ -38,3 +38,9 @@ body {
   margin-bottom: 20px;
   text-align: left;
 }
+
+.input-group label {
+  display: block;
+  color: #00cfff;
+  margin-bottom: 5px;
+}
