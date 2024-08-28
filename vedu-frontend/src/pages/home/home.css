@@ -71,3 +71,8 @@ body {
 .classes {
   padding: 20px;
 }
+
+.classes h3 {
+  color: #00cfff;
+  margin-bottom: 20px;
+}
