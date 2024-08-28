@@ -1,12 +1,14 @@
 import React from "react";
 import "./addassignment.css";
 import Sidebar from "../../components/sidebar/sidebar";
+import Navbar from "../../components/navbar/navbar";
 
 function AddAssignment() {
   return (
     <div className="add-assignment-page">
       <Sidebar />
       <div className="Container">
+        <Navbar />
         <div className="content">
           <div className="assignment-form">
             <div className="form-left">
