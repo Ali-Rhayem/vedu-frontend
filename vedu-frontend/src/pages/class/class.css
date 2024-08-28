@@ -91,3 +91,9 @@ body {
 .announce-button {
   background-color: #00cfff;
 }
+
+.stream {
+  background-color: #2b2b2b;
+  padding: 20px;
+  border-radius: 10px;
+}
