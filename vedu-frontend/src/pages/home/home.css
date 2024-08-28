@@ -49,3 +49,21 @@ body {
   gap: 10px;
   justify-content: flex-end;
 }
+
+.join-button,
+.create-button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.join-button {
+  background-color: #00cfff;
+  color: #141414;
+}
+
+.create-button {
+  background-color: #00cfff;
+  color: #141414;
+}
