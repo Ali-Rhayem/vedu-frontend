@@ -29,3 +29,7 @@ body {
   position: relative;
   z-index: 1;
 }
+
+.register-box h2 {
+  color: #00cfff;
+}
