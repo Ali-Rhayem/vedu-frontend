@@ -39,3 +39,10 @@ body {
   border-radius: 10px;
   margin-bottom: 20px;
 }
+
+.section-header h4 {
+  margin: 0 0 15px;
+  color: #00cfff;
+  text-align: left;
+  font-size: 1.25em;
+}
