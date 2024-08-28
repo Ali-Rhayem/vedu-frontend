@@ -43,3 +43,9 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
