@@ -8,3 +8,12 @@ body {
   display: flex;
   height: 100vh;
 }
+
+.sidebar {
+  width: 240px;
+  background-color: #1f1f1f;
+  color: #00cfff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
