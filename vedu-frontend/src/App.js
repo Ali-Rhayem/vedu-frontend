@@ -4,6 +4,7 @@ import Login from "./pages/login/login.jsx";
 import Register from "./pages/register/register.jsx"
 import Home from "./pages/home/home.jsx"
 import Class from "./pages/class/class.jsx"
+import Profile from './pages/profile/profile.jsx';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
         <Route path="/class" element={<Class />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   );
