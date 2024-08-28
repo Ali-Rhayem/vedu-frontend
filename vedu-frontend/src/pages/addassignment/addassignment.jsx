@@ -1,9 +1,11 @@
 import React from "react";
 import "./addassignment.css";
+import Sidebar from "../../components/sidebar/sidebar";
 
 function AddAssignment() {
   return (
     <div className="add-assignment-page">
+      <Sidebar />
       <div className="Container">
         <div className="content">
           <div className="assignment-form">
