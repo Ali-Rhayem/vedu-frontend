@@ -18,7 +18,7 @@ function App() {
         <Route path="/class" element={<Class />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/edit-profile" element={<EditProfile />} />
-        <Route path="/edit-profile" element={<EditPersonalInfo />} />
+        <Route path="/edit-personal-info" element={<EditPersonalInfo />} />
       </Routes>
     </Router>
   );
