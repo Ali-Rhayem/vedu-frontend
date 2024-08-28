@@ -23,9 +23,13 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.error = null;
       console.log('State after logout:', state);
-    }
+    },
+    authError(state, action) {
+      console.log('Auth Error Action:', action.payload);
+      state.error = action.payload;
+    },
   },
 });
 
-export const { loginSuccess, logout } = authSlice.actions;
+export const { loginSuccess, logout, authError } = authSlice.actions;
 export default authSlice.reducer;
