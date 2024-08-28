@@ -48,19 +48,30 @@ body {
 }
 
 .personal-info {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 5%;
 }
 
 .info-group {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .info-group label {
   margin-bottom: 5px;
   color: #00cfff;
+  align-self: flex-start;
+  width: auto; 
+  flex: none;
 }
 
 .info-group input {
@@ -70,6 +81,9 @@ body {
   background-color: #333;
   color: #ddd;
   outline: none;
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .info-group input::placeholder {
@@ -115,4 +129,26 @@ body {
   height: 100%;
   overflow-y: auto;
   scrollbar-width: none;
+}
+
+@media (max-width: 1024px) {
+  .flex-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .info-group {
+    flex: 1 1 100%; 
+  }
+}
+
+@media (max-width: 768px) {
+  .flex-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .info-group {
+    flex: 1 1 100%;
+  }
 }
