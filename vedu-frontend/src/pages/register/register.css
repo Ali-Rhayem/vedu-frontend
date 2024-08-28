@@ -96,3 +96,7 @@ body {
   max-width: 100px;
   margin-bottom: 20px;
 }
+
+.blue-side-register p {
+  margin: 0;
+}
