@@ -68,3 +68,10 @@ body {
   margin-bottom: 5px;
   color: #ddd;
 }
+
+.uploaded-file button {
+  background: none;
+  border: none;
+  color: #00cfff;
+  cursor: pointer;
+}
