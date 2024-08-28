@@ -32,7 +32,6 @@ function Login() {
       }
 
       const data = await response.json();
-      console.log('API Response:', data);
 
       localStorage.setItem("token", data.access_token);
 

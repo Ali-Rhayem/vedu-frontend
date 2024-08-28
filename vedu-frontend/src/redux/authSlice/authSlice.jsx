@@ -11,18 +11,14 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     loginSuccess(state, action) {
-      console.log('Login Success Action:', action.payload);
       state.token = action.payload.token;
       state.isAuthenticated = true;
       state.error = null;
-      console.log('State after loginSuccess:', state);
     },
     logout(state) {
-      console.log('Logout Action Triggered');
       state.token = null;
       state.isAuthenticated = false;
       state.error = null;
-      console.log('State after logout:', state);
     },
     authError(state, action) {
       console.log('Auth Error Action:', action.payload);
