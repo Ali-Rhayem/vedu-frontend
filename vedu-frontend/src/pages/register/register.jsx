@@ -1,7 +1,9 @@
 import React from "react";
 import "./register.css";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+  const navigate = useNavigate();
 
   return (
     <div className="register-wrapper">
