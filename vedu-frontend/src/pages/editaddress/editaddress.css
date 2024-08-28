@@ -46,3 +46,9 @@ body {
   text-align: left;
   font-size: 1.25em;
 }
+
+.address-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
