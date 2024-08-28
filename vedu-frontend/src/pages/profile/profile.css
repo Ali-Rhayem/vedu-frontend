@@ -5,3 +5,9 @@ body {
   height: 100vh;
   overflow: hidden;
 }
+
+.profile-page {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
