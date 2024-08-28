@@ -1,7 +1,6 @@
 import React from "react";
 import "./navbar.css";
 const Navbar = () => {
-
   return (
     <header className="top-bar">
       <div className="search-bar">
@@ -18,7 +17,13 @@ const Navbar = () => {
               <a href="/profile">Profile</a>
             </li>
             <li>
-              <a href="/settings">Settings</a>
+              <a href="/edit-address">address</a>
+            </li>
+            <li>
+              <a href="/edit-personal-info">edit personal info</a>
+            </li>
+            <li>
+              <a href="/edit-profile">edit profile</a>
             </li>
             <li>Logout</li>
           </ul>

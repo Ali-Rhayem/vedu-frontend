@@ -51,10 +51,18 @@
 }
 
 .profile-dropdown ul li {
+  list-style-type: none;
   padding: 10px 15px;
   cursor: pointer;
 }
 
+.profile-dropdown ul li a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
 .profile-dropdown ul li:hover {
   background-color: #444;
+  color: #00cfff;
 }

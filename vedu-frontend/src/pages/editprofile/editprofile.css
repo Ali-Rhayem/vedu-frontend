@@ -4,7 +4,7 @@ body {
   background-color: #141414;
 }
 
-.edit-profile-page {
+.edit-personal-info-page {
   display: flex;
   height: 100vh;
 }
@@ -38,24 +38,48 @@ body {
   padding: 25px;
   border-radius: 10px;
   margin-bottom: 20px;
+  text-align: center;
 }
 
-.section-header h4 {
-  margin: 0 0 15px;
+.profile-picture {
+  margin-bottom: 20px;
+}
+
+.profile-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin: 0 auto;
+}
+
+.profile-img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.change-photo-button {
+  background-color: transparent;
   color: #00cfff;
-  text-align: left;
-  font-size: 1.25em;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
-.personal-info {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+.change-photo-button:hover {
+  text-decoration: underline;
+}
+
+.profile-info {
+  margin-top: 20px;
 }
 
 .info-group {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .info-group label {
@@ -64,6 +88,7 @@ body {
 }
 
 .info-group input {
+  width: 300px;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #444;
