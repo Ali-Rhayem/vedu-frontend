@@ -74,6 +74,20 @@ function Home() {
               <p>No student courses available.</p>
             )}
             <h3>Instructor Courses</h3>
+            {courses.instructor_courses.length > 0 ? (
+              courses.instructor_courses.map((course) => (
+                <div key={course.id} className="class-card">
+                  <h4>{course.name}</h4>
+                  <p>{course.description}</p>
+                  <div className="class-info">
+                    <span>Participants: {(course.students || []).length}</span>
+                  </div>
+                  <button className="details-button">View Details</button>
+                </div>
+              ))
+            ) : (
+              <p>No instructor courses available.</p>
+            )}
           </div>
         </div>
       </div>
