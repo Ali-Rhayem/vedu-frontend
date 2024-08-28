@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import "./addassignment.css";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
 
 function AddAssignment() {
+  const [title, setTitle] = useState("");
+
   return (
     <div className="add-assignment-page">
       <Sidebar />
@@ -24,7 +26,12 @@ function AddAssignment() {
 
                 <div className="form-group">
                   <label>Title</label>
-                  <input type="text" placeholder="Enter title" />
+                  <input
+                    type="text"
+                    placeholder="Enter title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
                 </div>
 
                 <div className="form-group">
