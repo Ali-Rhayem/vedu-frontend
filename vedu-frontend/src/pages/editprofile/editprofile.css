@@ -36,6 +36,13 @@ body {
 .profile-section {
   background-color: #1f1f1f;
   padding: 25px;
-  border-radius: 10px; 
+  border-radius: 10px;
   margin-bottom: 20px;
+}
+
+.section-header h4 {
+  margin: 0 0 15px;
+  color: #00cfff;
+  text-align: left;
+  font-size: 1.25em;
 }
