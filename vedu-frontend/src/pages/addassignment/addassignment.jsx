@@ -8,6 +8,16 @@ function AddAssignment() {
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [grade, setGrade] = useState("");
+  const [files, setFiles] = useState([]);
+
+  const handleFileUpload = (event) => {
+    setFiles([...files, ...event.target.files]);
+  };
+
+  const handleRemoveFile = (index) => {
+    const newFiles = files.filter((file, i) => i !== index);
+    setFiles(newFiles);
+  };
 
   return (
     <div className="add-assignment-page">
