@@ -9,6 +9,7 @@ function Home() {
     instructor_courses: [],
   });
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   return (
     <div className="home-page">
