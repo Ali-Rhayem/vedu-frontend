@@ -9,35 +9,6 @@ body {
   height: 100vh;
 }
 
-.sidebar {
-  width: 240px;
-  background-color: #1f1f1f;
-  color: #00cfff;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar h2 {
-  margin-bottom: 30px;
-}
-
-.sidebar ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.sidebar ul li {
-  margin-bottom: 20px;
-}
-
-.sidebar ul li a {
-  color: #00cfff;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-}
-
 .content {
   flex: 1;
   display: flex;
