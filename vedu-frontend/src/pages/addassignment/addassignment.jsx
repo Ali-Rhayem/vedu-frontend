@@ -5,6 +5,7 @@ import Navbar from "../../components/navbar/navbar";
 
 function AddAssignment() {
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   return (
     <div className="add-assignment-page">
@@ -36,7 +37,11 @@ function AddAssignment() {
 
                 <div className="form-group">
                   <label>Description</label>
-                  <textarea placeholder="Enter description" />
+                  <textarea
+                    placeholder="Enter description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
                 </div>
 
                 <div className="form-group">
