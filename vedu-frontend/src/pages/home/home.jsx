@@ -1,10 +1,12 @@
 import React from "react";
 import "./Home.css";
-
 import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
+
 function Home() {
   return (
     <div className="home-page">
+      <Sidebar />
       <div className="container">
         <Navbar />
         <div className="content">
