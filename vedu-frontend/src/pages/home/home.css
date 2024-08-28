@@ -96,3 +96,13 @@ body {
   gap: 15px;
   flex-wrap: wrap;
 }
+
+.details-button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 1px solid #00cfff;
+  background-color: #141414;
+  color: #00cfff;
+  cursor: pointer;
+}
