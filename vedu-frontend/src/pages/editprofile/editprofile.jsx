@@ -10,7 +10,7 @@ function EditProfile() {
     const [bio, setBio] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("123456789");
+    const [phoneNumber, setPhoneNumber] = useState("");
 
   return (
     <div className="edit-profile-page">
