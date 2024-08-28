@@ -131,3 +131,8 @@ body {
   color: #00cfff;
   cursor: pointer;
 }
+
+.view-button:hover {
+  background-color: #00cfff;
+  color: #141414;
+}
