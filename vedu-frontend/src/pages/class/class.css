@@ -37,3 +37,11 @@ body {
 .user-profile .profile-info {
   cursor: pointer;
 }
+
+.class-header {
+  background-color: #2b2b2b;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  color: #fff;
+}
