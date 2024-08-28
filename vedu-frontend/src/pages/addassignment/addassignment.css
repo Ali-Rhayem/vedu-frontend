@@ -15,3 +15,8 @@ body {
   flex-direction: column;
   padding: 20px;
 }
+
+.assignment-form {
+  display: flex;
+  justify-content: space-between;
+}
