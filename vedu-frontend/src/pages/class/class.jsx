@@ -2,8 +2,11 @@ import React from "react";
 import "./class.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
+import { useSelector } from "react-redux";
 
 function Class() {
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
   return (
     <div className="class-page">
       <Sidebar/>
