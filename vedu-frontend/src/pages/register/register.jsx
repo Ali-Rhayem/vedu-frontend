@@ -6,6 +6,7 @@ function Register() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = () => {
     navigate("/login");
@@ -48,6 +49,9 @@ function Register() {
               <input
                 type="password"
                 placeholder="***********"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
             <div className="input-group">
