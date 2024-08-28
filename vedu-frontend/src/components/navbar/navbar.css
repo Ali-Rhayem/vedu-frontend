@@ -16,20 +16,17 @@
   color: #fff;
 }
 
-.user-profile .profile-info {
-  display: flex;
-  flex-direction: column;
-  text-align: right;
-}
-
 .user-profile {
   display: flex;
   align-items: center;
   position: relative;
+  cursor: pointer;
 }
 
-.profile-info {
-  cursor: pointer;
+.user-profile .profile-info {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
 }
 
 .profile-dropdown {
@@ -40,9 +37,10 @@
   background-color: #282828;
   border: 1px solid #444;
   border-radius: 5px;
+  z-index: 1000;
 }
 
-.profile-info:hover .profile-dropdown {
+.user-profile:hover .profile-dropdown {
   display: block;
 }
 
