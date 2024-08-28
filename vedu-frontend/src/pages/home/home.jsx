@@ -8,7 +8,8 @@ function Home() {
     student_courses: [],
     instructor_courses: [],
   });
-  
+  const [loading, setLoading] = useState(true);
+
   return (
     <div className="home-page">
       <Sidebar />
