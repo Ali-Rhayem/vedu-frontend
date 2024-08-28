@@ -114,3 +114,8 @@ body {
 .upload-button:hover {
   background-color: #009fe3;
 }
+
+.form-right .form-group {
+  display: flex;
+  flex-direction: column;
+}
