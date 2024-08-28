@@ -25,3 +25,11 @@ body {
   color: #fff;
   margin-bottom: 20px;
 }
+
+.search-bar input {
+  padding: 8px;
+  border-radius: 20px;
+  border: none;
+  background-color: #3a3a3a;
+  color: #fff;
+}
