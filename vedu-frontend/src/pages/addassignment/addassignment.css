@@ -60,3 +60,11 @@ body {
 .uploaded-files {
   margin-top: 10px;
 }
+
+.uploaded-file {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  color: #ddd;
+}
