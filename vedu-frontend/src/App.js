@@ -7,6 +7,7 @@ import Class from "./pages/class/class.jsx"
 import Profile from './pages/profile/profile.jsx';
 import EditProfile from './pages/editprofile/editprofile.jsx';
 import EditPersonalInfo from './pages/editpersonalinfo/editpersonalinfo.jsx';
+import AddAssignment from './pages/addassignment/addassignment.jsx';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/edit-personal-info" element={<EditPersonalInfo />} />
+        <Route path="/add-assignment" element={<AddAssignment />} />
       </Routes>
     </Router>
   );
