@@ -76,3 +76,13 @@ body {
   text-decoration: none;
   cursor: pointer;
 }
+
+.blue-side-register {
+  width: 50%;
+  background-color: #00cfff;
+  border-top-right-radius: 200px;
+  border-bottom-right-radius: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
