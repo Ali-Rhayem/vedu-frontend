@@ -59,3 +59,15 @@ body {
   border-radius: 50%;
   object-fit: cover;
 }
+
+.change-photo-button {
+  background-color: transparent;
+  color: #00cfff;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.change-photo-button:hover {
+  text-decoration: underline;
+}
