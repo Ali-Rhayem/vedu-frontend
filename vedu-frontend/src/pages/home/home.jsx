@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import "./home.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
 
 function Home() {
+  const [courses, setCourses] = useState({
+    student_courses: [],
+    instructor_courses: [],
+  });
+  
   return (
     <div className="home-page">
       <Sidebar />
