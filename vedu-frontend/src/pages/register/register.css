@@ -44,3 +44,12 @@ body {
   color: #00cfff;
   margin-bottom: 5px;
 }
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #555;
+  background-color: #333;
+  color: #ddd;
+}
