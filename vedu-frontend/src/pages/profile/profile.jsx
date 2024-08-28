@@ -1,7 +1,7 @@
 import React from "react";
-import "./Profile.css";
-import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
+import "./profile.css";
+import Navbar from "../../components/Navbar/navbar";
+import Sidebar from "../../components/sidebar/sidebar";
 
 function Profile() {
   return (
