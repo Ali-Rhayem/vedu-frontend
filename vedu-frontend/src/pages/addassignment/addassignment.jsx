@@ -7,6 +7,7 @@ function AddAssignment() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
+  const [grade, setGrade] = useState("");
 
   return (
     <div className="add-assignment-page">
@@ -79,7 +80,12 @@ function AddAssignment() {
 
               <div className="form-group">
                 <label>Grade</label>
-                <input type="text" placeholder="Enter grade" />
+                <input
+                  type="text"
+                  placeholder="Enter grade"
+                  value={grade}
+                  onChange={(e) => setGrade(e.target.value)}
+                />
               </div>
             </div>
           </div>
