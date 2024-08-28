@@ -9,6 +9,7 @@ function EditProfile() {
     const [email, setEmail] = useState("");
     const [bio, setBio] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
 
   return (
@@ -75,6 +76,8 @@ function EditProfile() {
                   <input
                     type="password"
                     placeholder="***********"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                   />
                 </div>
                 <div className="info-group">
