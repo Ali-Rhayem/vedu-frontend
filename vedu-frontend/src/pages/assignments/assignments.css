@@ -96,3 +96,7 @@ body {
 .assignment-details span:first-child {
   color: #ddd;
 }
+
+.due-date {
+  color: #00cfff;
+}
