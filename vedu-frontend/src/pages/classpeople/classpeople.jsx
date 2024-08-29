@@ -1,12 +1,14 @@
 import React from "react";
 import "./classpeople.css";
 import Sidebar from "../../components/sidebar/sidebar";
+import Navbar from "../../components/navbar/navbar";
 
 function ClassPeople() {
   return (
     <div className="people-page">
       <Sidebar />
       <div className="people-page-container">
+        <Navbar />
         <div className="content">
           <div className="people-content">
             <h3>Teachers</h3>
