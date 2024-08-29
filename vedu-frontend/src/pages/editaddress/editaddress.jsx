@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./editaddress.css";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
@@ -10,11 +10,32 @@ function EditAddress() {
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
   const [code, setCode] = useState("");
+  
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/user", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+
+        const data = response.data;
+        setCountry(data.country);
+        setCity(data.city);
+        setCode(data.code);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleCancel = () => {
     navigate("/profile");
-  }
-  
+  };
+
   async function handleSubmitAddress() {
     const payload = {
       country: country,
@@ -45,7 +66,7 @@ function EditAddress() {
       console.error("Error updating address:", error);
     }
   }
-  
+
   return (
     <div className="edit-address-page">
       <Sidebar />
@@ -91,7 +112,9 @@ function EditAddress() {
             </div>
 
             <div className="form-actions">
-              <button className="cancel-button" onClick={handleCancel}>Cancel</button>
+              <button className="cancel-button" onClick={handleCancel}>
+                Cancel
+              </button>
               <button className="confirm-button" onClick={handleSubmitAddress}>
                 Confirm
               </button>
