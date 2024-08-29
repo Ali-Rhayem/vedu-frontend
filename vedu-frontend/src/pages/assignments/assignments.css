@@ -29,3 +29,8 @@ body {
   align-items: center;
   margin-bottom: 20px;
 }
+
+.assignments-header h3 {
+  color: #00cfff;
+  margin: 0;
+}
