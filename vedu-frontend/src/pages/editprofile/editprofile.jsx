@@ -77,7 +77,7 @@ function Editprofile() {
           <div className="profile-content">
             <h3>Edit Profile</h3>
             <form onSubmit={handleSubmitProfile}>
-              <div className="profile-section">
+              <div className="profile-section-ep">
                 <div className="profile-picture">
                   <div className="profile-img">
                     <img
