@@ -75,3 +75,11 @@ body {
   border-radius: 10px;
   margin-bottom: 10px;
 }
+
+.assignment-icon {
+  width: 40px;
+  height: 40px;
+  background-color: #333;
+  border-radius: 50%;
+  margin-right: 15px;
+}
