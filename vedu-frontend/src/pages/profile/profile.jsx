@@ -3,8 +3,10 @@ import "./profile.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -44,6 +46,18 @@ function Profile() {
     fetchUserData();
   }, []);
 
+  const handleEditProfile = () => {
+    navigate("/edit-profile");
+  }
+
+  const handleEditPersonalInfo = () => {
+    navigate("/edit-personal-info");
+  }
+
+  const handleEditAddress = () => {
+    navigate("/edit-address");
+  }
+
   return (
     <div className="profile-page">
       <Sidebar />
@@ -57,7 +71,7 @@ function Profile() {
             <div className="profile-section">
               <div className="profile-section-header">
                 <h4>My Profile</h4>
-                <button className="profile-edit-button">Edit</button>
+                <button className="profile-edit-button" onClick={handleEditProfile}>Edit</button>
               </div>
               <div className="profile-info">
                 <div className="profile-image">
@@ -73,7 +87,7 @@ function Profile() {
             <div className="profile-section">
               <div className="profile-section-header">
                 <h4>Personal Information</h4>
-                <button className="profile-edit-button">Edit</button>
+                <button className="profile-edit-button" onClick={handleEditPersonalInfo}>Edit</button>
               </div>
               <div className="profile-personal-info">
                 <div className="profile-info-group profile-flex-row">
@@ -89,7 +103,7 @@ function Profile() {
             <div className="profile-section">
               <div className="profile-section-header">
                 <h4>Address</h4>
-                <button className="profile-edit-button">Edit</button>
+                <button className="profile-edit-button" onClick={handleEditAddress}>Edit</button>
               </div>
               <div className="profile-address-info">
                 <div className="profile-info-group profile-flex-row">
