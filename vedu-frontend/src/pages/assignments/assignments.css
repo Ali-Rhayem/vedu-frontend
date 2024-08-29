@@ -47,3 +47,13 @@ body {
   background-color: #444;
   color: #fff;
 }
+
+.create-button {
+  background-color: #00cfff;
+  color: #141414;
+}
+
+.add-topic-button:hover,
+.create-button:hover {
+  background-color: #009fe3;
+}
