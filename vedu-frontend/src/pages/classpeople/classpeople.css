@@ -22,3 +22,8 @@ body {
   border-radius: 10px;
   color: #fff;
 }
+
+.people-content h3 {
+  color: #00cfff;
+  margin-bottom: 20px;
+}
