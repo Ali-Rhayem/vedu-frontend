@@ -10,6 +10,7 @@ import EditPersonalInfo from './pages/editpersonalinfo/editpersonalinfo.jsx';
 import EditAddress from './pages/editaddress/editaddress.jsx';
 import AddAssignment from './pages/addassignment/addassignment.jsx';
 import ProtectedRoute from './protectedroutes/protectedroute/ProtectedRoute.jsx';
+import Assignments from './pages/assignments/assignments.jsx';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/edit-personal-info" element={<ProtectedRoute><EditPersonalInfo /></ProtectedRoute>} />
         <Route path="/edit-address" element={<ProtectedRoute><EditAddress /></ProtectedRoute>} />
         <Route path="/add-assignment" element={<ProtectedRoute><AddAssignment /></ProtectedRoute>} />
+        <Route path="/assignments" element={<ProtectedRoute><Assignments/></ProtectedRoute>} />
       </Routes>
     </Router>
   );
