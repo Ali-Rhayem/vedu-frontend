@@ -1,10 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./profile.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
 import axios from "axios";
 
 function Profile() {
+  const [name, setName] = useState("");
+  const [bio, setBio] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [code, setCode] = useState("");
+  const [profileImage, setProfileImage] = useState("");
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -15,7 +26,16 @@ function Profile() {
         });
 
         const data = response.data;
-        
+        setName(data.name);
+        setBio(data.bio);
+        setFirstName(data.first_name);
+        setLastName(data.last_name);
+        setEmail(data.email);
+        setPhoneNumber(data.phone_number);
+        setCountry(data.country);
+        setCity(data.city);
+        setCode(data.code);
+        setProfileImage(`http://127.0.0.1:8000/${data.profile_image}`);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -28,60 +48,56 @@ function Profile() {
     <div className="profile-page">
       <Sidebar />
 
-      <div className="Container">
+      <div className="profile-container">
         <Navbar />
-        <div className="content">
-          <div className="profile-content">
+        <div className="profile-content">
+          <div className="profile-section-content">
             <h3>Profile</h3>
 
             <div className="profile-section">
-              <div className="section-header">
+              <div className="profile-section-header">
                 <h4>My Profile</h4>
-                <button className="edit-button">Edit</button>
+                <button className="profile-edit-button">Edit</button>
               </div>
               <div className="profile-info">
                 <div className="profile-image">
-                  <img src="path/to/profile-image.png" alt="Profile" />
+                  <img src={profileImage} alt="Profile" />
                 </div>
                 <div className="profile-name">
-                  <p>Name: Ali Rhayem</p>
-                  <p>Bio: Some text about Ali</p>
+                  <p>Name: {name}</p>
+                  <p>Bio: {bio}</p>
                 </div>
               </div>
             </div>
 
             <div className="profile-section">
-              <div className="section-header">
+              <div className="profile-section-header">
                 <h4>Personal Information</h4>
-                <button className="edit-button">Edit</button>
+                <button className="profile-edit-button">Edit</button>
               </div>
-              <div className="personal-info">
-                <div className="info-group">
-                  <p>First Name: Ali</p>
-                  <p>Last Name: Rhayem</p>
+              <div className="profile-personal-info">
+                <div className="profile-info-group profile-flex-row">
+                  <p>Email: {email}</p>
+                  <p className="profile-phone">Phone Number: {phoneNumber}</p>
                 </div>
-                <div className="info-group">
-                  <p>Email: alirhayem@gmail.com</p>
-                  <p>Phone Number: 123456789</p>
-                </div>
-                <div className="info-group">
-                  <p>Bio: Text</p>
+                <div className="profile-info-group">
+                  <p>Bio: {bio}</p>
                 </div>
               </div>
             </div>
 
             <div className="profile-section">
-              <div className="section-header">
+              <div className="profile-section-header">
                 <h4>Address</h4>
-                <button className="edit-button">Edit</button>
+                <button className="profile-edit-button">Edit</button>
               </div>
-              <div className="address-info">
-                <div className="info-group">
-                  <p>Country: Text</p>
-                  <p>City: Text</p>
+              <div className="profile-address-info">
+                <div className="profile-info-group profile-flex-row">
+                  <p>Country: {country}</p>
+                  <p className="profile-city">City: {city}</p>
                 </div>
-                <div className="info-group">
-                  <p>Code: 0000</p>
+                <div className="profile-info-group">
+                  <p>Code: {code}</p>
                 </div>
               </div>
             </div>
