@@ -2,12 +2,44 @@ import React, { useState } from "react";
 import "./editaddress.css";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
+import axios from "axios";
 
 function EditAddress() {
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
   const [code, setCode] = useState("");
 
+  async function handleSubmitAddress() {
+    const payload = {
+      country: country,
+      city: city,
+      code: code,
+    };
+
+    try {
+      const response = await axios.put(
+        "http://127.0.0.1:8000/api/user/update-address",
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      const data = response.data;
+
+      if (data.errors) {
+        // Handle validation errors
+      } else {
+        console.log("success");
+      }
+    } catch (error) {
+      console.error("Error updating address:", error);
+    }
+  }
+  
   return (
     <div className="edit-address-page">
       <Sidebar />
@@ -54,7 +86,9 @@ function EditAddress() {
 
             <div className="form-actions">
               <button className="cancel-button">Cancel</button>
-              <button className="confirm-button">Confirm</button>
+              <button className="confirm-button" onClick={handleSubmitAddress}>
+                Confirm
+              </button>
             </div>
           </div>
         </div>
