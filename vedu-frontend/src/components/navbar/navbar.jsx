@@ -20,6 +20,11 @@ const Navbar = () => {
     navigate("/edit-address");
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  }
+
   return (
     <header className="top-bar">
       <div className="search-bar">
@@ -44,7 +49,7 @@ const Navbar = () => {
             <li>
               <a onClick={handleEditProfile}>edit profile</a>
             </li>
-            <li>Logout</li>
+            <li onClick={handleLogout}>Logout</li>
           </ul>
         </div>
       </div>
