@@ -42,3 +42,8 @@ body {
   cursor: pointer;
   margin-left: 10px;
 }
+
+.add-topic-button {
+  background-color: #444;
+  color: #fff;
+}
