@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import "./editpersonalinfo.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
+import { useNavigate } from "react-router-dom";
 
 function EditPersonalInfo() {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -11,6 +13,10 @@ function EditPersonalInfo() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+
+  const handleCancel = () =>{
+    navigate("/profile");
+  }
 
   function handleSubmitPersonalInfo() {
     const payload = {
@@ -136,7 +142,7 @@ function EditPersonalInfo() {
               </div>
             </div>
             <div className="form-actions">
-              <button className="cancel-button">Cancel</button>
+              <button className="cancel-button" onClick={handleCancel}>Cancel</button>
               <button
                 className="confirm-button"
                 onClick={handleSubmitPersonalInfo}
