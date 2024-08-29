@@ -3,12 +3,18 @@ import "./editaddress.css";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function EditAddress() {
+  const navigate = useNavigate();
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
   const [code, setCode] = useState("");
 
+  const handleCancel = () => {
+    navigate("/profile");
+  }
+  
   async function handleSubmitAddress() {
     const payload = {
       country: country,
@@ -85,7 +91,7 @@ function EditAddress() {
             </div>
 
             <div className="form-actions">
-              <button className="cancel-button">Cancel</button>
+              <button className="cancel-button" onClick={handleCancel}>Cancel</button>
               <button className="confirm-button" onClick={handleSubmitAddress}>
                 Confirm
               </button>
