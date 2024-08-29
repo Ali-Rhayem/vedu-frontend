@@ -3,8 +3,10 @@ import "./editprofile.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Editprofile() {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [profileImage, setProfileImage] = useState("");
   const fileInputRef = useRef();
@@ -68,10 +70,14 @@ function Editprofile() {
     fileInputRef.current.click(); 
   };
 
+  const handleCancel = () => {
+    navigate("/profile");
+  }
+
   return (
     <div className="edit-personal-info-page">
       <Sidebar />
-      <div className="Container">
+      <div className="ep-Container">
         <Navbar />
         <div className="content">
           <div className="profile-content">
@@ -113,7 +119,7 @@ function Editprofile() {
                   </div>
                 </div>
                 <div className="form-actions">
-                  <button type="button" className="cancel-button">
+                  <button type="button" className="cancel-button" onClick={handleCancel}>
                     Cancel
                   </button>
                   <button type="submit" className="confirm-button">
