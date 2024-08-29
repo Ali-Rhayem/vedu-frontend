@@ -1,6 +1,25 @@
 import React from "react";
 import "./navbar.css";
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
+  const navigate = useNavigate();
+  
+  const handleProfile = () => {
+    navigate("/profile");
+  }
+
+  const handleEditProfile = () => {
+    navigate("/edit-profile");
+  }
+
+  const handleEditPersonalInfo = () => {
+    navigate("/edit-personal-info");
+  }
+
+  const handleEditAddress = () => {
+    navigate("/edit-address");
+  }
+
   return (
     <header className="top-bar">
       <div className="search-bar">
@@ -14,16 +33,16 @@ const Navbar = () => {
         <div className="profile-dropdown">
           <ul>
             <li>
-              <a href="/profile">Profile</a>
+              <a onClick={handleProfile}>Profile</a>
             </li>
             <li>
-              <a href="/edit-address">address</a>
+              <a onClick={handleEditAddress}>address</a>
             </li>
             <li>
-              <a href="/edit-personal-info">edit personal info</a>
+              <a onClick={handleEditPersonalInfo}>edit personal info</a>
             </li>
             <li>
-              <a href="/edit-profile">edit profile</a>
+              <a onClick={handleEditProfile}>edit profile</a>
             </li>
             <li>Logout</li>
           </ul>
