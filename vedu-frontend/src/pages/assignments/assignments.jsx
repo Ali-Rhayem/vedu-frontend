@@ -13,7 +13,7 @@ function Assignments() {
         <div className="content">
           <Tabs />
           <div className="assignments-content">
-            <div className="header">
+            <div className="assignments-header">
               <h3>Assignments</h3>
               <div className="action-buttons">
                 <button className="add-topic-button">Add Topic</button>
