@@ -79,7 +79,6 @@ body {
 .info-group {
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .info-group label {
