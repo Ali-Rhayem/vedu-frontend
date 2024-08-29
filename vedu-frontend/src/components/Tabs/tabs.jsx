@@ -7,7 +7,6 @@ const Tabs = () => {
       <a href="#" className="active">
         Stream
       </a>
-      <a href="#">Classwork</a>
       <a href="#">Assignments</a>
       <a href="#">Chats</a>
       <a href="#">People</a>
