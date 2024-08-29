@@ -100,3 +100,10 @@ body {
 .due-date {
   color: #00cfff;
 }
+
+.assignments-container {
+  width: 90%;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
