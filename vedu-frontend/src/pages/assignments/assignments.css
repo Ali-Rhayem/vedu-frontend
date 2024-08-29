@@ -15,3 +15,10 @@ body {
   flex-direction: column;
   padding: 20px;
 }
+
+.assignments-content {
+  background-color: #2b2b2b;
+  padding: 20px;
+  border-radius: 10px;
+  color: #fff;
+}
