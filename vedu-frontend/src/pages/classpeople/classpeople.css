@@ -34,3 +34,12 @@ body {
   border-radius: 10px;
   margin-bottom: 20px;
 }
+
+.person-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: #333;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
