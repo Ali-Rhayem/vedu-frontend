@@ -17,25 +17,29 @@ function Home() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-      const fetchCourses = async () => {
-        try {
-          const response = await axios.get(
-            "http://localhost:8000/api/user/courses",
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }
-          );
-          setCourses(response.data);
-          setLoading(false);
-        } catch (err) {
-          setError("Failed to fetch courses");
-          setLoading(false);
-        }
-      };
-      fetchCourses();
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/api/user/courses",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        setCourses(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError("Failed to fetch courses");
+        setLoading(false);
+      }
+    };
+    fetchCourses();
   }, [isAuthenticated, navigate]);
+
+  const handleViewDetails = (courseId) => {
+    navigate(`/class/${courseId}`);
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -48,7 +52,7 @@ function Home() {
   return (
     <div className="home-page">
       <Sidebar />
-      <div className="container">
+      <div className="home-container">
         <Navbar />
         <div className="content">
           <div className="actions">
@@ -70,7 +74,12 @@ function Home() {
                         .join(", ")}
                     </span>
                   </div>
-                  <button className="details-button">View Details</button>
+                  <button
+                    className="details-button"
+                    onClick={() => handleViewDetails(course.id)}
+                  >
+                    View Details
+                  </button>
                 </div>
               ))
             ) : (
@@ -85,7 +94,12 @@ function Home() {
                   <div className="class-info">
                     <span>Participants: {(course.students || []).length}</span>
                   </div>
-                  <button className="details-button">View Details</button>
+                  <button
+                    className="details-button"
+                    onClick={() => handleViewDetails(course.id)}
+                  >
+                    View Details
+                  </button>
                 </div>
               ))
             ) : (
