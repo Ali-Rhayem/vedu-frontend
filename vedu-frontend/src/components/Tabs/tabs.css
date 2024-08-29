@@ -1,0 +1,19 @@
+.class-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .class-tabs a {
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #00cfff;
+    background-color: #282828;
+  }
+  
+  .class-tabs a.active {
+    background-color: #00cfff;
+    color: #141414;
+  }
+  

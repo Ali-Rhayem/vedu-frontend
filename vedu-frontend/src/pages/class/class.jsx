@@ -4,6 +4,7 @@ import axios from "axios";
 import "./class.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
+import Tabs from "../../components/Tabs/tabs";
 
 function Class() {
   const { classId } = useParams(); 
@@ -41,16 +42,7 @@ function Class() {
       <div className="Container">
         <Navbar />
         <div className="content">
-          <div className="class-tabs">
-            <a href="#" className="active">
-              Stream
-            </a>
-            <a href="#">Classwork</a>
-            <a href="#">Assignments</a>
-            <a href="#">Chats</a>
-            <a href="#">People</a>
-          </div>
-
+          <Tabs/>
           <div className="class-header">
             <h3>{classDetails.course.name}</h3>
             <p>{classDetails.course.description}</p>
