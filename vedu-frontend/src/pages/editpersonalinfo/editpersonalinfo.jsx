@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./editpersonalinfo.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function EditPersonalInfo() {
   const navigate = useNavigate();
@@ -14,9 +15,30 @@ function EditPersonalInfo() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  const handleCancel = () =>{
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/user", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+
+        const data = response.data;
+        setEmail(data.email);
+        setBio(data.bio);
+        setPhoneNumber(data.phone_number);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const handleCancel = () => {
     navigate("/profile");
-  }
+  };
 
   function handleSubmitPersonalInfo() {
     const payload = {
@@ -142,7 +164,9 @@ function EditPersonalInfo() {
               </div>
             </div>
             <div className="form-actions">
-              <button className="cancel-button" onClick={handleCancel}>Cancel</button>
+              <button className="cancel-button" onClick={handleCancel}>
+                Cancel
+              </button>
               <button
                 className="confirm-button"
                 onClick={handleSubmitPersonalInfo}
