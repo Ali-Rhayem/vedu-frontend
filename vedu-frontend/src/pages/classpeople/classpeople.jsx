@@ -1,9 +1,11 @@
 import React from "react";
 import "./classpeople.css";
+import Sidebar from "../../components/sidebar/sidebar";
 
 function ClassPeople() {
   return (
     <div className="people-page">
+      <Sidebar />
       <div className="people-page-container">
         <div className="content">
           <div className="people-content">
