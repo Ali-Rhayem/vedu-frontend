@@ -17,9 +17,6 @@ function Home() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/login");
-    } else {
       const fetchCourses = async () => {
         try {
           const response = await axios.get(
@@ -37,9 +34,7 @@ function Home() {
           setLoading(false);
         }
       };
-
       fetchCourses();
-    }
   }, [isAuthenticated, navigate]);
 
   if (loading) {
