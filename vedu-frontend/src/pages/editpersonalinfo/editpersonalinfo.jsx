@@ -12,6 +12,41 @@ function EditPersonalInfo() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
+  function handleSubmitPersonalInfo() {
+    const payload = {
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      bio: bio,
+      password: password,
+      password_confirmation: confirmPassword,
+      phone_number: phoneNumber,
+    };
+
+    fetch("http://127.0.0.1:8000/api/user/update-personal-info", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.errors) {
+          console.error("Validation errors:", data.errors);
+          alert("There are validation errors. Please check your input.");
+        } else {
+          console.log("Success:", data.message);
+          alert("Personal information updated successfully.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("An error occurred. Please try again.");
+      });
+  }
+
   return (
     <div className="edit-profile-page">
       <Sidebar />
@@ -102,7 +137,12 @@ function EditPersonalInfo() {
             </div>
             <div className="form-actions">
               <button className="cancel-button">Cancel</button>
-              <button className="confirm-button">Confirm</button>
+              <button
+                className="confirm-button"
+                onClick={handleSubmitPersonalInfo}
+              >
+                Confirm
+              </button>
             </div>
           </div>
         </div>
