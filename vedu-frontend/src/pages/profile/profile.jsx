@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./profile.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
+import axios from "axios";
 
 function Profile() {
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/user", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+
+        const data = response.data;
+        
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   return (
     <div className="profile-page">
-      <Sidebar/>
+      <Sidebar />
 
       <div className="Container">
         <Navbar />
@@ -17,9 +37,7 @@ function Profile() {
             <div className="profile-section">
               <div className="section-header">
                 <h4>My Profile</h4>
-                <button className="edit-button">
-                  Edit
-                </button>
+                <button className="edit-button">Edit</button>
               </div>
               <div className="profile-info">
                 <div className="profile-image">
@@ -35,11 +53,7 @@ function Profile() {
             <div className="profile-section">
               <div className="section-header">
                 <h4>Personal Information</h4>
-                <button
-                  className="edit-button"
-                >
-                  Edit
-                </button>
+                <button className="edit-button">Edit</button>
               </div>
               <div className="personal-info">
                 <div className="info-group">
@@ -59,9 +73,7 @@ function Profile() {
             <div className="profile-section">
               <div className="section-header">
                 <h4>Address</h4>
-                <button className="edit-button">
-                  Edit
-                </button>
+                <button className="edit-button">Edit</button>
               </div>
               <div className="address-info">
                 <div className="info-group">
