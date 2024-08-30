@@ -3,9 +3,10 @@ import "./profile.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { setUser } from "../../redux/userSlice/userSlice";
 import { useNavigate } from "react-router-dom";
+import { requestApi } from "../../utils/request";
+import { RequestMethods } from "../../utils/request_methods";
 
 function Profile() {
   const navigate = useNavigate();
@@ -16,12 +17,13 @@ function Profile() {
     if (!userData) {
       const fetchUserData = async () => {
         try {
-          const response = await axios.get("http://127.0.0.1:8000/api/user", {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
+          const data = await requestApi({
+            route: "/api/user",
+            requestMethod: RequestMethods.GET,
+            navigationFunction: navigate,
           });
-          dispatch(setUser(response.data));
+          
+          dispatch(setUser(data));
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
