@@ -107,3 +107,17 @@ body {
   overflow-y: auto;
   scrollbar-width: none;
 }
+
+.view-details-button {
+  padding: 10px 15px;
+  background-color: #00cfff;
+  color: #141414;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.view-details-button:hover {
+  background-color: #009fe3;
+}

@@ -3,12 +3,13 @@ import "./assignments.css";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
 import Tabs from "../../components/Tabs/tabs";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Assignments() {
   const { classId } = useParams();
   const [topics, setTopics] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAssignmentsByTopic = async () => {
@@ -26,6 +27,10 @@ function Assignments() {
 
     fetchAssignmentsByTopic();
   }, [classId]);
+
+  const handleViewDetails = (assignmentId) => {
+    
+  };
 
   return (
     <div className="assignments-page">
@@ -57,6 +62,12 @@ function Assignments() {
                       <div className="due-date">
                         {new Date(assignment.due_date).toLocaleDateString()}
                       </div>
+                      <button 
+                        className="view-details-button" 
+                        onClick={() => handleViewDetails(assignment.id)}
+                      >
+                        View Details
+                      </button>
                     </div>
                   ))}
                 </div>
