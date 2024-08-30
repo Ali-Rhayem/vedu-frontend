@@ -3,7 +3,8 @@ import "./editpersonalinfo.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { requestApi } from "../../utils/request";
+import { RequestMethods } from "../../utils/request_methods";
 
 function EditPersonalInfo() {
   const navigate = useNavigate();
@@ -18,13 +19,12 @@ function EditPersonalInfo() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/user", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+        const data = await requestApi({
+          route: "/api/user",
+          requestMethod: RequestMethods.GET,
+          navigationFunction: navigate,
         });
 
-        const data = response.data;
         setEmail(data.email);
         setBio(data.bio);
         setPhoneNumber(data.phone_number);
@@ -34,13 +34,13 @@ function EditPersonalInfo() {
     };
 
     fetchUserData();
-  }, []);
+  }, [navigate]);
 
   const handleCancel = () => {
     navigate("/profile");
   };
 
-  function handleSubmitPersonalInfo() {
+  async function handleSubmitPersonalInfo() {
     const payload = {
       first_name: firstName,
       last_name: lastName,
@@ -51,28 +51,27 @@ function EditPersonalInfo() {
       phone_number: phoneNumber,
     };
 
-    fetch("http://127.0.0.1:8000/api/user/update-personal-info", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify(payload),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.errors) {
-          console.error("Validation errors:", data.errors);
-          alert("There are validation errors. Please check your input.");
-        } else {
-          console.log("Success:", data.message);
-          alert("Personal information updated successfully.");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert("An error occurred. Please try again.");
+    try {
+      const data = await requestApi({
+        route: "/api/user/update-personal-info",
+        requestMethod: RequestMethods.PUT,
+        body: payload,
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
+
+      if (data.errors) {
+        console.error("Validation errors:", data.errors);
+        alert("There are validation errors. Please check your input.");
+      } else {
+        console.log("Success:", data.message);
+        alert("Personal information updated successfully.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred. Please try again.");
+    }
   }
 
   return (
