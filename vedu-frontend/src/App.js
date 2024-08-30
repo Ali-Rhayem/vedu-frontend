@@ -13,6 +13,7 @@ import ProtectedRoute from './protectedroutes/protectedroute/ProtectedRoute.jsx'
 import Assignments from './pages/assignments/assignments.jsx';
 import ClassPeople from './pages/classpeople/classpeople.jsx';
 import AssignmentDetails from './pages/assignmentdetails/assignmentdetails.jsx';
+import Submissions from './pages/submissions/submissions.jsx';
 
 function App() {
   return (
@@ -29,7 +30,10 @@ function App() {
         <Route path="/add-assignment" element={<ProtectedRoute><AddAssignment /></ProtectedRoute>} />
         <Route path="/class/:classId/assignments" element={<ProtectedRoute><Assignments /></ProtectedRoute>} />
         <Route path="/class/:classId/assignments/:assignmentId" element={<ProtectedRoute><AssignmentDetails /></ProtectedRoute>} />
-        <Route path="/class/:classId/people" element={<ProtectedRoute><ClassPeople /></ProtectedRoute>} />      </Routes>
+        <Route path="/class/:classId/people" element={<ProtectedRoute><ClassPeople /></ProtectedRoute>} />
+        <Route path="/submissions" element={<ProtectedRoute><Submissions /></ProtectedRoute>} />
+        {/* <Route path="/class/:classId/assignments/:assignmentId/submissions" element={<ProtectedRoute><Submissions /></ProtectedRoute>} /> */}
+      </Routes>
     </Router>
   );
 }
