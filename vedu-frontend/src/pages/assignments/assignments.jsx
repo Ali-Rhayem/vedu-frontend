@@ -4,7 +4,8 @@ import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
 import Tabs from "../../components/Tabs/tabs";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { requestApi } from "../../utils/request";
+import { RequestMethods } from "../../utils/request_methods";
 
 function Assignments() {
   const { classId } = useParams();
@@ -13,23 +14,22 @@ function Assignments() {
 
   useEffect(() => {
     const fetchAssignmentsByTopic = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/api/assignments/course/${classId}/by-topic`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
-        });
-        setTopics(response.data.topics);
-      } catch (error) {
-        console.error("Error fetching assignments by topic:", error);
+      const data = await requestApi({
+        route: `/api/assignments/course/${classId}/by-topic`,
+        requestMethod: RequestMethods.GET,
+        navigationFunction: navigate,
+      });
+
+      if (data) {
+        setTopics(data.topics);
       }
     };
 
     fetchAssignmentsByTopic();
-  }, [classId]);
+  }, [classId, navigate]);
 
   const handleViewDetails = (assignmentId) => {
-    navigate(`/assignments/${assignmentId}`);
+    navigate(`/class/${classId}/assignments/${assignmentId}`);
   };
 
   return (
@@ -62,8 +62,8 @@ function Assignments() {
                       <div className="due-date">
                         {new Date(assignment.due_date).toLocaleDateString()}
                       </div>
-                      <button 
-                        className="view-details-button" 
+                      <button
+                        className="view-details-button"
                         onClick={() => handleViewDetails(assignment.id)}
                       >
                         View Details
@@ -75,7 +75,6 @@ function Assignments() {
             ) : (
               <p>No topics or assignments found.</p>
             )}
-
           </div>
         </div>
       </div>
