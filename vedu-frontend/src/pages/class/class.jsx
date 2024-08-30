@@ -1,36 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 import "./class.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
 import Tabs from "../../components/Tabs/tabs";
+import { requestApi } from "../../utils/request";
+import { RequestMethods } from "../../utils/request_methods";
 
 function Class() {
   const { classId } = useParams(); 
   const [classDetails, setClassDetails] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchClassDetails = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/api/courses/${classId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        setClassDetails(response.data);
-        console.log("Class details:", response.data);
-        console.log("Class name:", response.data.course.name);
+        const data = await requestApi({
+          route: `/api/courses/${classId}`,
+          requestMethod: RequestMethods.GET,
+          navigationFunction: navigate,
+        });
+
+        setClassDetails(data);
+        console.log("Class details:", data);
+        console.log("Class name:", data.course.name);
       } catch (error) {
         console.error("Error fetching class details:", error);
       }
     };
 
     fetchClassDetails();
-  }, [classId]);
+  }, [classId, navigate]);
 
   if (!classDetails) {
     return <div>Loading...</div>;
