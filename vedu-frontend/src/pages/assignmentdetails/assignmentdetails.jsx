@@ -3,22 +3,25 @@ import { useParams } from "react-router-dom";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
 import Tabs from "../../components/Tabs/tabs";
-import axios from "axios";
 import "./assignmentdetails.css";
+import { requestApi } from "../../utils/request";
+import { RequestMethods } from "../../utils/request_methods";
 
 function AssignmentDetailsPage() {
-  const { assignmentId } = useParams();
+  const { assignmentId,classId } = useParams();
   const [assignment, setAssignment] = useState(null);
 
   useEffect(() => {
     const fetchAssignmentDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/assignments/${assignmentId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+        const data = await requestApi({
+          route: `/api/assignments/${assignmentId}`,
+          requestMethod: RequestMethods.GET,
         });
-        setAssignment(response.data.assignment);
+
+        if (data) {
+          setAssignment(data.assignment);
+        }
       } catch (error) {
         console.error("Error fetching assignment details:", error);
       }
@@ -26,6 +29,7 @@ function AssignmentDetailsPage() {
 
     fetchAssignmentDetails();
   }, [assignmentId]);
+
 
   if (!assignment) {
     return <p>Loading...</p>;
