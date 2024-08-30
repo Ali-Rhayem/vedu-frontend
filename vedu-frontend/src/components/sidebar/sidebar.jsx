@@ -1,39 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import "./sidebar.css";
 import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
+import { setCourses } from "../../redux/coursesSlice/coursesSlice";
 
 const Sidebar = () => {
-  const [courses, setCourses] = useState([]);
-  const token = localStorage.getItem("token");
-  const navigate = useNavigate(); 
+  const dispatch = useDispatch();
+  const courses = useSelector((state) => state.courses.courses);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCourses = async () => {
-      try {
-        const data = await requestApi({
-          route: "/api/user/courses",
-          requestMethod: RequestMethods.GET,
-          navigationFunction: navigate, 
-        });
+      if (courses.length === 0) {
+        try {
+          const data = await requestApi({
+            route: "/api/user/courses",
+            requestMethod: RequestMethods.GET,
+            navigationFunction: navigate,
+          });
 
-        setCourses(data.student_courses.concat(data.instructor_courses));
-      } catch (error) {
-        console.error("Error fetching courses:", error);
+          dispatch(setCourses(data.student_courses.concat(data.instructor_courses)));
+        } catch (error) {
+          console.error("Error fetching courses:", error);
+        }
       }
     };
 
     fetchCourses();
-  }, [token, navigate]);
+  }, [dispatch, navigate, courses]);
 
   const handleCourseClick = (courseId) => {
     navigate(`/class/${courseId}`);
   };
 
-  const handleHomeClick = () =>{
-    navigate('/home');
-  }
+  const handleHomeClick = () => {
+    navigate("/home");
+  };
 
   return (
     <div className="sidebar">
