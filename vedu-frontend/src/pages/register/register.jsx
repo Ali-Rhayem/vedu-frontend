@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./register.css";
 import { useNavigate } from "react-router-dom";
+import { requestApi } from "../../utils/request";
+import { RequestMethods } from "../../utils/request_methods";
 
 function Register() {
   const navigate = useNavigate();
@@ -25,26 +27,23 @@ function Register() {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/api/auth/register", {
-        method: "POST",
+      const data = await requestApi({
+        includeToken: false, 
+        route: "/api/auth/register",
+        requestMethod: RequestMethods.POST,
+        body: requestBody,
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify(requestBody),
+        navigationFunction: navigate,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Registration failed");
-      }
-
-      const data = await response.json();
       console.log("Registration successful", data);
 
-      navigate("/login");
+      navigate("/login"); 
     } catch (err) {
-      setError(err.message);
+      setError(err.message); 
     }
   };
 
