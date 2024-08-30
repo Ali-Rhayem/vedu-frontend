@@ -10,9 +10,40 @@ import { RequestMethods } from "../../utils/request_methods";
 function Assignments() {
   const { classId } = useParams();
   const [topics, setTopics] = useState({});
+  const [isInstructor, setIsInstructor] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const fetchUserDataAndCheckInstructor = async () => {
+      try {
+        const userData = await requestApi({
+          route: "/api/user",
+          requestMethod: RequestMethods.GET,
+          navigationFunction: navigate,
+        });
+
+        console.log("User data:", userData);
+
+        if (userData && userData.id) {
+          const userId = userData.id;
+
+          const result = await requestApi({
+            route: `/api/courses/${userId}/is-instructor/${classId}`,
+            requestMethod: RequestMethods.GET,
+            navigationFunction: navigate,
+          });
+
+          console.log("Is instructor:", result);
+
+          if (result) {
+            setIsInstructor(result.is_instructor);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user data or checking instructor status:", error);
+      }
+    };
+
     const fetchAssignmentsByTopic = async () => {
       const data = await requestApi({
         route: `/api/assignments/course/${classId}/by-topic`,
@@ -25,11 +56,16 @@ function Assignments() {
       }
     };
 
+    fetchUserDataAndCheckInstructor();
     fetchAssignmentsByTopic();
   }, [classId, navigate]);
 
   const handleViewDetails = (assignmentId) => {
     navigate(`/class/${classId}/assignments/${assignmentId}`);
+  };
+
+  const handleViewSubmissions = (assignmentId) => {
+    navigate(`/class/${classId}/assignments/${assignmentId}/submissions`);
   };
 
   return (
@@ -68,6 +104,14 @@ function Assignments() {
                       >
                         View Details
                       </button>
+                      {isInstructor && (
+                        <button
+                          className="view-submissions-button"
+                          onClick={() => handleViewSubmissions(assignment.id)}
+                        >
+                          View Submissions
+                        </button>
+                      )}
                     </div>
                   ))}
                 </div>
