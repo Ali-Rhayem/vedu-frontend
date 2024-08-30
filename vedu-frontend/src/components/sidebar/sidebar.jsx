@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./sidebar.css";
+import { requestApi } from "../../utils/request";
+import { RequestMethods } from "../../utils/request_methods";
 
 const Sidebar = () => {
   const [courses, setCourses] = useState([]);
@@ -11,25 +12,20 @@ const Sidebar = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8000/api/user/courses",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const data = await requestApi({
+          route: "/api/user/courses",
+          requestMethod: RequestMethods.GET,
+          navigationFunction: navigate, 
+        });
 
-        setCourses(
-          response.data.student_courses.concat(response.data.instructor_courses)
-        );
+        setCourses(data.student_courses.concat(data.instructor_courses));
       } catch (error) {
         console.error("Error fetching courses:", error);
       }
     };
 
     fetchCourses();
-  }, [token]);
+  }, [token, navigate]);
 
   const handleCourseClick = (courseId) => {
     navigate(`/class/${courseId}`);
