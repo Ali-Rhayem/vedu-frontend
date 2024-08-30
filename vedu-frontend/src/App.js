@@ -26,7 +26,7 @@ function App() {
         <Route path="/edit-personal-info" element={<ProtectedRoute><EditPersonalInfo /></ProtectedRoute>} />
         <Route path="/edit-address" element={<ProtectedRoute><EditAddress /></ProtectedRoute>} />
         <Route path="/add-assignment" element={<ProtectedRoute><AddAssignment /></ProtectedRoute>} />
-        <Route path="/assignments" element={<ProtectedRoute><Assignments /></ProtectedRoute>} />
+        <Route path="/class/:classId/assignments" element={<ProtectedRoute><Assignments /></ProtectedRoute>} />
         <Route path="/class-people" element={<ProtectedRoute><ClassPeople /></ProtectedRoute>} />
       </Routes>
     </Router>
