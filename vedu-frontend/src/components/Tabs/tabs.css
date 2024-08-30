@@ -17,3 +17,8 @@
     color: #141414;
   }
   
+  .class-tabs a:hover {
+    background-color: #00cfff;
+    color: #141414;
+    cursor: pointer;
+  }
