@@ -8,20 +8,26 @@ export const requestApi = async ({
     route,
     requestMethod = RequestMethods.GET,
     body,
+    headers = {},
     navigationFunction,
 }) => {
     try {
-        const headers = includeToken
+        const authHeaders = includeToken
             ? {
                 Authorization: `Bearer ${localStorage.token}`,
             }
             : {};
 
+        const combinedHeaders = {
+            ...authHeaders,
+            ...headers, 
+        };
+
         const { data } = await axios.request({
             url: route,
             method: requestMethod,
             data: body,
-            headers: headers,
+            headers: combinedHeaders,
         });
 
         return data;
@@ -29,7 +35,10 @@ export const requestApi = async ({
         if (error.response.status === 401) {
             localStorage.clear();
 
-            navigationFunction("/login");
+            if (navigationFunction) {
+                navigationFunction("/login");
+            }
         }
+        throw error;
     }
 };
