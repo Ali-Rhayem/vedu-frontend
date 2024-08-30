@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./home.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { requestApi } from "../../utils/request";
+import { RequestMethods } from "../../utils/request_methods";
 
 function Home() {
   const navigate = useNavigate();
@@ -19,22 +20,26 @@ function Home() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8000/api/user/courses",
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        setCourses(response.data);
+        const data = await requestApi({
+          route: "/api/user/courses",
+          requestMethod: RequestMethods.GET,
+          navigationFunction: navigate, 
+        });
+
+        setCourses(data);
         setLoading(false);
       } catch (err) {
         setError("Failed to fetch courses");
         setLoading(false);
       }
     };
-    fetchCourses();
+
+    if (isAuthenticated) {
+      fetchCourses();
+    } else {
+      setLoading(false);
+      setError("User is not authenticated");
+    }
   }, [isAuthenticated, navigate]);
 
   const handleViewDetails = (courseId) => {
