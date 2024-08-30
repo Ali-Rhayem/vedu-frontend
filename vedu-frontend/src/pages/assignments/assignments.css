@@ -118,6 +118,20 @@ body {
   margin-left: 10px;
 }
 
+.view-submissions-button{
+  padding: 10px 15px;
+  background-color: #00cfff;
+  color: #141414;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
 .view-details-button:hover {
+  background-color: #009fe3;
+}
+
+.view-submissions-button:hover {
   background-color: #009fe3;
 }
