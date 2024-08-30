@@ -1,0 +1,136 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #141414;
+}
+
+.submissions-page {
+  display: flex;
+  height: 100vh;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.submissions-content {
+  background-color: #2b2b2b;
+  padding: 30px;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.submissions-content h3 {
+  color: #00cfff;
+  margin-bottom: 20px;
+}
+
+.submission-item {
+  background-color: #1f1f1f;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.submission-header {
+  display: flex;
+  align-items: center;
+}
+
+.student-info {
+  display: flex;
+  align-items: center;
+}
+
+.student-avatar {
+  width: 50px;
+  height: 50px;
+  background-color: #444;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.student-name {
+  color: #00cfff;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.submission-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.download-section {
+  flex: 1;
+}
+
+.download-button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 2px solid #00cfff;
+  background-color: transparent;
+  color: #00cfff;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.download-button:hover {
+  background-color: #00cfff;
+  color: #141414;
+}
+
+.grade-section {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: #00cfff;
+}
+
+.grade-section label {
+  margin-right: 10px;
+}
+
+.grade-section input {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #444;
+  color: #ddd;
+  width: 80px;
+  margin-right: 5px;
+  text-align: center;
+}
+
+.grade-section span {
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.save-grade-button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 2px solid #00cfff;
+  background-color: transparent;
+  color: #00cfff;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.save-grade-button:hover {
+  background-color: #00cfff;
+  color: #141414;
+}
+
+.submissions-container {
+  width: 90%;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
