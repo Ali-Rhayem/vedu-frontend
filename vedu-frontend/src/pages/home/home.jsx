@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./home.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
 
 function Home() {
   const navigate = useNavigate();
-  const { isAuthenticated } = useSelector((state) => state.auth);
   const [courses, setCourses] = useState({
     student_courses: [],
     instructor_courses: [],
@@ -23,7 +21,7 @@ function Home() {
         const data = await requestApi({
           route: "/api/user/courses",
           requestMethod: RequestMethods.GET,
-          navigationFunction: navigate, 
+          navigationFunction: navigate,
         });
 
         setCourses(data);
@@ -34,13 +32,8 @@ function Home() {
       }
     };
 
-    if (isAuthenticated) {
-      fetchCourses();
-    } else {
-      setLoading(false);
-      setError("User is not authenticated");
-    }
-  }, [isAuthenticated, navigate]);
+    fetchCourses();
+  }, [navigate]);
 
   const handleViewDetails = (courseId) => {
     navigate(`/class/${courseId}`);
