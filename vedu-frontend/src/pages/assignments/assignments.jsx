@@ -29,7 +29,7 @@ function Assignments() {
   }, [classId]);
 
   const handleViewDetails = (assignmentId) => {
-    
+    navigate(`/assignments/${assignmentId}`);
   };
 
   return (
