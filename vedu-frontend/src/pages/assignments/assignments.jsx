@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./assignments.css";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
 import Tabs from "../../components/Tabs/tabs";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 function Assignments() {
+  const { classId } = useParams();
+  const [topics, setTopics] = useState([]);
+
+  useEffect(() => {
+    const fetchAssignmentsByTopic = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/assignments/course/${classId}/by-topic`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        });
+        setTopics(response.data.topics);
+      } catch (error) {
+        console.error("Error fetching assignments by topic:", error);
+      }
+    };
+
+    fetchAssignmentsByTopic();
+  }, [classId]);
+
   return (
     <div className="assignments-page">
       <Sidebar />
@@ -21,47 +43,22 @@ function Assignments() {
               </div>
             </div>
 
-            <div className="assignment-topic">
-              <h4>Topic</h4>
-              <div className="assignment-item">
-                <div className="assignment-icon"></div>
-                <div className="assignment-details">
-                  <span>Assignment Title</span>
-                  <span>Description</span>
-                </div>
-                <div className="due-date">Due date</div>
+            {topics.map((topic) => (
+              <div className="assignment-topic" key={topic.id}>
+                <h4>{topic.name}</h4>
+                {topic.assignments.map((assignment) => (
+                  <div className="assignment-item" key={assignment.id}>
+                    <div className="assignment-icon"></div>
+                    <div className="assignment-details">
+                      <span>{assignment.title}</span>
+                      <span>{assignment.description}</span>
+                    </div>
+                    <div className="due-date">{new Date(assignment.due_date).toLocaleDateString()}</div>
+                  </div>
+                ))}
               </div>
-              <div className="assignment-item">
-                <div className="assignment-icon"></div>
-                <div className="assignment-details">
-                  <span>Assignment Title</span>
-                  <span>Description</span>
-                </div>
-                <div className="due-date">Due date</div>
-              </div>
-              {/* Repeat for additional assignments */}
-            </div>
+            ))}
 
-            <div className="assignment-topic">
-              <h4>Topic</h4>
-              <div className="assignment-item">
-                <div className="assignment-icon"></div>
-                <div className="assignment-details">
-                  <span>Assignment Title</span>
-                  <span>Description</span>
-                </div>
-                <div className="due-date">Due date</div>
-              </div>
-              <div className="assignment-item">
-                <div className="assignment-icon"></div>
-                <div className="assignment-details">
-                  <span>Assignment Title</span>
-                  <span>Description</span>
-                </div>
-                <div className="due-date">Due date</div>
-              </div>
-              {/* Repeat for additional assignments */}
-            </div>
           </div>
         </div>
       </div>
