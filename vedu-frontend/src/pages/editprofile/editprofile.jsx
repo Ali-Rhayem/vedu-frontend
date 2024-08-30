@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import "./editprofile.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { requestApi } from "../../utils/request";
+import { RequestMethods } from "../../utils/request_methods";
 
 function Editprofile() {
   const navigate = useNavigate();
@@ -14,52 +15,47 @@ function Editprofile() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/user", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+        const data = await requestApi({
+          route: "/api/user",
+          requestMethod: RequestMethods.GET,
+          navigationFunction: navigate,
         });
 
-        const data = response.data;
         setName(data.name);
-        setProfileImage(`http://127.0.0.1:8000/${data.profile_image}`); 
+        setProfileImage(`http://127.0.0.1:8000/${data.profile_image}`);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
 
     fetchUserData();
-  }, []);
+  }, [navigate]);
 
   async function handleSubmitProfile(event) {
     event.preventDefault();
-
+  
     const formData = new FormData();
     formData.append("name", name);
-
+  
     if (fileInputRef.current.files.length > 0) {
       formData.append("profile_image", fileInputRef.current.files[0]);
     }
-
+  
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/user/update-profile",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      const data = response.data;
-
+      const data = await requestApi({
+        route: "/api/user/update-profile",
+        requestMethod: RequestMethods.POST,
+        body: formData, 
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+  
       if (data.errors) {
         console.error(data.errors);
       } else {
         console.log("Profile updated successfully", data);
-        setProfileImage(`http://127.0.0.1:8000/${data.user.profile_image}`); 
+        setProfileImage(`http://127.0.0.1:8000/${data.user.profile_image}`);
       }
     } catch (error) {
       console.error("Error updating profile:", error);
