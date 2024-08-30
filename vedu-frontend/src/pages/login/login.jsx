@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginSuccess, authError } from "../../redux/authSlice/authSlice";
 import "./login.css";
+import { requestApi } from "../../utils/request";
+import { RequestMethods } from "../../utils/request_methods";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -15,28 +17,25 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/auth/login", {
-        method: "POST",
-        headers: {
+      const response = await requestApi({
+        includeToken: false,
+        route: "/api/auth/login",
+        requestMethod: RequestMethods.POST,
+        body: {
+          email: email,
+          password: password,
+        },
+        headers:{
           "Content-Type": "application/json",
           "Accept": "application/json",
         },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
+        navigationFunction: navigate,
       });
 
-      if (!response.ok) {
-        throw new Error("Login failed");
-      }
-
-      const data = await response.json();
-
-      localStorage.setItem("token", data.access_token);
+      localStorage.setItem("token", response.access_token);
 
       dispatch(loginSuccess({ 
-        token: data.access_token, 
+        token: response.access_token, 
       }));
 
       navigate("/home");
