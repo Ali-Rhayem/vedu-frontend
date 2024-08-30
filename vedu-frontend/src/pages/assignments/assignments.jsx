@@ -8,7 +8,7 @@ import axios from "axios";
 
 function Assignments() {
   const { classId } = useParams();
-  const [topics, setTopics] = useState([]);
+  const [topics, setTopics] = useState({});
 
   useEffect(() => {
     const fetchAssignmentsByTopic = async () => {
@@ -43,21 +43,27 @@ function Assignments() {
               </div>
             </div>
 
-            {topics.map((topic) => (
-              <div className="assignment-topic" key={topic.id}>
-                <h4>{topic.name}</h4>
-                {topic.assignments.map((assignment) => (
-                  <div className="assignment-item" key={assignment.id}>
-                    <div className="assignment-icon"></div>
-                    <div className="assignment-details">
-                      <span>{assignment.title}</span>
-                      <span>{assignment.description}</span>
+            {Object.keys(topics).length > 0 ? (
+              Object.keys(topics).map((topicName) => (
+                <div className="assignment-topic" key={topicName}>
+                  <h4>{topicName}</h4>
+                  {topics[topicName].map((assignment) => (
+                    <div className="assignment-item" key={assignment.id}>
+                      <div className="assignment-icon"></div>
+                      <div className="assignment-details">
+                        <span>{assignment.title}</span>
+                        <span>{assignment.description}</span>
+                      </div>
+                      <div className="due-date">
+                        {new Date(assignment.due_date).toLocaleDateString()}
+                      </div>
                     </div>
-                    <div className="due-date">{new Date(assignment.due_date).toLocaleDateString()}</div>
-                  </div>
-                ))}
-              </div>
-            ))}
+                  ))}
+                </div>
+              ))
+            ) : (
+              <p>No topics or assignments found.</p>
+            )}
 
           </div>
         </div>
