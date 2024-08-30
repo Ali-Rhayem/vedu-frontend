@@ -2,25 +2,25 @@ import React, { useEffect, useState } from "react";
 import "./editaddress.css";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { requestApi } from "../../utils/request";
+import { RequestMethods } from "../../utils/request_methods";
 
 function EditAddress() {
   const navigate = useNavigate();
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
   const [code, setCode] = useState("");
-  
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/user", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+        const data = await requestApi({
+          route: "/api/user",
+          requestMethod: RequestMethods.GET,
+          navigationFunction: navigate,
         });
 
-        const data = response.data;
         setCountry(data.country);
         setCity(data.city);
         setCode(data.code);
@@ -30,7 +30,7 @@ function EditAddress() {
     };
 
     fetchUserData();
-  }, []);
+  }, [navigate]);
 
   const handleCancel = () => {
     navigate("/profile");
@@ -44,29 +44,25 @@ function EditAddress() {
     };
 
     try {
-      const response = await axios.put(
-        "http://127.0.0.1:8000/api/user/update-address",
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-
-      const data = response.data;
+      const data = await requestApi({
+        route: "/api/user/update-address",
+        requestMethod: RequestMethods.PUT,
+        body: payload,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
       if (data.errors) {
-        // Handle validation errors
+        console.error("Validation errors:", data.errors);
       } else {
-        console.log("success");
+        console.log("Address updated successfully", data);
       }
     } catch (error) {
       console.error("Error updating address:", error);
     }
   }
-
   return (
     <div className="edit-address-page">
       <Sidebar />
