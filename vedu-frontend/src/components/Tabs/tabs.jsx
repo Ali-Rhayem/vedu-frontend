@@ -10,6 +10,10 @@ const Tabs = () => {
     navigate(`/class/${classId}/assignments`);
   };
 
+  const handlePeopleClick = () =>{
+    navigate(`/class/${classId}/people`);
+  }
+
   return (
     <div className="class-tabs">
       <a href="#" className="active">
@@ -17,7 +21,7 @@ const Tabs = () => {
       </a>
       <a href="#" onClick={handleAssignmentsClick}>Assignments</a>
       <a href="#">Chats</a>
-      <a href="#">People</a>
+      <a onClick={handlePeopleClick}>People</a>
     </div>
   );
 };
