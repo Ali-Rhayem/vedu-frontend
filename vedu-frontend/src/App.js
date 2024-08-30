@@ -29,8 +29,7 @@ function App() {
         <Route path="/add-assignment" element={<ProtectedRoute><AddAssignment /></ProtectedRoute>} />
         <Route path="/class/:classId/assignments" element={<ProtectedRoute><Assignments /></ProtectedRoute>} />
         <Route path="/class/:classId/assignments/:assignmentId" element={<ProtectedRoute><AssignmentDetails /></ProtectedRoute>} />
-        <Route path="/class-people" element={<ProtectedRoute><ClassPeople /></ProtectedRoute>} />
-      </Routes>
+        <Route path="/class/:classId/people" element={<ProtectedRoute><ClassPeople /></ProtectedRoute>} />      </Routes>
     </Router>
   );
 }
