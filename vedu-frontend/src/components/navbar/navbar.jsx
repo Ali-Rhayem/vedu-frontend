@@ -1,29 +1,36 @@
 import React from "react";
 import "./navbar.css";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { resetCourses } from "../../redux/coursesSlice/coursesSlice";
+import { clearUser } from "../../redux/userSlice/userSlice";
+
 const Navbar = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const handleProfile = () => {
     navigate("/profile");
-  }
+  };
 
   const handleEditProfile = () => {
     navigate("/edit-profile");
-  }
+  };
 
   const handleEditPersonalInfo = () => {
     navigate("/edit-personal-info");
-  }
+  };
 
   const handleEditAddress = () => {
     navigate("/edit-address");
-  }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    dispatch(resetCourses());
+    dispatch(clearUser())
     navigate("/login");
-  }
+  };
 
   return (
     <header className="top-bar">
