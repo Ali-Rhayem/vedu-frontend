@@ -14,6 +14,7 @@ import Assignments from './pages/assignments/assignments.jsx';
 import ClassPeople from './pages/classpeople/classpeople.jsx';
 import AssignmentDetails from './pages/assignmentdetails/assignmentdetails.jsx';
 import Submissions from './pages/submissions/submissions.jsx';
+import ProtectedInstructorRoute from './protectedroutes/protectedinstructorroute/protectedinstructorroute.jsx';
 
 function App() {
   return (
@@ -31,8 +32,8 @@ function App() {
         <Route path="/class/:classId/assignments" element={<ProtectedRoute><Assignments /></ProtectedRoute>} />
         <Route path="/class/:classId/assignments/:assignmentId" element={<ProtectedRoute><AssignmentDetails /></ProtectedRoute>} />
         <Route path="/class/:classId/people" element={<ProtectedRoute><ClassPeople /></ProtectedRoute>} />
-        <Route path="/submissions" element={<ProtectedRoute><Submissions /></ProtectedRoute>} />
-        {/* <Route path="/class/:classId/assignments/:assignmentId/submissions" element={<ProtectedRoute><Submissions /></ProtectedRoute>} /> */}
+        {/* <Route path="/submissions" element={<ProtectedRoute><Submissions /></ProtectedRoute>} /> */}
+        <Route path="/class/:classId/assignments/:assignmentId/submissions" element={<ProtectedInstructorRoute><Submissions /></ProtectedInstructorRoute>} />
       </Routes>
     </Router>
   );
