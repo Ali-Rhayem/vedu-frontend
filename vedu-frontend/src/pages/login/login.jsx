@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginSuccess, authError } from "../../redux/authSlice/authSlice";
 import "./login.css";
 import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
+import { setUser } from "../../redux/userSlice/userSlice";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -33,15 +33,20 @@ function Login() {
       });
 
       localStorage.setItem("token", response.access_token);
+      if(response){
+         const userData = await requestApi({
+          route: "/api/user",
+          requestMethod: RequestMethods.GET,
+          navigationFunction: navigate,
+        });
 
-      dispatch(loginSuccess({ 
-        token: response.access_token, 
-      }));
+        console.log(userData)
+        dispatch(setUser(userData));
+      }
 
       navigate("/home");
     } catch (err) {
       setError(err.message);
-      dispatch(authError(err.message));
     }
   };
 
