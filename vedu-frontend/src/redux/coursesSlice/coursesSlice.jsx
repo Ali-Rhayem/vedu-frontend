@@ -1,8 +1,7 @@
-// src/redux/coursesSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  courses: [], // Initialize courses as an empty array
+  courses: [],
 };
 
 const coursesSlice = createSlice({
