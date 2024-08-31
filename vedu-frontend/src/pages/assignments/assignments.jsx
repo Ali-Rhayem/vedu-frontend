@@ -44,6 +44,10 @@ function Assignments() {
       }
     };
 
+    fetchUserDataAndCheckInstructor();
+  }, [classId, navigate]);
+
+  useEffect(() => {
     const fetchAssignmentsByTopic = async () => {
       const data = await requestApi({
         route: `/api/assignments/course/${classId}/by-topic`,
@@ -56,7 +60,6 @@ function Assignments() {
       }
     };
 
-    fetchUserDataAndCheckInstructor();
     fetchAssignmentsByTopic();
   }, [classId, navigate]);
 
