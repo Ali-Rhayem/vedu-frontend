@@ -40,7 +40,10 @@ function Assignments() {
           }
         }
       } catch (error) {
-        console.error("Error fetching user data or checking instructor status:", error);
+        console.error(
+          "Error fetching user data or checking instructor status:",
+          error
+        );
       }
     };
 
@@ -81,10 +84,12 @@ function Assignments() {
           <div className="assignments-content">
             <div className="assignments-header">
               <h3>Assignments</h3>
-              <div className="action-buttons">
-                <button className="add-topic-button">Add Topic</button>
-                <button className="create-button">Create</button>
-              </div>
+              {isInstructor && (
+                <div className="action-buttons">
+                  <button className="add-topic-button">Add Topic</button>
+                  <button className="create-button">Create</button>
+                </div>
+              )}
             </div>
 
             {Object.keys(topics).length > 0 ? (
