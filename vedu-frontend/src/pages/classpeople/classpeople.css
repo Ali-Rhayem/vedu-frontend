@@ -71,3 +71,17 @@ body {
   overflow-y: auto;
   scrollbar-width: none;
 }
+
+.add-person-button {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-person-button:hover {
+  background-color: #0056b3;
+}
