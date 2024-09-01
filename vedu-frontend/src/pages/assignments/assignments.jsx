@@ -3,6 +3,7 @@ import "./assignments.css";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
 import Tabs from "../../components/Tabs/tabs";
+import Modal from "../addtopic/Modal";
 import { useParams, useNavigate } from "react-router-dom";
 import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
@@ -11,6 +12,8 @@ function Assignments() {
   const { classId } = useParams();
   const [topics, setTopics] = useState({});
   const [isInstructor, setIsInstructor] = useState(false);
+  const [newTopicName, setNewTopicName] = useState(""); 
+  const [showModal, setShowModal] = useState(false); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,8 +25,6 @@ function Assignments() {
           navigationFunction: navigate,
         });
 
-        console.log("User data:", userData);
-
         if (userData && userData.id) {
           const userId = userData.id;
 
@@ -33,17 +34,12 @@ function Assignments() {
             navigationFunction: navigate,
           });
 
-          console.log("Is instructor:", result);
-
           if (result) {
             setIsInstructor(result.is_instructor);
           }
         }
       } catch (error) {
-        console.error(
-          "Error fetching user data or checking instructor status:",
-          error
-        );
+        console.error("Error fetching user data or checking instructor status:", error);
       }
     };
 
@@ -57,6 +53,8 @@ function Assignments() {
         requestMethod: RequestMethods.GET,
         navigationFunction: navigate,
       });
+
+      console.log("Assignments by topic:", data);
 
       if (data) {
         setTopics(data.topics);
@@ -74,6 +72,42 @@ function Assignments() {
     navigate(`/class/${classId}/assignments/${assignmentId}/submissions`);
   };
 
+  const handleCreateClick = () => {
+    navigate(`/class/${classId}/add-assignment`);
+  };
+
+  const handleAddTopicClick = () => {
+    setShowModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
+
+  const handleModalSubmit = async () => {
+    if (newTopicName.trim() === "") return;
+
+    try {
+      const newTopic = { name: newTopicName, course_id: classId };
+      const response = await requestApi({
+        route: "/api/topic",
+        requestMethod: RequestMethods.POST,
+        body: newTopic,
+        navigationFunction: navigate,
+      });
+
+      setTopics((prevTopics) => ({
+        ...prevTopics,
+        [response.topic.name]: [],
+      }));
+
+      setNewTopicName(""); 
+      setShowModal(false); 
+    } catch (error) {
+      console.error("Error adding topic:", error);
+    }
+  };
+
   return (
     <div className="assignments-page">
       <Sidebar />
@@ -86,8 +120,12 @@ function Assignments() {
               <h3>Assignments</h3>
               {isInstructor && (
                 <div className="action-buttons">
-                  <button className="add-topic-button">Add Topic</button>
-                  <button className="create-button">Create</button>
+                  <button className="add-topic-button" onClick={handleAddTopicClick}>
+                    Add Topic
+                  </button>
+                  <button className="create-button" onClick={handleCreateClick}>
+                    Create
+                  </button>
                 </div>
               )}
             </div>
@@ -130,6 +168,23 @@ function Assignments() {
           </div>
         </div>
       </div>
+
+      {/* Modal for adding a new topic */}
+      <Modal
+        isOpen={showModal}
+        onClose={handleModalClose}
+        onSubmit={handleModalSubmit}
+      >
+        <h3>Add Topic</h3>
+        <div className="input-topic">  
+        <input
+          type="text"
+          placeholder="Enter topic name"
+          value={newTopicName}
+          onChange={(e) => setNewTopicName(e.target.value)}
+        />
+        </div>
+      </Modal>
     </div>
   );
 }
