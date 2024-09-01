@@ -50,6 +50,14 @@ body {
   margin: 0 0 10px;
 }
 
+.class-code-container {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #333;
+  color: #00cfff;
+}
+
 .class-actions {
   display: flex;
   gap: 10px;
