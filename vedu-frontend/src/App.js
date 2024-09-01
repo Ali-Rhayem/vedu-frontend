@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Login from "./pages/login/login.jsx";
-import Register from "./pages/register/register.jsx"
-import Home from "./pages/home/home.jsx"
-import Class from "./pages/class/class.jsx"
+import Register from "./pages/register/register.jsx";
+import Home from "./pages/home/home.jsx";
+import Class from "./pages/class/class.jsx";
 import Profile from './pages/profile/profile.jsx';
 import EditProfile from './pages/editprofile/editprofile.jsx';
 import EditPersonalInfo from './pages/editpersonalinfo/editpersonalinfo.jsx';
@@ -28,11 +28,13 @@ function App() {
         <Route path="/edit-profile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
         <Route path="/edit-personal-info" element={<ProtectedRoute><EditPersonalInfo /></ProtectedRoute>} />
         <Route path="/edit-address" element={<ProtectedRoute><EditAddress /></ProtectedRoute>} />
-        <Route path="/add-assignment" element={<ProtectedRoute><AddAssignment /></ProtectedRoute>} />
+
+        <Route path="/class/:classId/add-assignment" element={<ProtectedInstructorRoute><AddAssignment /></ProtectedInstructorRoute>} />
+
         <Route path="/class/:classId/assignments" element={<ProtectedRoute><Assignments /></ProtectedRoute>} />
         <Route path="/class/:classId/assignments/:assignmentId" element={<ProtectedRoute><AssignmentDetails /></ProtectedRoute>} />
         <Route path="/class/:classId/people" element={<ProtectedRoute><ClassPeople /></ProtectedRoute>} />
-        {/* <Route path="/submissions" element={<ProtectedRoute><Submissions /></ProtectedRoute>} /> */}
+
         <Route path="/class/:classId/assignments/:assignmentId/submissions" element={<ProtectedInstructorRoute><Submissions /></ProtectedInstructorRoute>} />
       </Routes>
     </Router>
