@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./addassignment.css";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
+import { requestApi } from "../../utils/request";
+import { RequestMethods } from "../../utils/request_methods";
+import { useNavigate, useParams } from "react-router-dom";
 
 function AddAssignment() {
   const [title, setTitle] = useState("");
@@ -9,6 +12,30 @@ function AddAssignment() {
   const [dueDate, setDueDate] = useState("");
   const [grade, setGrade] = useState("");
   const [files, setFiles] = useState([]);
+  const [topics, setTopics] = useState([]);
+  const [topicId, setTopicId] = useState("");
+  const { classId } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchTopics = async () => {
+      try {
+        const data = await requestApi({
+          route: `/api/topic/class/${classId}`,
+          requestMethod: RequestMethods.GET,
+          navigationFunction: navigate,
+        });
+
+        if (data && data.topics) {
+          setTopics(data.topics);
+        }
+      } catch (error) {
+        console.error("Error fetching topics:", error);
+      }
+    };
+
+    fetchTopics();
+  }, [classId, navigate]);
 
   const handleFileUpload = (event) => {
     setFiles([...files, ...event.target.files]);
@@ -17,6 +44,56 @@ function AddAssignment() {
   const handleRemoveFile = (index) => {
     const newFiles = files.filter((file, i) => i !== index);
     setFiles(newFiles);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const assignmentData = {
+        course_id: classId,
+        title,
+        description,
+        due_date: dueDate,
+        topic_id: topicId,
+        grade: grade,
+      };
+
+      console.log("assignent data",assignmentData);
+
+      const assignmentResponse = await requestApi({
+        route: "/api/assignments",
+        requestMethod: RequestMethods.POST,
+        body: assignmentData,
+        navigationFunction: navigate,
+      });
+
+      const assignmentId = assignmentResponse.assignment.id;
+
+      if (files.length > 0) {
+        const formData = new FormData();
+        formData.append("assignment_id", assignmentId);
+
+        files.forEach((file) => {
+          formData.append("file", file);
+        });
+
+        await requestApi({
+          route: "/api/assignment-documents",
+          requestMethod: RequestMethods.POST,
+          body: formData,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          navigationFunction: navigate,
+        });
+      }
+
+      navigate(`/class/${classId}/assignments`);
+
+    } catch (error) {
+      console.error("Error adding assignment:", error);
+    }
   };
 
   return (
@@ -28,12 +105,19 @@ function AddAssignment() {
           <div className="assignment-form">
             <div className="form-left">
               <h3>New Assignment</h3>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label>Topic</label>
-                  <select>
-                    <option value="default">Select a topic</option>
-                    {/* Add other topics here */}
+                  <select
+                    value={topicId}
+                    onChange={(e) => setTopicId(e.target.value)}
+                  >
+                    <option value="">Select a topic</option>
+                    {topics.map((topic) => (
+                      <option key={topic.id} value={topic.id}>
+                        {topic.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -60,9 +144,6 @@ function AddAssignment() {
                   <label>Attach files</label>
                   <div className="file-upload">
                     <input type="file" multiple onChange={handleFileUpload} />
-                    <button type="button" className="upload-button">
-                      Upload
-                    </button>
                   </div>
                   <div className="uploaded-files">
                     {files.map((file, index) => (
@@ -80,7 +161,7 @@ function AddAssignment() {
                 </div>
 
                 <div className="form-actions">
-                  <button type="button" className="cancel-button">
+                  <button type="button" className="cancel-button" onClick={() => navigate(-1)}>
                     Cancel
                   </button>
                   <button type="submit" className="add-button">
