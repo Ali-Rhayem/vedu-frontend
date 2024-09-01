@@ -7,6 +7,7 @@ import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
 import { useDispatch, useSelector } from "react-redux";
 import JoinClass from "../joinclass/joinclass";  
+import CreateClass from "../createclass/createclass";
 import { setUser } from "../../redux/userSlice/userSlice";
 
 function Home() {
@@ -21,8 +22,8 @@ function Home() {
   const [error, setError] = useState(null);
   const [classCode, setClassCode] = useState(""); 
   const [joinError, setJoinError] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   useEffect(() => {
     if (!userData) {
@@ -68,12 +69,12 @@ function Home() {
     navigate(`/class/${courseId}`);
   };
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const openJoinModal = () => {
+    setIsJoinModalOpen(true);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const closeJoinModal = () => {
+    setIsJoinModalOpen(false);
     setJoinError(null);
     setClassCode("");
   };
@@ -95,11 +96,53 @@ function Home() {
       if (response && response.message === "Successfully joined the class") {
         alert("Successfully joined the class!");
         fetchCourses(); 
-        closeModal();
+        closeJoinModal();
         setClassCode(""); 
       }
     } catch (err) {
       setJoinError("Failed to join class: " + err.message);
+    }
+  };
+
+  const openCreateModal = () => {
+    setIsCreateModalOpen(true);
+  };
+
+  const closeCreateModal = () => {
+    setIsCreateModalOpen(false);
+  };
+
+  const handleCreateClass = async (classData) => {
+    try {
+      const response = await requestApi({
+        route: "/api/courses",
+        requestMethod: RequestMethods.POST,
+        body: {
+          ...classData,
+          owner_id: userData.id,
+        },
+        navigationFunction: navigate,
+      });
+
+      if(response && response.course) {
+        const data = await requestApi({
+          route: "api/course-instructor",
+          requestMethod: RequestMethods.POST,
+          body: {
+            course_id: response.course.id,
+            instructor_id: userData.id,
+          },
+          navigationFunction: navigate,
+        });
+      }
+
+      if (response && response.course) {
+        alert(`Class ${response.course.name} created successfully!`);
+        fetchCourses();
+        closeCreateModal();
+      }
+    } catch (err) {
+      console.error("Failed to create class:", err);
     }
   };
 
@@ -118,12 +161,14 @@ function Home() {
         <Navbar />
         <div className="content">
           <div className="actions">
-            <button className="join-button" onClick={openModal}>
+            <button className="join-button" onClick={openJoinModal}>
               Join
             </button>
-            <button className="create-button">Create</button>
+            <button className="create-button" onClick={openCreateModal}>
+              Create
+            </button>
           </div>
-          <JoinClass isOpen={isModalOpen} onClose={closeModal} onSubmit={handleJoinClass}>
+          <JoinClass isOpen={isJoinModalOpen} onClose={closeJoinModal} onSubmit={handleJoinClass}>
             <h3>Join class</h3>
             <input
               type="text"
@@ -134,6 +179,7 @@ function Home() {
             />
             {joinError && <p className="error-message">{joinError}</p>}
           </JoinClass>
+          <CreateClass isOpen={isCreateModalOpen} onClose={closeCreateModal} onSubmit={handleCreateClass} />
           <div className="classes">
             <h3>Student Courses</h3>
             {courses.student_courses.length > 0 ? (
