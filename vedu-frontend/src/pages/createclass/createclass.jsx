@@ -22,7 +22,6 @@ function CreateClass({ isOpen, onClose, onSubmit }) {
     setClassDescription("");
   };
 
-  // Reset fields when modal is closed
   useEffect(() => {
     if (!isOpen) {
       setClassName("");
