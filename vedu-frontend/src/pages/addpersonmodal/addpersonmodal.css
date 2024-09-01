@@ -1,0 +1,81 @@
+.addperson-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.addperson-content {
+  background-color: #1a1a1a;
+  padding: 20px;
+  border-radius: 15px;
+  color: #00cfff;
+  width: 350px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.addperson-content h3 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #00cfff;
+}
+
+.addperson-content label {
+  display: block;
+  text-align: left;
+  margin-bottom: 10px;
+  color: #00cfff;
+}
+
+.addperson-content input {
+  width: 90%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #555;
+  background-color: #333;
+  color: #ddd;
+  font-size: 1rem;
+}
+
+.button-container {
+  width: 97%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.action-button,
+.close-button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.close-button {
+  background-color: #555;
+  color: #ddd;
+}
+
+.action-button {
+  background-color: #00cfff;
+  color: #141414;
+}
+
+.action-button:hover {
+  background-color: #009fe3;
+}
+
+.close-button:hover {
+  background-color: #777;
+}
