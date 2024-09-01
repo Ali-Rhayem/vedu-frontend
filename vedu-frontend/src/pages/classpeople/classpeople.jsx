@@ -8,6 +8,7 @@ import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/userSlice/userSlice";
+import AddPersonModal from "../addpersonmodal/addpersonmodal"; 
 
 function ClassPeople() {
   const { classId } = useParams();
@@ -16,6 +17,7 @@ function ClassPeople() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
+  const [modalType, setModalType] = useState(null); 
 
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user.data);
@@ -28,7 +30,7 @@ function ClassPeople() {
             route: "/api/user",
             requestMethod: RequestMethods.GET,
           });
-          
+
           dispatch(setUser(data));
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -75,6 +77,55 @@ function ClassPeople() {
     }
   }, [classId, userData]);
 
+  const handleAddPerson = async (email) => {
+    try {
+      const userIdResponse = await requestApi({
+        route: "/api/get-user-id",
+        requestMethod: RequestMethods.POST,
+        body: { email },
+      });
+  
+      if (!userIdResponse || !userIdResponse.user_id) {
+        console.error("User not found");
+        return;
+      }
+  
+      const userId = userIdResponse.user_id;
+  
+      const route =
+        modalType === "Instructor"
+          ? "/api/course-instructor"
+          : "/api/course-student";
+      const body = {
+        course_id: classId,
+        [`${modalType.toLowerCase()}_id`]: userId,
+      };
+  
+      await requestApi({
+        route,
+        requestMethod: RequestMethods.POST,
+        body,
+      });
+  
+      const instructorsData = await requestApi({
+        route: `/api/course-instructor/course/${classId}/instructors`,
+        requestMethod: RequestMethods.GET,
+      });
+  
+      const studentsData = await requestApi({
+        route: `/api/course-student/course/${classId}/students`,
+        requestMethod: RequestMethods.GET,
+      });
+  
+      setInstructors(instructorsData);
+      setStudents(studentsData);
+      setModalType(null);
+    } catch (err) {
+      console.error("Failed to add person:", err);
+    }
+  };
+  
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -91,7 +142,17 @@ function ClassPeople() {
         <div className="content">
           <Tabs />
           <div className="people-content">
-            <h3>Teachers</h3>
+            <div className="teachers-div">
+              <h3>Teachers</h3>
+              {isOwner && (
+                <button
+                  className="add-person-button"
+                  onClick={() => setModalType("Instructor")}
+                >
+                  Add Instructor
+                </button>
+              )}
+            </div>
             <div className="people-section teachers">
               {instructors.length > 0 ? (
                 instructors.map((instructor) => (
@@ -111,12 +172,18 @@ function ClassPeople() {
               ) : (
                 <p>No instructors found</p>
               )}
+            </div>
+            <div className="students-div">
+              <h3>Students</h3>
               {isOwner && (
-                <button className="add-person-button">Add Instructor</button>
+                <button
+                  className="add-person-button"
+                  onClick={() => setModalType("Student")}
+                >
+                  Add Student
+                </button>
               )}
             </div>
-
-            <h3>Students</h3>
             <div className="people-section students">
               {students.length > 0 ? (
                 students.map((student) => (
@@ -136,13 +203,17 @@ function ClassPeople() {
               ) : (
                 <p>No students found</p>
               )}
-              {isOwner && (
-                <button className="add-person-button">Add Student</button>
-              )}
             </div>
           </div>
         </div>
       </div>
+      {modalType && (
+        <AddPersonModal
+          type={modalType}
+          onClose={() => setModalType(null)}
+          onSubmit={handleAddPerson}
+        />
+      )}
     </div>
   );
 }
