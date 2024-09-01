@@ -50,8 +50,8 @@ const Sidebar = () => {
           <a href="/classes">Classes</a>
         </li>
         {courses.length > 0 ? (
-          courses.map((course) => (
-            <li key={course.id} onClick={() => handleCourseClick(course.id)}>
+          courses.map((course, index) => (
+            <li key={`course-${index}-${course.id}`} onClick={() => handleCourseClick(course.id)}>
               <span>{course.name}</span>
             </li>
           ))
