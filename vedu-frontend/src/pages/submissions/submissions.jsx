@@ -3,16 +3,28 @@ import "./submissions.css";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
 import Tabs from "../../components/Tabs/tabs";
-import { requestApi } from "../../utils/request"; 
+import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 
 function Submissions() {
-  const { assignmentId } = useParams(); // Extract assignmentId from useParams()
+  const { assignmentId } = useParams();
   const [submissions, setSubmissions] = useState([]);
+  const [assignment, setAssignment] = useState(null);
 
   useEffect(() => {
+    const fetchAssignmentDetails = async () => {
+      try {
+        const data = await requestApi({
+          route: `/api/assignments/${assignmentId}`,
+          requestMethod: RequestMethods.GET,
+        });
+        setAssignment(data.assignment);
+      } catch (error) {
+        console.error("Error fetching assignment details:", error);
+      }
+    };
+
     const fetchSubmissions = async () => {
       try {
         const data = await requestApi({
@@ -21,12 +33,55 @@ function Submissions() {
         });
         setSubmissions(data);
       } catch (error) {
-        console.error('Error fetching submissions:', error);
+        console.error("Error fetching submissions:", error);
       }
     };
 
+    fetchAssignmentDetails();
     fetchSubmissions();
   }, [assignmentId]);
+
+  const handleGradeChange = (e, submissionId) => {
+    const value = parseInt(e.target.value, 10);
+    if (assignment && value > assignment.max_grade) {
+      alert(`Grade cannot exceed ${assignment.max_grade}`);
+    } else if (value < 0) {
+      alert(`Grade cannot be less than 0`);
+    } else {
+      setSubmissions((prevSubmissions) =>
+        prevSubmissions.map((submission) =>
+          submission.id === submissionId
+            ? { ...submission, grade: value }
+            : submission
+        )
+      );
+    }
+  };
+
+  const handleSaveGrade = async (submissionId, grade) => {
+    if (grade === null || grade === undefined || grade === "") {
+      alert("Please enter a grade.");
+      return;
+    }
+
+    try {
+      const data = await requestApi({
+        route: `/api/assignments/${assignmentId}/submissions/${submissionId}/grade`,
+        requestMethod: RequestMethods.POST,
+        body: {
+          grade,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+      alert("Grade saved successfully!");
+    } catch (error) {
+      console.error("Error saving grade:", error);
+      alert("Failed to save grade. Please try again.");
+    }
+  };
 
   return (
     <div className="submissions-page">
@@ -36,13 +91,17 @@ function Submissions() {
         <div className="content">
           <Tabs />
           <div className="submissions-content">
-            <h3>Assignment {assignmentId}</h3> {/* assignmentId is now properly extracted */}
+            <h3>
+              {assignment ? assignment.title : `Assignment ${assignmentId}`}
+            </h3>
             {submissions.map((submission) => (
               <div className="submission-item" key={submission.id}>
                 <div className="submission-header">
                   <div className="student-info">
                     <div className="student-avatar"></div>
-                    <div className="student-name">{submission.student.name}</div>
+                    <div className="student-name">
+                      {submission.student.name}
+                    </div>
                   </div>
                 </div>
                 <div className="submission-body">
@@ -57,9 +116,21 @@ function Submissions() {
                   </div>
                   <div className="grade-section">
                     <label>Grade:</label>
-                    <input type="text" placeholder="Enter grade" />
-                    <span>/100</span>
-                    <button className="save-grade-button">Save Grade</button>
+                    <input
+                      type="number"
+                      placeholder="Enter grade"
+                      value={submission.grade || ""}
+                      onChange={(e) => handleGradeChange(e, submission.id)}
+                    />
+                    <span>/{assignment ? assignment.grade : "100"}</span>
+                    <button
+                      className="save-grade-button"
+                      onClick={() =>
+                        handleSaveGrade(submission.id, submission.grade)
+                      }
+                    >
+                      Save Grade
+                    </button>
                   </div>
                 </div>
               </div>
