@@ -15,6 +15,7 @@ function AssignmentDetailsPage() {
   const { assignmentId, classId } = useParams();
   const [assignment, setAssignment] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [grade, setUserGrade] = useState(null);
 
   useEffect(() => {
     if (!userData) {
@@ -42,9 +43,19 @@ function AssignmentDetailsPage() {
           route: `/api/assignments/${assignmentId}`,
           requestMethod: RequestMethods.GET,
         });
+        console.log(data);
 
         if (data) {
           setAssignment(data.assignment);
+
+          if (data.assignment.submissions) {
+            const userSubmission = data.assignment.submissions.find(
+              (submission) => submission.student_id === userData.id
+            );
+            if (userSubmission) {
+              setUserGrade(userSubmission.grade);
+            }
+          }
         }
       } catch (error) {
         console.error("Error fetching assignment details:", error);
@@ -52,7 +63,7 @@ function AssignmentDetailsPage() {
     };
 
     fetchAssignmentDetails();
-  }, [assignmentId]);
+  }, [assignmentId, userData]);
 
   const handleAddWork = () => {
     const fileInput = document.createElement("input");
@@ -100,6 +111,23 @@ function AssignmentDetailsPage() {
     }
   };
 
+  const getFileIcon = (fileName) => {
+    const fileExtension = fileName.split('.').pop().toLowerCase();
+    switch (fileExtension) {
+      case 'pdf':
+        return '📄';
+      case 'doc':
+      case 'docx':
+        return '📝';
+      case 'jpg':
+      case 'jpeg':
+      case 'png':
+        return '🖼️';
+      default:
+        return '📁';
+    }
+  };
+
   if (!assignment) {
     return <p>Loading...</p>;
   }
@@ -114,13 +142,43 @@ function AssignmentDetailsPage() {
           <div className="assignment-content">
             <div className="assignment-details-ad">
               <h3>{assignment.title}</h3>
-              <div className="attachment">
-                <button className="attachment-button">View Attachment</button>
-              </div>
+
+              {assignment.documents && assignment.documents.length > 0 ? (
+                <div className="attachment">
+                  <h4>Attachments:</h4>
+                  <ul className="file-list">
+                    {assignment.documents.map((document) => (
+                      <li key={document.id} className="file-item">
+                        <span className="file-icon">
+                          {getFileIcon(document.file_url)}
+                        </span>
+                        <a
+                          href={`http://127.0.0.1:8000/storage/${document.file_url}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          download
+                        >
+                          {document.file_url.split('/').pop()}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <div className="no-attachment">
+                  <p>No attachments available.</p>
+                </div>
+              )}
+
               <p className="description">{assignment.description}</p>
             </div>
 
             <div className="your-work">
+              {assignment.grade !== null && (
+                <div className="grade-section">
+                  <h4>Your Grade: {grade} / {assignment.grade}</h4>
+                </div>
+              )}
               <h4>Your Work</h4>
               <div className="uploaded-file">
                 {uploadedFile && (
