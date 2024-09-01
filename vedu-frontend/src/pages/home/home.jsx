@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import JoinClass from "../joinclass/joinclass";  
 import CreateClass from "../createclass/createclass";
 import { setUser } from "../../redux/userSlice/userSlice";
+import { addCourse } from "../../redux/coursesSlice/coursesSlice";
 
 function Home() {
   const dispatch = useDispatch();
@@ -123,7 +124,7 @@ function Home() {
         },
         navigationFunction: navigate,
       });
-
+  
       if(response && response.course) {
         const data = await requestApi({
           route: "api/course-instructor",
@@ -137,8 +138,10 @@ function Home() {
       }
 
       if (response && response.course) {
+        dispatch(addCourse(response.course));
+  
         alert(`Class ${response.course.name} created successfully!`);
-        fetchCourses();
+        fetchCourses(); 
         closeCreateModal();
       }
     } catch (err) {
