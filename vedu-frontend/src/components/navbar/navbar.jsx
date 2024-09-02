@@ -6,11 +6,13 @@ import { resetCourses } from "../../redux/coursesSlice/coursesSlice";
 import { clearUser, setUser } from "../../redux/userSlice/userSlice";
 import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
+import persistStore from "redux-persist/es/persistStore";
+import store from "../../redux/store";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const userData = useSelector((state) => state.user.data);
 
   useEffect(() => {
@@ -22,7 +24,7 @@ const Navbar = () => {
             requestMethod: RequestMethods.GET,
             navigationFunction: navigate,
           });
-          
+
           dispatch(setUser(data));
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -32,7 +34,6 @@ const Navbar = () => {
       fetchUserData();
     }
   }, [userData, dispatch]);
-
 
   const handleProfile = () => {
     navigate("/profile");
@@ -52,10 +53,21 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    dispatch(resetCourses());
-    dispatch(clearUser())
-    navigate("/login");
+  
+    const persistor = persistStore(store);
+    persistor.pause();  
+  
+    persistor.flush().then(() => {
+      return persistor.purge(); 
+    }).then(() => {
+      dispatch(resetCourses());
+      dispatch(clearUser());
+      console.log(userData);
+  
+      navigate("/login");
+    });
   };
+  
 
   return (
     <header className="top-bar">
