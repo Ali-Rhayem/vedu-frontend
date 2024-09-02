@@ -6,45 +6,21 @@ import { useNavigate } from "react-router-dom";
 import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
 import { useDispatch, useSelector } from "react-redux";
-import JoinClass from "../joinclass/joinclass";  
+import JoinClass from "../joinclass/joinclass";
 import CreateClass from "../createclass/createclass";
-import { setUser } from "../../redux/userSlice/userSlice";
-import { addCourse } from "../../redux/coursesSlice/coursesSlice";
+import { setCourses, addCourse } from "../../redux/coursesSlice/coursesSlice";
 
 function Home() {
   const dispatch = useDispatch();
-  const userData = useSelector((state) => state.user.data);
   const navigate = useNavigate();
-  const [courses, setCourses] = useState({
-    student_courses: [],
-    instructor_courses: [],
-  });
-  const [loading, setLoading] = useState(true);
+  const userData = useSelector((state) => state.user.data);
+  const courses = useSelector((state) => state.courses.courses) || [];
+
   const [error, setError] = useState(null);
-  const [classCode, setClassCode] = useState(""); 
+  const [classCode, setClassCode] = useState("");
   const [joinError, setJoinError] = useState(null);
   const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-
-  useEffect(() => {
-    if (!userData) {
-      const fetchUserData = async () => {
-        try {
-          const data = await requestApi({
-            route: "/api/user",
-            requestMethod: RequestMethods.GET,
-            navigationFunction: navigate,
-          });
-          
-          dispatch(setUser(data));
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
-      };
-
-      fetchUserData();
-    }
-  }, [userData, dispatch]);
 
   const fetchCourses = async () => {
     try {
@@ -54,17 +30,26 @@ function Home() {
         navigationFunction: navigate,
       });
 
-      setCourses(data);
-      setLoading(false);
+      const combinedCourses = [
+        ...(data.student_courses || []).map((course) => ({
+          ...course,
+          is_student_course: true,
+        })),
+        ...(data.instructor_courses || []).map((course) => ({
+          ...course,
+          is_instructor_course: true,
+        })),
+      ];
+
+      dispatch(setCourses(combinedCourses));
     } catch (err) {
       setError("Failed to fetch courses");
-      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchCourses();
-  }, [navigate]);
+  }, [dispatch, navigate]);
 
   const handleViewDetails = (courseId) => {
     navigate(`/class/${courseId}`);
@@ -96,9 +81,17 @@ function Home() {
 
       if (response && response.message === "Successfully joined the class") {
         alert("Successfully joined the class!");
-        fetchCourses(); 
+
+        const updatedCourses = [
+          ...courses,
+          { ...response.course, is_student_course: true },
+        ];
+        dispatch(setCourses(updatedCourses));
+        
+        await fetchCourses();
+
         closeJoinModal();
-        setClassCode(""); 
+        setClassCode("");
       }
     } catch (err) {
       setJoinError("Failed to join class: " + err.message);
@@ -124,9 +117,15 @@ function Home() {
         },
         navigationFunction: navigate,
       });
-  
-      if(response && response.course) {
-        const data = await requestApi({
+
+      if (response && response.course) {
+        const updatedCourses = [
+          ...courses,
+          { ...response.course, is_instructor_course: true },
+        ];
+        dispatch(setCourses(updatedCourses)); 
+
+        await requestApi({
           route: "api/course-instructor",
           requestMethod: RequestMethods.POST,
           body: {
@@ -135,13 +134,8 @@ function Home() {
           },
           navigationFunction: navigate,
         });
-      }
 
-      if (response && response.course) {
-        dispatch(addCourse(response.course));
-  
         alert(`Class ${response.course.name} created successfully!`);
-        fetchCourses(); 
         closeCreateModal();
       }
     } catch (err) {
@@ -149,13 +143,15 @@ function Home() {
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   if (error) {
     return <div>{error}</div>;
   }
+
+  // Separate courses into instructor and student courses
+  const instructorCourses = courses.filter(
+    (course) => course.is_instructor_course
+  );
+  const studentCourses = courses.filter((course) => course.is_student_course);
 
   return (
     <div className="home-page">
@@ -171,7 +167,11 @@ function Home() {
               Create
             </button>
           </div>
-          <JoinClass isOpen={isJoinModalOpen} onClose={closeJoinModal} onSubmit={handleJoinClass}>
+          <JoinClass
+            isOpen={isJoinModalOpen}
+            onClose={closeJoinModal}
+            onSubmit={handleJoinClass}
+          >
             <h3>Join class</h3>
             <input
               type="text"
@@ -182,11 +182,35 @@ function Home() {
             />
             {joinError && <p className="error-message">{joinError}</p>}
           </JoinClass>
-          <CreateClass isOpen={isCreateModalOpen} onClose={closeCreateModal} onSubmit={handleCreateClass} />
+          <CreateClass
+            isOpen={isCreateModalOpen}
+            onClose={closeCreateModal}
+            onSubmit={handleCreateClass}
+          />
           <div className="classes">
+            <h3>Instructor Courses</h3>
+            {instructorCourses.length > 0 ? (
+              instructorCourses.map((course) => (
+                <div key={course.id} className="class-card">
+                  <h4>{course.name}</h4>
+                  <p>{course.description}</p>
+                  <div className="class-info">
+                    <span>Participants: {(course.students || []).length}</span>
+                  </div>
+                  <button
+                    className="details-button"
+                    onClick={() => handleViewDetails(course.id)}
+                  >
+                    View Details
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p>No instructor courses available.</p>
+            )}
             <h3>Student Courses</h3>
-            {courses.student_courses.length > 0 ? (
-              courses.student_courses.map((course) => (
+            {studentCourses.length > 0 ? (
+              studentCourses.map((course) => (
                 <div key={course.id} className="class-card">
                   <h4>{course.name}</h4>
                   <p>{course.description}</p>
@@ -208,26 +232,6 @@ function Home() {
               ))
             ) : (
               <p>No student courses available.</p>
-            )}
-            <h3>Instructor Courses</h3>
-            {courses.instructor_courses.length > 0 ? (
-              courses.instructor_courses.map((course) => (
-                <div key={course.id} className="class-card">
-                  <h4>{course.name}</h4>
-                  <p>{course.description}</p>
-                  <div className="class-info">
-                    <span>Participants: {(course.students || []).length}</span>
-                  </div>
-                  <button
-                    className="details-button"
-                    onClick={() => handleViewDetails(course.id)}
-                  >
-                    View Details
-                  </button>
-                </div>
-              ))
-            ) : (
-              <p>No instructor courses available.</p>
             )}
           </div>
         </div>
