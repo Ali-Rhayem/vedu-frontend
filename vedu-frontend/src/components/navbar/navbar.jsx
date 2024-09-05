@@ -52,22 +52,22 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    // localStorage.removeItem("token");
   
-    const persistor = persistStore(store);
-    persistor.pause();  
+    // const persistor = persistStore(store);
+    // persistor.pause();  
   
-    persistor.flush().then(() => {
-      return persistor.purge(); 
-    }).then(() => {
-      dispatch(resetCourses());
-      dispatch(clearUser());
-      console.log(userData);
+    // persistor.flush().then(() => {
+    //   return persistor.purge(); 
+    // }).then(() => {
+    //   dispatch(resetCourses());
+    //   dispatch(clearUser());
+    //   console.log(userData);
   
-      navigate("/login");
-    });
+    // });
+    localStorage.clear();
+    navigate("/login");
   };
-  
 
   return (
     <header className="top-bar">
@@ -101,4 +101,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default React.memo(Navbar);
