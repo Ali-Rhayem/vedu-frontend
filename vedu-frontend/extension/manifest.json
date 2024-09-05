@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Chat Summary Fetcher",
+  "version": "1.0",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://localhost:3000/*"],
+      "js": ["contentScript.js"]
+    }
+  ]
+}
