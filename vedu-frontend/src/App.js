@@ -16,6 +16,8 @@ import AssignmentDetails from './pages/assignmentdetails/assignmentdetails.jsx';
 import Submissions from './pages/submissions/submissions.jsx';
 import ProtectedInstructorRoute from './protectedroutes/protectedinstructorroute/protectedinstructorroute.jsx';
 import Chats from './pages/chats/chats.jsx';
+import ChatPage from "./pages/ChatPage/ChatPage.jsx"; 
+import ProtectedClassRoute from './protectedroutes/ProtectedClassRoute.jsx';
 
 function App() {
   return (
@@ -24,7 +26,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-        <Route path="/class/:classId" element={<ProtectedRoute><Class /></ProtectedRoute>} />
+        <Route path="/class/:classId" element={<ProtectedClassRoute><Class /></ProtectedClassRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/edit-profile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
         <Route path="/edit-personal-info" element={<ProtectedRoute><EditPersonalInfo /></ProtectedRoute>} />
@@ -38,6 +40,8 @@ function App() {
 
         <Route path="/class/:classId/assignments/:assignmentId/submissions" element={<ProtectedInstructorRoute><Submissions /></ProtectedInstructorRoute>} />
         <Route path="/class/:classId/chats" element= {<ProtectedRoute><Chats /></ProtectedRoute>} />
+
+        <Route path="/class/:classId/chats/:chatId" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
       </Routes>
     </Router>
   );
