@@ -7,62 +7,40 @@ import Modal from "../addtopic/Modal";
 import { useParams, useNavigate } from "react-router-dom";
 import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
+import { useDispatch, useSelector } from "react-redux";
+import { setAssignments } from "../../redux/assignmentsSlice/assignmentsSlice";
 
 function Assignments() {
   const { classId } = useParams();
-  const [topics, setTopics] = useState({});
-  const [isInstructor, setIsInstructor] = useState(false);
-  const [newTopicName, setNewTopicName] = useState(""); 
-  const [showModal, setShowModal] = useState(false); 
+  const dispatch = useDispatch();
+  const assignments = useSelector((state) => state.assignments[classId]) || {};
+  const [newTopicName, setNewTopicName] = useState("");
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const course = useSelector((state) =>
+    state.courses.courses.find((course) => course.id === parseInt(classId))
+  );
 
   useEffect(() => {
-    const fetchUserDataAndCheckInstructor = async () => {
+    const fetchAssignmentsByTopic = async () => {
       try {
-        const userData = await requestApi({
-          route: "/api/user",
+        const data = await requestApi({
+          route: `/api/assignments/course/${classId}/by-topic`,
           requestMethod: RequestMethods.GET,
           navigationFunction: navigate,
         });
 
-        if (userData && userData.id) {
-          const userId = userData.id;
-
-          const result = await requestApi({
-            route: `/api/courses/${userId}/is-instructor/${classId}`,
-            requestMethod: RequestMethods.GET,
-            navigationFunction: navigate,
-          });
-
-          if (result) {
-            setIsInstructor(result.is_instructor);
-          }
+        if (data) {
+          dispatch(setAssignments({ classId, topics: data.topics }));
+          console.log("Assignments by topic:", data);
         }
       } catch (error) {
-        console.error("Error fetching user data or checking instructor status:", error);
-      }
-    };
-
-    fetchUserDataAndCheckInstructor();
-  }, [classId, navigate]);
-
-  useEffect(() => {
-    const fetchAssignmentsByTopic = async () => {
-      const data = await requestApi({
-        route: `/api/assignments/course/${classId}/by-topic`,
-        requestMethod: RequestMethods.GET,
-        navigationFunction: navigate,
-      });
-
-      console.log("Assignments by topic:", data);
-
-      if (data) {
-        setTopics(data.topics);
+        console.error("Error fetching assignments:", error);
       }
     };
 
     fetchAssignmentsByTopic();
-  }, [classId, navigate]);
+  }, [classId, dispatch, navigate]);
 
   const handleViewDetails = (assignmentId) => {
     navigate(`/class/${classId}/assignments/${assignmentId}`);
@@ -96,13 +74,16 @@ function Assignments() {
         navigationFunction: navigate,
       });
 
-      setTopics((prevTopics) => ({
-        ...prevTopics,
-        [response.topic.name]: [],
-      }));
+      dispatch(
+        setAssignments({
+          classId,
+          topics: { ...assignments, [response.topic.name]: [] },
+        })
+      );
+      console.log("New topic added:", response.topic);
 
-      setNewTopicName(""); 
-      setShowModal(false); 
+      setNewTopicName("");
+      setShowModal(false);
     } catch (error) {
       console.error("Error adding topic:", error);
     }
@@ -118,9 +99,12 @@ function Assignments() {
           <div className="assignments-content">
             <div className="assignments-header">
               <h3>Assignments</h3>
-              {isInstructor && (
+              {course.is_instructor_course && (
                 <div className="action-buttons">
-                  <button className="add-topic-button" onClick={handleAddTopicClick}>
+                  <button
+                    className="add-topic-button"
+                    onClick={handleAddTopicClick}
+                  >
                     Add Topic
                   </button>
                   <button className="create-button" onClick={handleCreateClick}>
@@ -130,11 +114,11 @@ function Assignments() {
               )}
             </div>
 
-            {Object.keys(topics).length > 0 ? (
-              Object.keys(topics).map((topicName) => (
+            {Object.keys(assignments).length > 0 ? (
+              Object.keys(assignments).map((topicName) => (
                 <div className="assignment-topic" key={topicName}>
                   <h4>{topicName}</h4>
-                  {topics[topicName].map((assignment) => (
+                  {assignments[topicName].map((assignment) => (
                     <div className="assignment-item" key={assignment.id}>
                       <div className="assignment-icon"></div>
                       <div className="assignment-details">
@@ -150,7 +134,7 @@ function Assignments() {
                       >
                         View Details
                       </button>
-                      {isInstructor && (
+                      {course.is_instructor_course && (
                         <button
                           className="view-submissions-button"
                           onClick={() => handleViewSubmissions(assignment.id)}
@@ -176,13 +160,13 @@ function Assignments() {
         onSubmit={handleModalSubmit}
       >
         <h3>Add Topic</h3>
-        <div className="input-topic">  
-        <input
-          type="text"
-          placeholder="Enter topic name"
-          value={newTopicName}
-          onChange={(e) => setNewTopicName(e.target.value)}
-        />
+        <div className="input-topic">
+          <input
+            type="text"
+            placeholder="Enter topic name"
+            value={newTopicName}
+            onChange={(e) => setNewTopicName(e.target.value)}
+          />
         </div>
       </Modal>
     </div>
