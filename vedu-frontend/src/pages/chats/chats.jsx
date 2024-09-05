@@ -7,18 +7,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
 import { setUser } from "../../redux/userSlice/userSlice";
-import echo from "../../echo"; // Importing the echo configuration
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Chats() {
   const userData = useSelector((state) => state.user.data);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
-  const [chatId, setChatId] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState("");
-  const {classId} = useParams();
+  const { classId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!userData) {
@@ -47,11 +45,11 @@ function Chats() {
     const fetchUsers = async () => {
       try {
         const response = await requestApi({
-          route: `/api/course/${classId}/users`, // Adjusted to match the route in api.php
+          route: `/api/course/${classId}/users`,
           requestMethod: RequestMethods.GET,
         });
 
-        setUsers(response.users); // Assuming the response has a `users` field with the array of users
+        setUsers(response.users);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -79,7 +77,7 @@ function Chats() {
         },
       });
 
-      console.log(existingChatResponse)
+      console.log(existingChatResponse);
 
       let chatId = existingChatResponse.chat_id;
 
@@ -100,62 +98,10 @@ function Chats() {
         chatId = newChatResponse.id;
       }
 
-      setChatId(chatId);
+      // Navigate to the specific chat page with the chatId
+      navigate(`/class/${classId}/chats/${chatId}`);
     } catch (error) {
       console.error("Error starting chat:", error);
-    }
-  };
-
-  useEffect(() => {
-    if (chatId) {
-      const fetchMessages = async () => {
-        try {
-          const data = await requestApi({
-            route: `/api/messages/${chatId}`, // Fetch messages for the chat
-            requestMethod: RequestMethods.GET,
-          });
-
-          setMessages(data);
-        } catch (error) {
-          console.error("Error fetching messages:", error);
-        }
-      };
-
-      fetchMessages();
-
-      // Set up real-time messaging using Laravel Echo
-      const channel = echo.private(`chat.${chatId}`);
-      channel.listen("ChatMessageSent", (event) => {
-        setMessages((prevMessages) => [...prevMessages, event.message]);
-      });
-
-      // Clean up the Echo channel when component unmounts or chatId changes
-      return () => {
-        channel.stopListening("ChatMessageSent");
-      };
-    }
-  }, [chatId]);
-
-  const sendMessage = async () => {
-    if (message.trim() === "") return;
-
-    try {
-      await requestApi({
-        route: "/api/messages",
-        requestMethod: RequestMethods.POST,
-        body: JSON.stringify({
-          chat_id: chatId,
-          sender_id: userData.id,
-          message: message,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      setMessage(""); // Clear the input field
-    } catch (error) {
-      console.error("Error sending message:", error);
     }
   };
 
@@ -177,9 +123,8 @@ function Chats() {
             <ul>
               {Array.isArray(users) &&
                 users.map((user) => {
-                  // Skip the current user
                   if (user.id === userData.id) {
-                    return null; // or you can use `return null;` to skip rendering
+                    return null;
                   }
 
                   return (
@@ -192,34 +137,6 @@ function Chats() {
                   );
                 })}
             </ul>
-          </div>
-
-          <div className="chat-section">
-            <div className="messages">
-              {messages.map((msg, index) => (
-                <div
-                  key={`message-${msg.id}-${index}`}
-                  className="message-item"
-                >
-                  {msg.message}
-                </div>
-              ))}
-            </div>
-            <div className="chat-input">
-              <input
-                type="text"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Type something..."
-              />
-              <button type="button" onClick={sendMessage}>
-                Send
-              </button>
-            </div>
-          </div>
-          <div className="ai-summary">
-            <h3>AI Summary</h3>
-            <p>Summary of the chat</p>
           </div>
         </div>
       </div>
