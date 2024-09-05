@@ -5,31 +5,23 @@ import Sidebar from "../../components/sidebar/sidebar";
 import { useNavigate } from "react-router-dom";
 import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../redux/userSlice/userSlice";
 
 function Editprofile() {
+  const userData = useSelector((state) => state.user.data); // Get user data from Redux
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [profileImage, setProfileImage] = useState("");
+  const [name, setName] = useState(userData?.name || ""); // Initialize with userData
+  const [profileImage, setProfileImage] = useState(userData?.profile_image ? `http://127.0.0.1:8000/${userData.profile_image}` : "");
   const fileInputRef = useRef();
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const data = await requestApi({
-          route: "/api/user",
-          requestMethod: RequestMethods.GET,
-          navigationFunction: navigate,
-        });
-
-        setName(data.name);
-        setProfileImage(`http://127.0.0.1:8000/${data.profile_image}`);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchUserData();
-  }, [navigate]);
+    // We no longer need to fetch user data here because it’s already available in userData.
+    if (!userData) {
+      navigate("/login"); // Redirect if no userData available
+    }
+  }, [userData, navigate]);
 
   async function handleSubmitProfile(event) {
     event.preventDefault();
@@ -55,6 +47,8 @@ function Editprofile() {
         console.error(data.errors);
       } else {
         console.log("Profile updated successfully", data);
+        dispatch(setUser(data.user)); // Update userData in Redux with the new user data
+
         setProfileImage(`http://127.0.0.1:8000/${data.user.profile_image}`);
       }
     } catch (error) {
