@@ -76,18 +76,20 @@ body {
   margin-top: 20px;
 }
 
-.info-group {
+.info-group-ep {
   display: flex;
   flex-direction: column;
 }
 
-.info-group label {
+.info-group-ep label {
   margin-bottom: 5px;
   color: #00cfff;
 }
 
-.info-group input {
-  width: 300px;
+.info-group-ep input {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #444;
@@ -96,7 +98,7 @@ body {
   outline: none;
 }
 
-.info-group input::placeholder {
+.info-group-ep input::placeholder {
   color: #888;
 }
 
