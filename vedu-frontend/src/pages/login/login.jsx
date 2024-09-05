@@ -15,7 +15,7 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await requestApi({
         includeToken: false,
@@ -25,30 +25,25 @@ function Login() {
           email: email,
           password: password,
         },
-        headers:{
+        headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
         },
         navigationFunction: navigate,
       });
-
+  
       localStorage.setItem("token", response.access_token);
-      if(response){
-         const userData = await requestApi({
-          route: "/api/user",
-          requestMethod: RequestMethods.GET,
-          navigationFunction: navigate,
-        });
-
-        console.log(userData)
-        dispatch(setUser(userData));
+  
+      if (response && response.user) {
+        dispatch(setUser(response.user));
       }
-
+  
       navigate("/home");
     } catch (err) {
       setError(err.message);
     }
   };
+  
 
   const handleRegister = () => {
     navigate("/register");
