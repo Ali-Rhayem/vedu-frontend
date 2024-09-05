@@ -5,6 +5,8 @@ import Navbar from "../../components/navbar/navbar";
 import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
 import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addAssignment } from "../../redux/assignmentsSlice/assignmentsSlice";
 
 function AddAssignment() {
   const [title, setTitle] = useState("");
@@ -16,6 +18,7 @@ function AddAssignment() {
   const [topicId, setTopicId] = useState("");
   const { classId } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchTopics = async () => {
@@ -59,8 +62,6 @@ function AddAssignment() {
         grade: grade,
       };
 
-      console.log("assignent data",assignmentData);
-
       const assignmentResponse = await requestApi({
         route: "/api/assignments",
         requestMethod: RequestMethods.POST,
@@ -69,6 +70,14 @@ function AddAssignment() {
       });
 
       const assignmentId = assignmentResponse.assignment.id;
+
+      dispatch(
+        addAssignment({
+          classId,
+          topicId,
+          assignment: assignmentResponse.assignment,
+        })
+      );
 
       if (files.length > 0) {
         const formData = new FormData();
@@ -90,7 +99,6 @@ function AddAssignment() {
       }
 
       navigate(`/class/${classId}/assignments`);
-
     } catch (error) {
       console.error("Error adding assignment:", error);
     }
@@ -161,7 +169,11 @@ function AddAssignment() {
                 </div>
 
                 <div className="form-actions">
-                  <button type="button" className="cancel-button" onClick={() => navigate(-1)}>
+                  <button
+                    type="button"
+                    className="cancel-button"
+                    onClick={() => navigate(-1)}
+                  >
                     Cancel
                   </button>
                   <button type="submit" className="add-button">
