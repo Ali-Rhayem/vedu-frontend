@@ -33,7 +33,7 @@ export const requestApi = async ({
         return data;
     } catch (error) {
         if (error.response.status === 401) {
-            localStorage.clear();
+            // localStorage.clear();
 
             if (navigationFunction) {
                 navigationFunction("/login");
