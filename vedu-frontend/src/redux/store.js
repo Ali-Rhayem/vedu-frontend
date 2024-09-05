@@ -15,29 +15,34 @@ const encryptor = encryptTransform({
   },
 });
 
-// Persist configuration for user slice with encryption
 const userPersistConfig = {
   key: 'user',
   storage,
   transforms: [encryptor],
 };
 
-// Persist configuration for courses slice
 const coursePersistConfig = {
   key: 'courses',
   storage,
   transforms: [encryptor],
 };
 
+const assignmentPersistConfig = {
+  key: 'assignments',
+  storage,
+  transforms: [encryptor],
+};
+
 const persistedUserReducer = persistReducer(userPersistConfig, userReducer);
 const persistedCourseReducer = persistReducer(coursePersistConfig, coursesReducer);
+const persistedAssignmentReducer = persistReducer(assignmentPersistConfig, assignmentsReducer);
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     user: persistedUserReducer,
     courses: persistedCourseReducer,
-    assignments: assignmentsReducer,
+    assignments: persistedAssignmentReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
