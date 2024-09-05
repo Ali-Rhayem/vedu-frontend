@@ -15,6 +15,8 @@ const Sidebar = () => {
     navigate("/home");
   };
 
+  console.log(courses);
+
   return (
     <div className="sidebar">
       <h2>VEDU</h2>
@@ -39,4 +41,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default React.memo(Sidebar);
