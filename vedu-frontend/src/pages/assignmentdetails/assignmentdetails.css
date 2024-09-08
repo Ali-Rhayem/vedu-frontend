@@ -115,9 +115,8 @@ body {
   scrollbar-width: none;
 }
 
-.grade-section {
+.grade-section-ad {
   margin-top: 20px;
-  padding: 10px;
   background-color: #1f1f1f;
   border-radius: 10px;
   color: #00cfff;
