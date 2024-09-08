@@ -80,16 +80,26 @@ body {
 }
 
 .add-person-button {
-  padding: 10px 20px;
-  border-radius: 5px;
+  padding: 10px;
+  border-radius: 50%;
   border: 2px solid #00cfff;
   background-color: transparent;
   color: #00cfff;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  width: 40px;
+  height: 40px;
 }
 
 .add-person-button:hover {
   background-color: #00cfff;
   color: #141414;
+}
+
+.add-person-button i {
+  margin: 0;
 }
