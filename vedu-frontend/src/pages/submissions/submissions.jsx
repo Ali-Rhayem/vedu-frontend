@@ -1,87 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./submissions.css";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
 import Tabs from "../../components/Tabs/tabs";
-import { requestApi } from "../../utils/request";
-import { RequestMethods } from "../../utils/request_methods";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import { useSubmissions } from "./usesubmissions.js";
 
 function Submissions() {
-  const { assignmentId } = useParams();
-  const [submissions, setSubmissions] = useState([]);
-  const [assignment, setAssignment] = useState(null);
+  const { assignmentId, classId } = useParams();
+  const assignments = useSelector((state) => state.assignments[classId]) || {};
 
-  useEffect(() => {
-    const fetchAssignmentDetails = async () => {
-      try {
-        const data = await requestApi({
-          route: `/api/assignments/${assignmentId}`,
-          requestMethod: RequestMethods.GET,
-        });
-        setAssignment(data.assignment);
-      } catch (error) {
-        console.error("Error fetching assignment details:", error);
-      }
-    };
+  const currentAssignment = Object.keys(assignments)
+    .flatMap((topicName) => assignments[topicName].assignments)
+    .find((assignment) => assignment.id === parseInt(assignmentId));
 
-    const fetchSubmissions = async () => {
-      try {
-        const data = await requestApi({
-          route: `/api/assignments/${assignmentId}/submissions`,
-          requestMethod: RequestMethods.GET,
-        });
-        setSubmissions(data);
-      } catch (error) {
-        console.error("Error fetching submissions:", error);
-      }
-    };
+  const [updatedSubmissions, setUpdatedSubmissions] = useState(currentAssignment?.submissions || []);
+  const { handleDownload, handleGradeChange, handleSaveGrade } = useSubmissions();
 
-    fetchAssignmentDetails();
-    fetchSubmissions();
-  }, [assignmentId]);
-
-  const handleGradeChange = (e, submissionId) => {
-    const value = parseInt(e.target.value, 10);
-    if (assignment && value > assignment.max_grade) {
-      alert(`Grade cannot exceed ${assignment.max_grade}`);
-    } else if (value < 0) {
-      alert(`Grade cannot be less than 0`);
-    } else {
-      setSubmissions((prevSubmissions) =>
-        prevSubmissions.map((submission) =>
-          submission.id === submissionId
-            ? { ...submission, grade: value }
-            : submission
-        )
-      );
-    }
-  };
-
-  const handleSaveGrade = async (submissionId, grade) => {
-    if (grade === null || grade === undefined || grade === "") {
-      alert("Please enter a grade.");
-      return;
-    }
-
-    try {
-      const data = await requestApi({
-        route: `/api/assignments/${assignmentId}/submissions/${submissionId}/grade`,
-        requestMethod: RequestMethods.POST,
-        body: {
-          grade,
-        },
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      });
-      alert("Grade saved successfully!");
-    } catch (error) {
-      console.error("Error saving grade:", error);
-      alert("Failed to save grade. Please try again.");
-    }
-  };
+  console.log("Current Assignment from Redux:", currentAssignment);
 
   return (
     <div className="submissions-page">
@@ -91,43 +29,51 @@ function Submissions() {
         <div className="content">
           <Tabs />
           <div className="submissions-content">
-            <h3>
-              {assignment ? assignment.title : `Assignment ${assignmentId}`}
-            </h3>
-            {submissions.map((submission) => (
+            <h3>{currentAssignment ? currentAssignment.title : `Assignment ${assignmentId}`}</h3>
+            {updatedSubmissions.map((submission) => (
               <div className="submission-item" key={submission.id}>
                 <div className="submission-header">
                   <div className="student-info">
                     <div className="student-avatar"></div>
-                    <div className="student-name">
-                      {submission.student.name}
-                    </div>
+                    <div className="student-name">{submission.student.name}</div>
+                  </div>
+                  <div className="download-section">
+                    <a
+                      className="download-icon"
+                      onClick={() => handleDownload(submission.id, submission.file_url)}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="icon"
+                        width="24"
+                        height="24"
+                      >
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                      </svg>
+                    </a>
                   </div>
                 </div>
                 <div className="submission-body">
-                  <div className="download-section">
-                    <a
-                      href={`http://127.0.0.1:8000/storage/${submission.file_url}`}
-                      className="download-button"
-                      download
-                    >
-                      <i className="fas fa-download"></i> Download Submission
-                    </a>
-                  </div>
                   <div className="grade-section">
                     <label>Grade:</label>
                     <input
                       type="number"
                       placeholder="Enter grade"
                       value={submission.grade || ""}
-                      onChange={(e) => handleGradeChange(e, submission.id)}
+                      onChange={(e) => handleGradeChange(e, submission.id, currentAssignment, setUpdatedSubmissions)}
                     />
-                    <span>/{assignment ? assignment.grade : "100"}</span>
+                    <span>/{currentAssignment ? currentAssignment.grade : "100"}</span>
                     <button
                       className="save-grade-button"
-                      onClick={() =>
-                        handleSaveGrade(submission.id, submission.grade)
-                      }
+                      onClick={() => handleSaveGrade(submission.id, submission.grade, assignmentId, classId)}
                     >
                       Save Grade
                     </button>
