@@ -2,9 +2,9 @@
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,19 +12,20 @@
 }
 
 .addperson-content {
-  background-color: #1a1a1a;
-  padding: 20px;
-  border-radius: 15px;
-  color: #00cfff;
-  width: 350px;
+  background-color: #1f1f1f;
+  padding: 30px; 
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px; 
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); 
   text-align: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .addperson-content h3 {
+  color: #00cfff;
   margin-bottom: 20px;
   font-size: 1.5rem;
-  color: #00cfff;
+  text-align: center; 
 }
 
 .addperson-content label {
@@ -35,47 +36,72 @@
 }
 
 .addperson-content input {
-  width: 90%;
-  padding: 12px;
-  margin-bottom: 20px;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
   border-radius: 5px;
-  border: 1px solid #555;
+  border: 1px solid #444;
   background-color: #333;
   color: #ddd;
   font-size: 1rem;
+  outline: none;
 }
 
 .button-container {
-  width: 97%;
   display: flex;
   justify-content: space-between;
+  gap: 10px; 
+  margin-top: 20px;
 }
 
 .action-button,
 .close-button {
-  padding: 10px 20px;
+  flex: 1; 
+  padding: 10px;
   border-radius: 5px;
-  border: none;
-  cursor: pointer;
+  border: 2px solid #00cfff;
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.3s, color 0.3s;
-}
-
-.close-button {
-  background-color: #555;
-  color: #ddd;
+  text-align: center;
 }
 
 .action-button {
+  background-color: transparent;
+  color: #00cfff;
+}
+
+.close-button {
+  background-color: #444; 
+  border-color: #888;
+  color: #ddd;
+}
+
+.action-button:hover {
   background-color: #00cfff;
   color: #141414;
 }
 
-.action-button:hover {
-  background-color: #009fe3;
+.close-button:hover {
+  background-color: #888;
+  color: #141414;
 }
 
-.close-button:hover {
-  background-color: #777;
+.error-message-addpersonmodal {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .addperson-content {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .action-button,
+  .close-button {
+    padding: 8px;
+  }
 }
