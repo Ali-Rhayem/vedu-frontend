@@ -15,8 +15,9 @@
   background-color: #1f1f1f;
   padding: 30px;
   border-radius: 10px;
-  width: 400px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); 
 }
 
 .modal-content h3 {
@@ -29,11 +30,12 @@
   display: flex;
   justify-content: center;
   margin-top: 20px;
-  gap: 40px;
+  gap: 10px;
 }
 
 .modal-button {
-  padding: 10px 20px;
+  flex: 1; 
+  padding: 10px;
   border-radius: 5px;
   border: 2px solid #00cfff;
   background-color: transparent;
@@ -58,20 +60,31 @@
 }
 
 .topic {
-  width: 90%;
+  width: 100%; 
   padding: 10px;
   margin-bottom: 20px;
-  /* border-radius: 5px; */
+  border-radius: 5px; 
   background-color: #333;
   color: #fff;
 }
 
 .input-topic input {
-  width: 90%;
+  width: 95%; 
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #444;
   background-color: #333;
   color: #ddd;
   outline: none;
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    width: 90%; 
+    padding: 20px;
+  }
+
+  .modal-button {
+    padding: 8px;
+  }
 }
