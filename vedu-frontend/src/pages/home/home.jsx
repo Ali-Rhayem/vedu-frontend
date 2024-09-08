@@ -47,6 +47,13 @@ function Home() {
     }
   };
 
+
+  useEffect(() => {
+    if (joinError) {
+      setJoinError(null);
+    }
+  },[classCode]);
+  
   useEffect(() => {
     fetchCourses();
   }, [dispatch, navigate]);
@@ -87,14 +94,19 @@ function Home() {
           { ...response.course, is_student_course: true },
         ];
         dispatch(setCourses(updatedCourses));
-        
+
         await fetchCourses();
 
         closeJoinModal();
         setClassCode("");
       }
     } catch (err) {
-      setJoinError("Failed to join class: " + err.message);
+      if (err.status === 409) {
+        setJoinError(err.response.data.message);
+      } else {
+        console.error("Failed to join class:", err);
+        setJoinError("Failed to join class. Please try again.");
+      }
     }
   };
 
@@ -123,7 +135,7 @@ function Home() {
           ...courses,
           { ...response.course, is_instructor_course: true },
         ];
-        dispatch(setCourses(updatedCourses)); 
+        dispatch(setCourses(updatedCourses));
 
         await requestApi({
           route: "api/course-instructor",
@@ -171,6 +183,7 @@ function Home() {
             isOpen={isJoinModalOpen}
             onClose={closeJoinModal}
             onSubmit={handleJoinClass}
+            error={joinError}
           >
             <h3>Join class</h3>
             <input
@@ -178,9 +191,8 @@ function Home() {
               value={classCode}
               onChange={(e) => setClassCode(e.target.value)}
               placeholder="Enter class code"
-              className="input-topic"
+              className="input-topic-joinclass"
             />
-            {joinError && <p className="error-message">{joinError}</p>}
           </JoinClass>
           <CreateClass
             isOpen={isCreateModalOpen}
