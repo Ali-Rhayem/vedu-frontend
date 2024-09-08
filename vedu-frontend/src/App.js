@@ -32,13 +32,13 @@ function App() {
         <Route path="/edit-personal-info" element={<ProtectedRoute><EditPersonalInfo /></ProtectedRoute>} />
         <Route path="/edit-address" element={<ProtectedRoute><EditAddress /></ProtectedRoute>} />
 
-        <Route path="/class/:classId/add-assignment" element={<ProtectedInstructorRoute><AddAssignment /></ProtectedInstructorRoute>} />
+        <Route path="/class/:classId/add-assignment" element={<AddAssignment />} />
 
         <Route path="/class/:classId/assignments" element={<ProtectedRoute><Assignments /></ProtectedRoute>} />
         <Route path="/class/:classId/assignments/:assignmentId" element={<ProtectedRoute><AssignmentDetails /></ProtectedRoute>} />
         <Route path="/class/:classId/people" element={<ProtectedRoute><ClassPeople /></ProtectedRoute>} />
 
-        <Route path="/class/:classId/assignments/:assignmentId/submissions" element={<ProtectedInstructorRoute><Submissions /></ProtectedInstructorRoute>} />
+        <Route path="/class/:classId/assignments/:assignmentId/submissions" element={<Submissions />} />
         <Route path="/class/:classId/chats" element= {<ProtectedRoute><Chats /></ProtectedRoute>} />
 
         <Route path="/class/:classId/chats/:chatId" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
