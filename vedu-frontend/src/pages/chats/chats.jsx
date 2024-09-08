@@ -6,63 +6,57 @@ import Tabs from "../../components/Tabs/tabs";
 import { useDispatch, useSelector } from "react-redux";
 import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
-import { setUser } from "../../redux/userSlice/userSlice";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  setClassPeopleLoading,
+  setClassPeopleSuccess,
+  setClassPeopleError,
+} from "../../redux/classPeopleSlice";
 
 function Chats() {
-  const userData = useSelector((state) => state.user.data);
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState([]);
   const { classId } = useParams();
   const navigate = useNavigate();
+  const userData = useSelector((state) => state.user.data);
+  const { instructors, students, error, loading } = useSelector(
+    (state) => state.classPeople
+  );
 
   useEffect(() => {
-    if (!userData) {
-      const fetchUserData = async () => {
+    if (!instructors[classId] || !students[classId]) {
+      const fetchClassPeople = async () => {
         try {
-          const data = await requestApi({
-            route: "/api/user",
+          dispatch(setClassPeopleLoading());
+
+          const instructorsData = await requestApi({
+            route: `/api/course-instructor/course/${classId}/instructors`,
             requestMethod: RequestMethods.GET,
           });
 
-          dispatch(setUser(data));
-          setLoading(false);
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-          setLoading(false);
+          const studentsData = await requestApi({
+            route: `/api/course-student/course/${classId}/students`,
+            requestMethod: RequestMethods.GET,
+          });
+
+          dispatch(
+            setClassPeopleSuccess({
+              classId,
+              instructors: instructorsData.instructors,
+              students: studentsData.students, 
+            })
+          );
+        } catch (err) {
+          dispatch(setClassPeopleError("Failed to fetch class people"));
         }
       };
 
-      fetchUserData();
-    } else {
-      setLoading(false);
-    }
-  }, [userData, dispatch]);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await requestApi({
-          route: `/api/course/${classId}/users`,
-          requestMethod: RequestMethods.GET,
-        });
-
-        setUsers(response.users);
-      } catch (error) {
-        console.error("Error fetching users:", error);
+      if (userData) {
+        fetchClassPeople();
       }
-    };
-
-    fetchUsers();
-  }, [classId]);
+    }
+  }, [classId, dispatch, userData, instructors, students]);
 
   const startChat = async (receiverId) => {
-    console.log("receiverId:", receiverId);
-    console.log("userData.id:", userData.id);
-    console.log("courseId:", classId);
-
     try {
       const existingChatResponse = await requestApi({
         route: `/api/chats/check-existing`,
@@ -76,8 +70,6 @@ function Chats() {
           "Content-Type": "application/json",
         },
       });
-
-      console.log(existingChatResponse);
 
       let chatId = existingChatResponse.chat_id;
 
@@ -95,19 +87,35 @@ function Chats() {
           },
         });
 
+        if (!newChatResponse || !newChatResponse.id) {
+          throw new Error("Failed to create a new chat.");
+        }
+
         chatId = newChatResponse.id;
       }
 
-      // Navigate to the specific chat page with the chatId
       navigate(`/class/${classId}/chats/${chatId}`);
     } catch (error) {
-      console.error("Error starting chat:", error);
+      if (error.response && error.response.status === 500) {
+        console.error("Server error when starting chat:", error.response.data);
+      } else {
+        console.error("Error starting chat:", error.message);
+      }
     }
   };
 
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  const users = [
+    ...(instructors[classId]?.map((item) => item.instructor) || []),
+    ...(students[classId]?.map((item) => item.student) || []),
+  ];
 
   return (
     <div className="chats-page">
