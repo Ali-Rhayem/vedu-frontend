@@ -33,6 +33,11 @@ body {
   padding: 20px;
   border-radius: 10px;
   margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 150px;
 }
 
 .submission-header {
@@ -60,47 +65,61 @@ body {
 }
 
 .submission-body {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
+  padding-right: 50px; 
 }
 
 .download-section {
-  flex: 1;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  margin: 20px;
 }
 
-.download-button {
-  padding: 10px 20px;
-  border-radius: 5px;
-  border: 2px solid #00cfff;
+.download-icon {
+  width: 40px;
+  height: 40px;
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%; 
   background-color: transparent;
   color: #00cfff;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
-  display: flex;
-  align-items: center;
 }
 
-.download-button i {
-  margin-right: 10px;
-}
-
-.download-button:hover {
+.download-icon:hover {
   background-color: #00cfff;
   color: #141414;
 }
 
+.download-icon svg {
+  width: 24px;
+  height: 24px;
+  color: #00cfff;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.download-icon:hover svg {
+  color: #141414;
+}
 .grade-section {
-  flex: 2;
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  gap: 10px; 
   color: #00cfff;
 }
 
 .grade-section label {
-  margin-right: 10px;
+  margin-bottom: 5px;
 }
 
 .grade-section input {
@@ -109,7 +128,7 @@ body {
   border: none;
   background-color: #444;
   color: #ddd;
-  width: 80px;
+  width: 60px; 
   margin-right: 5px;
   text-align: center;
   font-size: 16px;
@@ -117,11 +136,10 @@ body {
 
 .grade-section span {
   font-size: 16px;
-  margin-right: 10px;
 }
 
 .save-grade-button {
-  padding: 10px 20px;
+  padding: 5px 10px; 
   border-radius: 5px;
   border: 2px solid #00cfff;
   background-color: transparent;
