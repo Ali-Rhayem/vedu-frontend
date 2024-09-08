@@ -18,8 +18,6 @@ function CreateClass({ isOpen, onClose, onSubmit }) {
       name: className,
       description: classDescription,
     });
-    setClassName("");
-    setClassDescription("");
   };
 
   useEffect(() => {
