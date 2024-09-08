@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useDebugValue } from "react";
 import "./classpeople.css";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
@@ -8,19 +8,41 @@ import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/userSlice/userSlice";
-import AddPersonModal from "../addpersonmodal/addpersonmodal"; 
+import AddPersonModal from "../addpersonmodal/addpersonmodal";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
+import {
+  setClassPeopleLoading,
+  setClassPeopleSuccess,
+  setClassPeopleError,
+  addInstructor,
+  addStudent,
+} from "../../redux/classPeopleSlice";
 
 function ClassPeople() {
   const { classId } = useParams();
-  const [instructors, setInstructors] = useState([]);
-  const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
-  const [modalType, setModalType] = useState(null); 
+  const [modalType, setModalType] = useState(null);
+  const courses = useSelector((state) => state.courses.courses) || [];
+  const [modalError, setModalError] = useState("");
+  const current_class = courses.find(
+    (course) => course.id === parseInt(classId)
+  );
 
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user.data);
+  const { instructors, students, loading, error } = useSelector((state) => ({
+    instructors: state.classPeople.instructors[classId] || [],
+    students: state.classPeople.students[classId] || [],
+    loading: state.classPeople.loading,
+    error: state.classPeople.error,
+  }));
+
+  useEffect(() => {
+    if (current_class && userData && current_class.owner_id === userData.id) {
+      setIsOwner(true);
+    }
+  }, [current_class, userData]);
 
   useEffect(() => {
     if (!userData) {
@@ -30,52 +52,54 @@ function ClassPeople() {
             route: "/api/user",
             requestMethod: RequestMethods.GET,
           });
-
           dispatch(setUser(data));
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
       };
-
       fetchUserData();
     }
   }, [userData, dispatch]);
 
   useEffect(() => {
-    const fetchClassPeople = async () => {
-      try {
-        const courseData = await requestApi({
-          route: `/api/courses/${classId}`,
-          requestMethod: RequestMethods.GET,
-        });
+    if (!instructors.length || !students.length) {
+      const fetchClassPeople = async () => {
+        try {
+          dispatch(setClassPeopleLoading());
+          const courseData = await requestApi({
+            route: `/api/courses/${classId}`,
+            requestMethod: RequestMethods.GET,
+          });
 
-        if (userData && userData.id === courseData.course.owner_id) {
-          setIsOwner(true);
+          if (userData && userData.id === courseData.course.owner_id) {
+            setIsOwner(true);
+          }
+
+          const instructorsData = await requestApi({
+            route: `/api/course-instructor/course/${classId}/instructors`,
+            requestMethod: RequestMethods.GET,
+          });
+
+          const studentsData = await requestApi({
+            route: `/api/course-student/course/${classId}/students`,
+            requestMethod: RequestMethods.GET,
+          });
+
+          dispatch(
+            setClassPeopleSuccess({
+              classId,
+              instructors: instructorsData,
+              students: studentsData,
+            })
+          );
+        } catch (err) {
+          dispatch(setClassPeopleError("Failed to fetch class people"));
         }
+      };
 
-        const instructorsData = await requestApi({
-          route: `/api/course-instructor/course/${classId}/instructors`,
-          requestMethod: RequestMethods.GET,
-        });
-
-        const studentsData = await requestApi({
-          route: `/api/course-student/course/${classId}/students`,
-          requestMethod: RequestMethods.GET,
-        });
-
-        setInstructors(instructorsData);
-        setStudents(studentsData);
-        setLoading(false);
-      } catch (err) {
-        setError("Failed to fetch class people");
-        setLoading(false);
-      }
-    };
-
-    if (userData) {
       fetchClassPeople();
     }
-  }, [classId, userData]);
+  }, [classId, userData, dispatch, instructors.length, students.length]);
 
   const handleAddPerson = async (email) => {
     try {
@@ -84,14 +108,14 @@ function ClassPeople() {
         requestMethod: RequestMethods.POST,
         body: { email },
       });
-  
+
       if (!userIdResponse || !userIdResponse.user_id) {
-        console.error("User not found");
+        setModalError("User not found");
         return;
       }
-  
+
       const userId = userIdResponse.user_id;
-  
+
       const route =
         modalType === "Instructor"
           ? "/api/course-instructor"
@@ -100,31 +124,59 @@ function ClassPeople() {
         course_id: classId,
         [`${modalType.toLowerCase()}_id`]: userId,
       };
-  
+
       await requestApi({
         route,
         requestMethod: RequestMethods.POST,
         body,
       });
-  
+
       const instructorsData = await requestApi({
         route: `/api/course-instructor/course/${classId}/instructors`,
         requestMethod: RequestMethods.GET,
       });
-  
+
       const studentsData = await requestApi({
         route: `/api/course-student/course/${classId}/students`,
         requestMethod: RequestMethods.GET,
       });
-  
-      setInstructors(instructorsData);
-      setStudents(studentsData);
+
+      if (modalType === "Instructor") {
+        const newInstructor = instructorsData.find(
+          (instructor) => instructor.instructor_id === userId
+        );
+        if (newInstructor) {
+          dispatch(
+            addInstructor({
+              classId,
+              instructor: newInstructor,
+            })
+          );
+        }
+      } else {
+        const newStudent = studentsData.find(
+          (student) => student.student_id === userId
+        );
+        if (newStudent) {
+          dispatch(
+            addStudent({
+              classId,
+              student: newStudent,
+            })
+          );
+        }
+      }
+
+      setModalError("");
       setModalType(null);
     } catch (err) {
-      console.error("Failed to add person:", err);
+      if (err.status === 409) {
+        setModalError(err.response.data.message);
+      } else {
+        setModalError(err.response.data.error);
+      }
     }
   };
-  
 
   if (loading) {
     return <p>Loading...</p>;
@@ -149,30 +201,42 @@ function ClassPeople() {
                   className="add-person-button"
                   onClick={() => setModalType("Instructor")}
                 >
-                  Add Instructor
+                  <i className="fas fa-user-plus"></i>
                 </button>
               )}
             </div>
             <div className="people-section teachers">
               {instructors.length > 0 ? (
-                instructors.map((instructor) => (
-                  <div className="person-item" key={instructor.id}>
-                    <div className="person-icon">
-                      <img
-                        src={`http://127.0.0.1:8000/${instructor.instructor.profile_image}`}
-                        alt={`${instructor.instructor.name}'s profile`}
-                        className="person-image"
-                      />
+                instructors.map((instructor) => {
+                  const instructorData = instructor?.instructor;
+                  if (!instructorData) {
+                    return null;
+                  }
+
+                  return (
+                    <div className="person-item" key={instructor.id}>
+                      <div className="person-icon">
+                        <img
+                          src={
+                            instructorData.profile_image
+                              ? `http://127.0.0.1:8000/${instructorData.profile_image}`
+                              : "/path-to-default-image/default-profile.png" 
+                          }
+                          alt={`${instructorData.name}'s profile`}
+                          className="person-image"
+                        />
+                      </div>
+                      <div className="person-details">
+                        <span>{instructorData.name}</span>
+                      </div>
                     </div>
-                    <div className="person-details">
-                      <span>{instructor.instructor.name}</span>
-                    </div>
-                  </div>
-                ))
+                  );
+                })
               ) : (
                 <p>No instructors found</p>
               )}
             </div>
+
             <div className="students-div">
               <h3>Students</h3>
               {isOwner && (
@@ -180,7 +244,7 @@ function ClassPeople() {
                   className="add-person-button"
                   onClick={() => setModalType("Student")}
                 >
-                  Add Student
+                  <i className="fas fa-user-plus"></i>{" "}
                 </button>
               )}
             </div>
@@ -210,8 +274,13 @@ function ClassPeople() {
       {modalType && (
         <AddPersonModal
           type={modalType}
-          onClose={() => setModalType(null)}
+          onClose={() => {
+            setModalType(null);
+            setModalError("");
+          }}
           onSubmit={handleAddPerson}
+          error={modalError}
+          setModalError={setModalError} 
         />
       )}
     </div>
