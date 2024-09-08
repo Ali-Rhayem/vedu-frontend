@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "./login.css";
@@ -12,6 +12,12 @@ function Login() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (error) {
+      setError(null);
+    }
+  }, [email, password]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -40,7 +46,11 @@ function Login() {
   
       navigate("/home");
     } catch (err) {
-      setError(err.message);
+      if (err.status === 401) {
+        setError("Incorrect email or password");
+      } else {
+        setError("An error occurred, please try again");
+      }
     }
   };
   
