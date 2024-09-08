@@ -22,7 +22,7 @@ function Profile() {
             requestMethod: RequestMethods.GET,
             navigationFunction: navigate,
           });
-          
+
           dispatch(setUser(data));
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -72,7 +72,11 @@ function Profile() {
               <div className="profile-info">
                 <div className="profile-image">
                   <img
-                    src={`http://127.0.0.1:8000/${userData.profile_image}`}
+                    src={
+                      userData?.profile_image
+                        ? `http://127.0.0.1:8000/${userData.profile_image}`
+                        : "/assets/images/defaultpfp.jpg"
+                    }
                     alt="Profile"
                   />
                 </div>
@@ -95,7 +99,7 @@ function Profile() {
               </div>
               <div className="profile-personal-info">
                 <div className="profile-info-group profile-flex-row">
-                  <p>Email: {userData.email}</p>
+                  <p className="profile-email">Email: {userData.email}</p>
                   <p className="profile-phone">
                     Phone Number: {userData.phone_number}
                   </p>
@@ -114,12 +118,12 @@ function Profile() {
                 </button>
               </div>
               <div className="profile-address-info">
-                <div className="profile-info-group profile-flex-row">
+                <div className="profile-info-group profile-address-cc">
                   <p>Country: {userData.country}</p>
                   <p className="profile-city">City: {userData.city}</p>
                 </div>
-                <div className="profile-info-group">
-                  <p>Code: {userData.code}</p>
+                <div className="profile-info-group profile-address-code">
+                  <p className="profile-code">Code: {userData.code}</p>
                 </div>
               </div>
             </div>
