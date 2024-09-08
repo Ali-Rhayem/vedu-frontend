@@ -6,17 +6,24 @@ import authReducer from './authSlice/authSlice';
 import userReducer from './userSlice/userSlice';
 import coursesReducer from './coursesSlice/coursesSlice';
 import assignmentsReducer from './assignmentsSlice/assignmentsSlice';
+import classPeopleReducer from './classPeopleSlice';
+
 
 const encryptor = encryptTransform({
   secretKey: process.env.REACT_APP_SECRET_KEY,
   onError: function(error) {
-    // Handle errors
     console.error('Encryption error:', error);
   },
 });
 
 const userPersistConfig = {
   key: 'user',
+  storage,
+  transforms: [encryptor],
+};
+
+const peoplePersistConfig = {
+  key: 'classPeople',
   storage,
   transforms: [encryptor],
 };
@@ -36,6 +43,7 @@ const assignmentPersistConfig = {
 const persistedUserReducer = persistReducer(userPersistConfig, userReducer);
 const persistedCourseReducer = persistReducer(coursePersistConfig, coursesReducer);
 const persistedAssignmentReducer = persistReducer(assignmentPersistConfig, assignmentsReducer);
+const persistedClassPeopleReducer = persistReducer(peoplePersistConfig, classPeopleReducer);
 
 const store = configureStore({
   reducer: {
@@ -43,6 +51,7 @@ const store = configureStore({
     user: persistedUserReducer,
     courses: persistedCourseReducer,
     assignments: persistedAssignmentReducer,
+    classPeople: persistedClassPeopleReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
