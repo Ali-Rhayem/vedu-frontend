@@ -15,7 +15,8 @@
   background-color: #1f1f1f;
   padding: 30px;
   border-radius: 10px;
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
@@ -38,17 +39,20 @@
 .createclass-actions {
   display: flex;
   justify-content: space-between;
+  gap: 10px; /* Added gap for spacing between buttons */
   margin-top: 20px;
 }
 
 .createclass-button {
-  padding: 10px 20px;
+  flex: 1; /* Ensures both buttons have the same size */
+  padding: 10px;
   border-radius: 5px;
   border: 2px solid #00cfff;
   background-color: transparent;
   color: #00cfff;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
+  text-align: center;
 }
 
 .createclass-button:hover {
@@ -64,4 +68,20 @@
 .cancel:hover {
   background-color: #888;
   color: #141414;
+}
+
+/* Responsive styling for smaller screens */
+@media (max-width: 600px) {
+  .createclass-content {
+    width: 90%; /* Make the modal take up more space on smaller screens */
+    padding: 20px;
+  }
+
+  .createclass-input {
+    padding: 8px;
+  }
+
+  .createclass-button {
+    padding: 8px; /* Adjust padding for smaller buttons */
+  }
 }
