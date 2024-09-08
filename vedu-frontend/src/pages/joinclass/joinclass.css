@@ -15,7 +15,8 @@
   background-color: #1f1f1f;
   padding: 30px;
   border-radius: 10px;
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
@@ -27,19 +28,21 @@
 
 .joinclass-actions {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   margin-top: 20px;
-  gap: 40px;
+  gap: 10px;
 }
 
 .joinclass-button {
-  padding: 10px 20px;
+  flex: 1; /* Makes both buttons equal width */
+  padding: 10px;
   border-radius: 5px;
   border: 2px solid #00cfff;
   background-color: transparent;
   color: #00cfff;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
+  text-align: center;
 }
 
 .joinclass-button:hover {
@@ -57,8 +60,8 @@
   color: #141414;
 }
 
-.input-topic {
-  width: 100%;
+.input-topic-joinclass {
+  width: 95%;
   padding: 10px;
   margin-bottom: 20px;
   border-radius: 5px;
@@ -72,4 +75,15 @@
   color: red;
   margin-top: 10px;
   text-align: center;
+}
+
+@media (max-width: 600px) {
+  .joinclass-content {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .joinclass-button {
+    padding: 8px;
+  }
 }
