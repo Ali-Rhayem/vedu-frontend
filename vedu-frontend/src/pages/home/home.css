@@ -55,6 +55,8 @@ body {
   border-radius: 10px;
   border-left: 4px solid #00cfff;
   color: #fff;
+  display: flex; 
+  flex-direction: column;
 }
 
 .class-card h4 {
@@ -76,6 +78,7 @@ body {
   background-color: #141414;
   color: #00cfff;
   cursor: pointer;
+  align-self: flex-end; 
 }
 
 .details-button:hover {
