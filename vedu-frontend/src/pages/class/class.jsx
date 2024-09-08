@@ -6,16 +6,12 @@ import Sidebar from "../../components/sidebar/sidebar";
 import Tabs from "../../components/Tabs/tabs";
 import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
-import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../redux/userSlice/userSlice";
+import { useSelector } from "react-redux";
 
 function Class() {
   const courses = useSelector((state) => state.courses.courses) || [];
   const { classId } = useParams(); 
   const [classDetails, setClassDetails] = useState(null);
-  const [isInstructor, setIsInstructor] = useState(false);
-  const dispatch = useDispatch();
-  const userData = useSelector((state) => state.user.data);
   const navigate = useNavigate();
 
   const foundClass = courses.find((course) => course.id === parseInt(classId));
@@ -42,46 +38,6 @@ function Class() {
       fetchClassDetails();
     }
   }, [classId, courses, navigate]);
-
-  // useEffect(() => {
-  //   if (!userData) {
-  //     const fetchUserData = async () => {
-  //       try {
-  //         const data = await requestApi({
-  //           route: "/api/user",
-  //           requestMethod: RequestMethods.GET,
-  //           navigationFunction: navigate,
-  //         });
-          
-  //         dispatch(setUser(data));
-  //       } catch (error) {
-  //         console.error("Error fetching user data:", error);
-  //       }
-  //     };
-
-  //     fetchUserData();
-  //   }
-  // }, [userData, dispatch]);
-
-  useEffect(() => {
-    const checkInstructorStatus = async () => {
-      try {
-        const result = await requestApi({
-          route: `/api/courses/${userData.id}/is-instructor/${classId}`,
-          requestMethod: RequestMethods.GET,
-          navigationFunction: navigate,
-        });
-
-        setIsInstructor(result.is_instructor);
-      } catch (error) {
-        console.error("Error checking instructor status:", error);
-      }
-    };
-
-    if (classDetails) {
-      checkInstructorStatus();
-    }
-  }, [classId, userData, classDetails, navigate]);
 
   if (!classDetails) {
     return <div>Loading...</div>;
