@@ -79,15 +79,30 @@ body {
 .profile-flex-row {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: space-between; 
 }
 
-.profile-personal-info {
+
+.profile-email,
+.profile-phone {
+  flex: 1;
+  text-align: left;
+  margin: 0;
+}
+
+.profile-email {
+  width: 50%;
+}
+
+.profile-phone {
+  width: 50%;
+}
+
+/* .profile-personal-info {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
-}
+} */
 
 .profile-row {
   display: flex;
@@ -95,12 +110,25 @@ body {
   gap: 20px;
 }
 
-.profile-personal-info,
 .profile-address-info {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.profile-address-cc,
+.profile-address-code{
+  flex: 1;
+  text-align: left;
+  margin: 0;
+}
+
+.profile-address-cc {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+
 
 .profile-image img {
   width: 100px;
@@ -113,23 +141,7 @@ body {
   margin-top: 15px;
 }
 
-.profile-info-group {
-  display: flex;
-  gap: 20px;
-}
-
 .profile-info-group p {
   margin: 0;
 }
 
-.profile-info-group .profile-phone {
-  flex: 1;
-  text-align: left;
-  margin-left: 290px;
-}
-
-.profile-info-group .profile-city {
-  flex: 1;
-  text-align: left;
-  margin-left: 340px;
-}
