@@ -9,17 +9,18 @@ import { useNavigate } from "react-router-dom";
 export const useAssignments = (classId) => {
   const dispatch = useDispatch();
   const assignments = useSelector((state) => state.assignments[classId]) || {};
-  console.log("Assignments:", assignments);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!assignments || Object.keys(assignments).length === 0); 
   const [newTopicName, setNewTopicName] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [fetchCompleted, setFetchCompleted] = useState(!!Object.keys(assignments).length);
   const navigate = useNavigate();
+  
   const course = useSelector((state) =>
     state.courses.courses.find((course) => course.id === parseInt(classId))
   );
 
   useEffect(() => {
-    if (!assignments || Object.keys(assignments).length === 0) {
+    if (!fetchCompleted && (!assignments || Object.keys(assignments).length === 0)) {
       const fetchAssignmentsByTopic = async () => {
         try {
           setLoading(true);
@@ -38,14 +39,13 @@ export const useAssignments = (classId) => {
           console.error("Error fetching assignments:", error);
         } finally {
           setLoading(false);
+          setFetchCompleted(true); // Set fetch as completed after first fetch
         }
       };
 
       fetchAssignmentsByTopic();
-    } else {
-      setLoading(false);
     }
-  }, [classId, dispatch, navigate, assignments]);
+  }, [classId, dispatch, navigate, fetchCompleted, assignments]);
 
   const handleViewDetails = (assignmentId) => {
     navigate(`/class/${classId}/assignments/${assignmentId}`);
@@ -79,10 +79,11 @@ export const useAssignments = (classId) => {
         navigationFunction: navigate,
       });
 
+      // Add the new topic with an empty assignment list
       dispatch(
         setAssignments({
           classId,
-          topics: { ...assignments, [response.topic.name]: [] },
+          topics: { ...assignments, [response.topic.name]: { id: response.topic.id, assignments: [] } },
         })
       );
 
