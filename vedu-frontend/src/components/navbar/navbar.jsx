@@ -7,6 +7,7 @@ import { clearUser, setUser } from "../../redux/userSlice/userSlice";
 import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
 import { clearAllAssignments } from "../../redux/assignmentsSlice/assignmentsSlice";
+import { clearAllClassPeople } from "../../redux/classPeopleSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -85,6 +86,7 @@ const Navbar = () => {
     dispatch(resetCourses());
     dispatch(clearUser());
     dispatch(clearAllAssignments());
+    dispatch(clearAllClassPeople());
     navigate("/login");
   };
 
