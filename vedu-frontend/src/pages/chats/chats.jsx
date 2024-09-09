@@ -42,7 +42,7 @@ function Chats() {
             setClassPeopleSuccess({
               classId,
               instructors: instructorsData.instructors,
-              students: studentsData.students, 
+              students: studentsData.students,
             })
           );
         } catch (err) {
@@ -56,7 +56,8 @@ function Chats() {
     }
   }, [classId, dispatch, userData, instructors, students]);
 
-  const startChat = async (receiverId) => {
+
+  const startChat = async (receiverId, receiverName) => {
     try {
       const existingChatResponse = await requestApi({
         route: `/api/chats/check-existing`,
@@ -94,7 +95,9 @@ function Chats() {
         chatId = newChatResponse.id;
       }
 
-      navigate(`/class/${classId}/chats/${chatId}`);
+      navigate(`/class/${classId}/chats/${chatId}`, {
+        state: { receiverName: receiverName },
+      });
     } catch (error) {
       if (error.response && error.response.status === 500) {
         console.error("Server error when starting chat:", error.response.data);
@@ -138,7 +141,7 @@ function Chats() {
                   return (
                     <li
                       key={`user-${user.id}`}
-                      onClick={() => startChat(user.id)}
+                      onClick={() => startChat(user.id, user.name)}
                     >
                       {user.name}
                     </li>
