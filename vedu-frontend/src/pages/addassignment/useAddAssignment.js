@@ -18,12 +18,15 @@ export const useAddAssignment = () => {
     const course = useSelector((state) =>
         state.courses.courses.find((course) => course.id === parseInt(classId))
     );
+    
     const assignments = useSelector((state) => state.assignments[classId]) || {};
 
     const topics = Object.keys(assignments).map((topicName) => {
         const topicData = assignments[topicName];
-        return { id: topicData.id, name: topicName };
+        return { id: topicData?.id || null, name: topicName };
     });
+
+    console.log("Topics:", topics);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
