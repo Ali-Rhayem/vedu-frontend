@@ -76,9 +76,9 @@ function EditPersonalInfo() {
 
   return (
     <div className="edit-profile-page">
-      <Sidebar />
+      <Navbar />
       <div className="Container">
-        <Navbar />
+        <Sidebar />
         <div className="content">
           <div className="profile-content">
             <h3>Edit Personal Information</h3>

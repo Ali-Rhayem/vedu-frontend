@@ -65,9 +65,9 @@ function EditAddress() {
   }
   return (
     <div className="edit-address-page">
-      <Sidebar />
+      <Navbar />
       <div className="Container">
-        <Navbar />
+        <Sidebar />
         <div className="content">
           <div className="address-content">
             <h3>Edit Address</h3>
