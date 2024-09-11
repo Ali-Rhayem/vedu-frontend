@@ -9,45 +9,48 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/userSlice/userSlice";
 
 function Editprofile() {
-  const userData = useSelector((state) => state.user.data); // Get user data from Redux
+  const userData = useSelector((state) => state.user.data); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [name, setName] = useState(userData?.name || ""); // Initialize with userData
-  const [profileImage, setProfileImage] = useState(userData?.profile_image ? `http://127.0.0.1:8000/${userData.profile_image}` : "");
+  const [name, setName] = useState(userData?.name || ""); 
+  const [profileImage, setProfileImage] = useState(
+    userData?.profile_image
+      ? `http://127.0.0.1:8000/${userData.profile_image}`
+      : ""
+  );
   const fileInputRef = useRef();
 
   useEffect(() => {
-    // We no longer need to fetch user data here because it’s already available in userData.
     if (!userData) {
-      navigate("/login"); // Redirect if no userData available
+      navigate("/login");
     }
   }, [userData, navigate]);
 
   async function handleSubmitProfile(event) {
     event.preventDefault();
-  
+
     const formData = new FormData();
     formData.append("name", name);
-  
+
     if (fileInputRef.current.files.length > 0) {
       formData.append("profile_image", fileInputRef.current.files[0]);
     }
-  
+
     try {
       const data = await requestApi({
         route: "/api/user/update-profile",
         requestMethod: RequestMethods.POST,
-        body: formData, 
+        body: formData,
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-  
+
       if (data.errors) {
         console.error(data.errors);
       } else {
         console.log("Profile updated successfully", data);
-        dispatch(setUser(data.user)); // Update userData in Redux with the new user data
+        dispatch(setUser(data.user));
 
         setProfileImage(`http://127.0.0.1:8000/${data.user.profile_image}`);
       }
@@ -57,18 +60,18 @@ function Editprofile() {
   }
 
   const handleFileInputClick = () => {
-    fileInputRef.current.click(); 
+    fileInputRef.current.click();
   };
 
   const handleCancel = () => {
     navigate("/profile");
-  }
+  };
 
   return (
     <div className="edit-personal-info-page">
-      <Sidebar />
+      <Navbar />
       <div className="ep-Container">
-        <Navbar />
+        <Sidebar />
         <div className="content">
           <div className="profile-content">
             <h3>Edit Profile</h3>
@@ -84,7 +87,7 @@ function Editprofile() {
                   <input
                     type="file"
                     ref={fileInputRef}
-                    style={{ display: "none" }} 
+                    style={{ display: "none" }}
                   />
                   <span
                     onClick={handleFileInputClick}
@@ -109,7 +112,11 @@ function Editprofile() {
                   </div>
                 </div>
                 <div className="form-actions">
-                  <button type="button" className="cancel-button" onClick={handleCancel}>
+                  <button
+                    type="button"
+                    className="cancel-button"
+                    onClick={handleCancel}
+                  >
                     Cancel
                   </button>
                   <button type="submit" className="confirm-button">
