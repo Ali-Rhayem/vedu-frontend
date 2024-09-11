@@ -56,7 +56,6 @@ function Chats() {
     }
   }, [classId, dispatch, userData, instructors, students]);
 
-
   const startChat = async (receiverId, receiverName) => {
     try {
       const existingChatResponse = await requestApi({
@@ -122,32 +121,34 @@ function Chats() {
 
   return (
     <div className="chats-page">
-      <Sidebar />
+      <Navbar />
       <div className="chats-container">
-        <Navbar />
-        <div className="tabs-chat">
-          <Tabs />
-        </div>
-        <div className="chat-content">
-          <div className="people-list">
-            <h3>People</h3>
-            <ul>
-              {Array.isArray(users) &&
-                users.map((user) => {
-                  if (user.id === userData.id) {
-                    return null;
-                  }
+        <Sidebar />
+        <div className="content">
+          <div className="tabs-chat">
+            <Tabs />
+          </div>
+          <div className="chat-content">
+            <div className="people-list">
+              <h3>People</h3>
+              <ul>
+                {Array.isArray(users) &&
+                  users.map((user) => {
+                    if (user.id === userData.id) {
+                      return null;
+                    }
 
-                  return (
-                    <li
-                      key={`user-${user.id}`}
-                      onClick={() => startChat(user.id, user.name)}
-                    >
-                      {user.name}
-                    </li>
-                  );
-                })}
-            </ul>
+                    return (
+                      <li
+                        key={`user-${user.id}`}
+                        onClick={() => startChat(user.id, user.name)}
+                      >
+                        {user.name}
+                      </li>
+                    );
+                  })}
+              </ul>
+            </div>
           </div>
         </div>
       </div>

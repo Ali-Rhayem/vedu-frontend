@@ -7,30 +7,7 @@ body {
 .chats-page {
   display: flex;
   height: 100vh;
-}
-
-.top-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #282828;
-  padding: 10px 20px;
-  color: #fff;
-  margin-bottom: 20px;
-}
-
-.search-bar input {
-  padding: 10px;
-  border-radius: 20px;
-  border: none;
-  background-color: #444;
-  color: #ddd;
-  width: 300px;
-}
-
-.user-profile {
-  text-align: right;
-  color: #00cfff;
+  flex-direction: column;
 }
 
 .chat-container {
@@ -68,15 +45,12 @@ body {
 
 
 .chats-container {
-  width: 90%;
   height: 100%;
   overflow-y: auto;
   scrollbar-width: none;
 }
 
-.tabs-chat {
-  margin-left: 20px;
-}
+
 
 .section-row {
   display: flex;
