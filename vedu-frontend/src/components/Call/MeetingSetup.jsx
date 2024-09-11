@@ -4,37 +4,19 @@ import {
   VideoPreview,
 } from "@stream-io/video-react-sdk";
 import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMicrophone,
+  faMicrophoneSlash,
+  faVideo,
+  faVideoSlash,
+} from "@fortawesome/free-solid-svg-icons";
+import "./MeetSetup/MeetingSetup.css";
 
 const MeetingSetup = ({ call, onSetupComplete }) => {
-  const [isMicCamtoggledOn, setIsMicCamtoggledOn] = useState(false);
-  const [isCallJoined, setIsCallJoined] = useState(false); 
-  const [isVideoEnabled, setIsVideoEnabled] = useState(true); 
-  const stopCameraCompletely = () => {
-    const videoTrack = call?.localMedia?.video?.getTrack();
-    if (videoTrack) {
-      console.log("Stopping video track completely");
-      videoTrack.stop(); 
-      setIsVideoEnabled(false);
-    } else {
-      console.log("No video track found");
-    }
-
-    const mediaStream = call?.localMedia?.getStream();
-    if (mediaStream) {
-      console.log("Releasing media stream...");
-      mediaStream.getTracks().forEach((track) => track.stop()); 
-    }
-  };
-
-  const startCamera = async () => {
-    try {
-      console.log("Starting camera");
-      await call?.camera.enable();
-      setIsVideoEnabled(true);
-    } catch (error) {
-      console.error("Error enabling camera:", error);
-    }
-  };
+  const [isMicOn, setIsMicOn] = useState(true);
+  const [isCamOn, setIsCamOn] = useState(true);
+  const [isCallJoined, setIsCallJoined] = useState(false);
 
   useEffect(() => {
     if (!call) {
@@ -43,21 +25,25 @@ const MeetingSetup = ({ call, onSetupComplete }) => {
     }
 
     const toggleMicCam = async () => {
-      if (isMicCamtoggledOn) {
-        console.log("Toggling mic/camera OFF");
+      if (!isCamOn) {
+        console.log("Camera OFF");
         await call.camera.disable();
-        await call.microphone.disable();
-        stopCameraCompletely();
       } else {
-        console.log("Toggling mic/camera ON");
+        console.log("Camera ON");
         await call.camera.enable();
+      }
+
+      if (!isMicOn) {
+        console.log("Microphone OFF");
+        await call.microphone.disable();
+      } else {
+        console.log("Microphone ON");
         await call.microphone.enable();
-        startCamera(); 
       }
     };
 
     toggleMicCam();
-  }, [isMicCamtoggledOn, call]);
+  }, [isMicOn, isCamOn, call]);
 
   const handleJoinMeeting = async () => {
     if (isCallJoined) {
@@ -73,8 +59,8 @@ const MeetingSetup = ({ call, onSetupComplete }) => {
     try {
       console.log("Joining the call...");
       await call.join();
-      setIsCallJoined(true); 
-      onSetupComplete(); 
+      setIsCallJoined(true);
+      onSetupComplete();
       console.log("Call joined successfully");
     } catch (error) {
       console.error("Error joining the call:", error);
@@ -83,28 +69,39 @@ const MeetingSetup = ({ call, onSetupComplete }) => {
 
   return (
     <div className="meeting-setup">
-      <h2>Meeting Setup</h2>
+      <StreamCall call={call}>
+        <div className="video-preview-container">
+          <VideoPreview className="video-preview" />
 
-      {isVideoEnabled && (
-        <StreamCall call={call}>
-          <VideoPreview />
-        </StreamCall>
-      )}
+          <div className="controls-overlay">
+            <button
+              className="control-button"
+              onClick={() => setIsMicOn(!isMicOn)}
+            >
+              <FontAwesomeIcon
+                icon={isMicOn ? faMicrophone : faMicrophoneSlash}
+                className="mic-icon"
+              />
+            </button>
+            <button
+              className="control-button"
+              onClick={() => setIsCamOn(!isCamOn)}
+            >
+              <FontAwesomeIcon
+                icon={isCamOn ? faVideo : faVideoSlash}
+                className="vid-icon"
+              />
+            </button>
+          </div>
+        </div>
 
-      <div className="flex h-16 items-center">
-        <label className="flex items-center">
-          <input
-            type="checkbox"
-            checked={isMicCamtoggledOn}
-            onChange={(e) => setIsMicCamtoggledOn(e.target.checked)}
-          />
-          Join with mic and camera off
-        </label>
-
-        <DeviceSettings />
-      </div>
-
-      <button onClick={handleJoinMeeting}>Join Meeting</button>
+        <div className="controls">
+          <button className="join-meeting" onClick={handleJoinMeeting}>
+            Join Meeting
+          </button>
+          <DeviceSettings />
+        </div>
+      </StreamCall>
     </div>
   );
 };
