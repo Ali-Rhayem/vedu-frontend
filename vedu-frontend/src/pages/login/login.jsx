@@ -43,6 +43,9 @@ function Login() {
       if (response && response.user) {
         dispatch(setUser(response.user));
       }
+
+      localStorage.setItem('stream_token', response.stream_token);
+      localStorage.setItem('user', JSON.stringify(response.user));
   
       navigate("/home");
     } catch (err) {
