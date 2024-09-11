@@ -51,11 +51,10 @@ function Profile() {
 
   return (
     <div className="profile-page">
-      <Sidebar />
-
+      <Navbar />
       <div className="profile-container">
-        <Navbar />
-        <div className="profile-content">
+        <Sidebar />
+        <div className="profile-content-pfp">
           <div className="profile-section-content">
             <h3>Profile</h3>
 
