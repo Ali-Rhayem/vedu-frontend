@@ -10,16 +10,17 @@ body {
   display: flex;
   height: 100vh;
   overflow: hidden;
+  flex-direction: column;
 }
 
 .profile-container {
-  width: 90%;
-  height: 100%;
   overflow-y: auto;
   scrollbar-width: none;
+  display: flex;
+  flex-direction: row;
 }
 
-.profile-content {
+.profile-content-pfp {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -31,6 +32,7 @@ body {
   padding: 20px;
   border-radius: 10px;
   color: #fff;
+  margin-left: 280px;
 }
 
 .profile-section-content h3 {
