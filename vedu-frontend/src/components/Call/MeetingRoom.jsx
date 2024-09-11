@@ -1,8 +1,17 @@
-import { CallControls, PaginatedGridLayout, SpeakerLayout } from "@stream-io/video-react-sdk";
+import {
+  CallControls,
+  CallParticipantsList,
+  PaginatedGridLayout,
+  SpeakerLayout,
+  CallStatsButton,
+} from "@stream-io/video-react-sdk";
 import React, { useState } from "react";
+import "./MeetingRoom/MeetingRoom.css"; 
 
 const MeetingRoom = () => {
   const [layout, setLayout] = useState("speaker-left");
+  const [showParticipants, setShowParticipants] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
 
   const RenderCallLayout = () => {
     switch (layout) {
@@ -17,17 +26,64 @@ const MeetingRoom = () => {
   };
 
   return (
-    <section>
-      <h2>Meeting Room</h2>
-      <div>
-        <button onClick={() => setLayout("grid")}>Grid Layout</button>
-        <button onClick={() => setLayout("speaker-left")}>Speaker Left</button>
-        <button onClick={() => setLayout("speaker-right")}>Speaker Right</button>
+    <section className="meeting-room-section">
+      <div className="meeting-room-container">
+        <div className="call-layout-container">
+          <RenderCallLayout />
+        </div>
+        <div
+          className={`participants-list-container ${
+            showParticipants ? "show-block" : ""
+          }`}
+        >
+          <CallParticipantsList onClose={() => setShowParticipants(false)} />
+        </div>
       </div>
 
-      <div>
-        <RenderCallLayout />
-        <CallControls/>
+      <div className="call-controls-container">
+        <CallControls />
+
+        <div className="dropdown-menu">
+          <div className="dropdown-trigger">
+            <button
+              className="dropdown-button"
+              onClick={() => setDropdownVisible(!dropdownVisible)}
+            >
+              Change Layout
+            </button>
+
+            {dropdownVisible && (
+              <div className="dropdown-content">
+                {["Grid", "Speaker-Left", "Speaker-Right"].map(
+                  (item, index) => (
+                    <div key={index}>
+                      <button
+                        onClick={() => {
+                          setLayout(item.toLowerCase().replace("-", " "));
+                          setDropdownVisible(false);
+                        }}
+                        className="dropdown-item"
+                      >
+                        {item}
+                      </button>
+                      {index < 2 && <hr className="dropdown-separator" />}
+                    </div>
+                  )
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <CallStatsButton />
+
+        {/* Button to toggle participants list */}
+        <button
+          className="participants-toggle-button"
+          onClick={() => setShowParticipants((prev) => !prev)}
+        >
+          Show Participants
+        </button>
       </div>
     </section>
   );
