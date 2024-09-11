@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  StreamCall,
   StreamVideo,
   StreamVideoClient,
 } from "@stream-io/video-react-sdk";
@@ -27,7 +26,6 @@ const StreamClientProvider = ({ children }) => {
       });
 
       const videoCall = videoClient.call("default", "my-first-call");
-      await videoCall.join({ create: true });
 
       setClient(videoClient);
       setCall(videoCall);
@@ -42,7 +40,7 @@ const StreamClientProvider = ({ children }) => {
 
   return (
     <StreamVideo client={client}>
-      <StreamCall call={call}>{children}</StreamCall>
+      {children}
     </StreamVideo>
   );
 };
