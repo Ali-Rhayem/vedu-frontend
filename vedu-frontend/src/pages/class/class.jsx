@@ -6,17 +6,61 @@ import Sidebar from "../../components/sidebar/sidebar";
 import Tabs from "../../components/Tabs/tabs";
 import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setClassPeopleError,
+  setClassPeopleSuccess,
+} from "../../redux/classPeopleSlice";
 
 function Class() {
+  const dispatch = useDispatch();
   const courses = useSelector((state) => state.courses.courses) || [];
-  const { classId } = useParams(); 
+  const { classId } = useParams();
   const [classDetails, setClassDetails] = useState(null);
   const navigate = useNavigate();
+  const { instructors, students, loading, error, fetchedClasses } = useSelector(
+    (state) => ({
+      instructors: state.classPeople.instructors[classId] || [],
+      students: state.classPeople.students[classId] || [],
+      loading: state.classPeople.loading,
+      error: state.classPeople.error,
+      fetchedClasses: state.classPeople.fetchedClasses[classId],
+    })
+  );
 
   const foundClass = courses.find((course) => course.id === parseInt(classId));
-  useEffect(() => {
 
+  useEffect(() => {
+    if (!fetchedClasses && foundClass) {
+      const fetchClassPeople = async () => {
+        try {
+          const instructorsData = await requestApi({
+            route: `/api/course-instructor/course/${classId}/instructors`,
+            requestMethod: RequestMethods.GET,
+          });
+
+          const studentsData = await requestApi({
+            route: `/api/course-student/course/${classId}/students`,
+            requestMethod: RequestMethods.GET,
+          });
+
+          dispatch(
+            setClassPeopleSuccess({
+              classId,
+              instructors: instructorsData,
+              students: studentsData,
+            })
+          );
+        } catch (err) {
+          dispatch(setClassPeopleError("Failed to fetch class people"));
+        }
+      };
+
+      fetchClassPeople();
+    }
+  }, [classId, foundClass, fetchedClasses, dispatch]);
+
+  useEffect(() => {
     if (foundClass) {
       setClassDetails(foundClass);
       console.log("Class details from Redux:", foundClass);
@@ -39,15 +83,19 @@ function Class() {
     }
   }, [classId, courses, navigate]);
 
+  const handleJoinMeeting = () => {
+    navigate(`/class/${classId}/meeting`);
+  };
+
   if (!classDetails) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="class-page">
-      <Sidebar />
+      <Navbar />
       <div className="Container">
-        <Navbar />
+        <Sidebar />
         <div className="content">
           <Tabs />
           <div className="class-header">
@@ -55,14 +103,20 @@ function Class() {
             <p>{classDetails.description}</p>
             {foundClass.is_instructor_course && (
               <div className="class-code-container">
-                <p><strong>Class Code:</strong> {classDetails.class_code}</p>
+                <p>
+                  <strong>Class Code:</strong> {classDetails.class_code}
+                </p>
               </div>
             )}
           </div>
 
           <div className="class-actions">
-            <button className="join-button">Join Meeting</button>
-            {foundClass.is_instructor_course && <button className="announce-button">Announce</button>}
+            <button className="join-button" onClick={handleJoinMeeting}>
+              Join Meeting
+            </button>
+            {foundClass.is_instructor_course && (
+              <button className="announce-button">Announce</button>
+            )}
           </div>
 
           <div className="stream">
