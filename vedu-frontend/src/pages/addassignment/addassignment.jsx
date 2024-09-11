@@ -4,7 +4,7 @@ import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
 import { useNavigate } from "react-router-dom";
 
-import { useAddAssignment } from "./useAddAssignment"; 
+import { useAddAssignment } from "./useAddAssignment";
 
 function AddAssignment() {
   const {
@@ -27,12 +27,11 @@ function AddAssignment() {
 
   const navigate = useNavigate();
 
-
   return (
     <div className="add-assignment-page">
-      <Sidebar />
+      <Navbar />
       <div className="Container">
-        <Navbar />
+        <Sidebar />
         <div className="content">
           <div className="assignment-form">
             <div className="form-left">
