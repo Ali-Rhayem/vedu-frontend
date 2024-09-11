@@ -7,6 +7,7 @@ body {
 .assignments-page {
   display: flex;
   height: 100vh;
+  flex-direction: column;
 }
 
 .content {
@@ -101,14 +102,14 @@ body {
 }
 
 .due-date {
-  color: #00cfff;
+  color: gray;
 }
 
 .assignments-container {
-  width: 90%;
   height: 100%;
   overflow-y: auto;
   scrollbar-width: none;
+  display: flex;
 }
 
 .view-details-button {

@@ -31,9 +31,9 @@ function Assignments() {
 
   return (
     <div className="assignments-page">
-      <Sidebar />
+      <Navbar />
       <div className="assignments-container">
-        <Navbar />
+        <Sidebar />
         <div className="content">
           <Tabs />
           <div className="assignments-content">
@@ -69,7 +69,9 @@ function Assignments() {
                           <div className="assignment-details">
                             <span>{assignment.title}</span>
                             <div className="due-date">
-                              {new Date(assignment.due_date).toLocaleDateString()}
+                              {new Date(
+                                assignment.due_date
+                              ).toLocaleDateString()}
                             </div>
                           </div>
                           <button
@@ -81,7 +83,9 @@ function Assignments() {
                           {course.is_instructor_course && (
                             <button
                               className="view-submissions-button"
-                              onClick={() => handleViewSubmissions(assignment.id)}
+                              onClick={() =>
+                                handleViewSubmissions(assignment.id)
+                              }
                             >
                               View Submissions
                             </button>
