@@ -7,6 +7,7 @@ body {
 .assignment-details-page {
   display: flex;
   height: 100vh;
+  flex-direction: column;
 }
 
 .content {
@@ -109,7 +110,6 @@ body {
 }
 
 .assignment-details-container {
-  width: 90%;
   height: 100%;
   overflow-y: auto;
   scrollbar-width: none;

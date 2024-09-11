@@ -12,20 +12,17 @@ function AssignmentDetailsPage() {
   const userData = useSelector((state) => state.user.data);
   const assignments = useSelector((state) => state.assignments[classId]) || {};
 
-  // Access the current assignment by iterating over each topic's assignments
-  const currentAssignment = Object.keys(assignments).flatMap((topicName) => 
-    assignments[topicName].assignments
-  ).find(assignment => assignment.id === parseInt(assignmentId));
+  const currentAssignment = Object.keys(assignments)
+    .flatMap((topicName) => assignments[topicName].assignments)
+    .find((assignment) => assignment.id === parseInt(assignmentId));
 
-  const userSubmission = currentAssignment?.submissions?.find(submission => submission.student_id === parseInt(userData.id));
+  const userSubmission = currentAssignment?.submissions?.find(
+    (submission) => submission.student_id === parseInt(userData.id)
+  );
 
-  const {
-    uploadedFile,
-    handleAddWork,
-    handleMarkDone,
-    getFileIcon,
-  } = useAssignmentDetails(); 
-  
+  const { uploadedFile, handleAddWork, handleMarkDone, getFileIcon } =
+    useAssignmentDetails();
+
   console.log("Current Assignment:", currentAssignment);
   console.log("User Submission:", userSubmission);
 
@@ -35,16 +32,17 @@ function AssignmentDetailsPage() {
 
   return (
     <div className="assignment-details-page">
-      <Sidebar />
+      <Navbar />
       <div className="assignment-details-container">
-        <Navbar />
+        <Sidebar />
         <div className="content">
           <Tabs />
           <div className="assignment-content">
             <div className="assignment-details-ad">
               <h3>{currentAssignment.title}</h3>
 
-              {currentAssignment.documents && currentAssignment.documents.length > 0 ? (
+              {currentAssignment.documents &&
+              currentAssignment.documents.length > 0 ? (
                 <div className="attachment">
                   <h4>Attachments:</h4>
                   <ul className="file-list">
@@ -59,7 +57,7 @@ function AssignmentDetailsPage() {
                           rel="noopener noreferrer"
                           download
                         >
-                          {document.file_url.split('/').pop()}
+                          {document.file_url.split("/").pop()}
                         </a>
                       </li>
                     ))}
@@ -77,7 +75,10 @@ function AssignmentDetailsPage() {
             <div className="your-work">
               {currentAssignment.grade !== null && (
                 <div className="grade-section-ad">
-                  <h4>Your Grade: {userSubmission?.grade} / {currentAssignment.grade}</h4>
+                  <h4>
+                    Your Grade: {userSubmission?.grade} /{" "}
+                    {currentAssignment.grade}
+                  </h4>
                 </div>
               )}
               <h4>Your Work</h4>
@@ -92,7 +93,10 @@ function AssignmentDetailsPage() {
                 <button className="add-work-button" onClick={handleAddWork}>
                   + Add Work
                 </button>
-                <button className="mark-done-button" onClick={() => handleMarkDone(assignmentId, classId)}>
+                <button
+                  className="mark-done-button"
+                  onClick={() => handleMarkDone(assignmentId, classId)}
+                >
                   ✔ Mark Done
                 </button>
               </div>
