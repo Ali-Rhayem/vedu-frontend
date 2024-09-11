@@ -17,6 +17,7 @@ function ChatPage() {
   const userData = useSelector((state) => state.user.data);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const [messagesFetched, setMessagesFetched] = useState(false);
   console.log("userData", userData);
   const navigate = useNavigate();
 
@@ -30,42 +31,47 @@ function ChatPage() {
     if (chatId) {
       console.log(`Navigated to chat with ID: ${chatId}`);
 
-      window.postMessage({ type: 'CHAT_NAVIGATED', chatId: chatId }, '*');
+      window.postMessage({ type: "CHAT_NAVIGATED", chatId: chatId }, "*");
       console.log("window.postMessage", window.postMessage);
     }
   }, [chatId]);
 
   useEffect(() => {
     const fetchMessages = async () => {
-      try {
-        const data = await requestApi({
-          route: `/api/messages/${chatId}`,
-          requestMethod: RequestMethods.GET,
-        });
+      if (!messagesFetched) {
+        try {
+          const data = await requestApi({
+            route: `/api/messages/${chatId}`,
+            requestMethod: RequestMethods.GET,
+          });
 
-        setMessages(data);
-      } catch (error) {
-        console.error("Error fetching messages:", error);
+          setMessages(data);
+          setMessagesFetched(true);
+        } catch (error) {
+          console.error("Error fetching messages:", error);
+        }
       }
     };
 
     fetchMessages();
+  }, [chatId, messagesFetched]);
 
-    const channel = echo.private(`chat.${chatId}`);
-    channel.listen("ChatMessageSent", (event) => {
+  useEffect(() => {
+    const channel = echo.channel(`chat.${chatId}`);
+    channel.listen(".message.sent", (event) => {
       setMessages((prevMessages) => [...prevMessages, event.message]);
     });
-
+  
     return () => {
-      channel.stopListening("ChatMessageSent");
+      channel.stopListening(".message.sent");
     };
   }, [chatId]);
-
+  
   const sendMessage = async () => {
     if (message.trim() === "") return;
 
     try {
-      await requestApi({
+      const response = await requestApi({
         route: "/api/messages",
         requestMethod: RequestMethods.POST,
         body: JSON.stringify({
@@ -78,7 +84,7 @@ function ChatPage() {
         },
       });
 
-      setMessage("");
+      setMessage(""); // Clear input
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -86,11 +92,10 @@ function ChatPage() {
 
   return (
     <div className="chat-page flex">
-      <Sidebar />
+      <Navbar />
       <div className="chat-container flex-1 flex flex-col">
-        <Navbar />
-
-        <div className="chat-content p-4 flex flex-col h-full">
+        <Sidebar />
+        <div className="chat-content-cp p-4 flex flex-col h-full">
           <div className="chat-section flex flex-col flex-1 overflow-hidden">
             <div className="chat-header-section p-4 bg-gray-800 text-white">
               <div className="header-cp">

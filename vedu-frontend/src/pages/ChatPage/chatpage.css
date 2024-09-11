@@ -9,7 +9,8 @@ body {
 /* The container that holds the entire chat page */
 .chat-page {
   display: flex;
-  height: 100vh; /* Ensure it takes full viewport height */
+  height: 90vh; /* Ensure it takes full viewport height */
+  flex-direction: column;
 }
 
 /* The main chat container, flex-based for full height */
@@ -21,12 +22,13 @@ body {
 }
 
 /* Chat content area, allows the messages to fill most of the space */
-.chat-content {
+.chat-content-cp {
   flex: 1;
   display: flex;
   flex-direction: column;
   padding: 10px;
   overflow: hidden; /* Prevent content overflow */
+  margin-left: 280px;
 }
 
 /* The section where messages are displayed, scrollable */
