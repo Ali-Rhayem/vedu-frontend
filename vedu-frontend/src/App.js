@@ -16,34 +16,53 @@ import AssignmentDetails from './pages/assignmentdetails/assignmentdetails.jsx';
 import Submissions from './pages/submissions/submissions.jsx';
 import ProtectedInstructorRoute from './protectedroutes/protectedinstructorroute/protectedinstructorroute.jsx';
 import Chats from './pages/chats/chats.jsx';
-import ChatPage from "./pages/ChatPage/ChatPage.jsx"; 
+import ChatPage from "./pages/ChatPage/ChatPage.jsx";
 import ProtectedClassRoute from './protectedroutes/ProtectedClassRoute.jsx';
+import { CreateCallPage } from './pages/CreateCallPage.jsx';
+import { VideoPreviewPage } from './components/Call/VideoPreview.jsx';
+// import { MeetingSetupPage } from './pages/MeetingSetupPage.jsx';
+import StreamClientProvider from './components/Call/StreamClientProvider.jsx'; // Import the provider
+import { StreamVideoProvider } from '@stream-io/video-react-sdk';
+import Meeting from './components/Call/Meeting.jsx';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-        <Route path="/class/:classId" element={<ProtectedClassRoute><Class /></ProtectedClassRoute>} />
-        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-        <Route path="/edit-profile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
-        <Route path="/edit-personal-info" element={<ProtectedRoute><EditPersonalInfo /></ProtectedRoute>} />
-        <Route path="/edit-address" element={<ProtectedRoute><EditAddress /></ProtectedRoute>} />
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/class/:classId" element={<ProtectedClassRoute><Class /></ProtectedClassRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/edit-profile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
+          <Route path="/edit-personal-info" element={<ProtectedRoute><EditPersonalInfo /></ProtectedRoute>} />
+          <Route path="/edit-address" element={<ProtectedRoute><EditAddress /></ProtectedRoute>} />
 
-        <Route path="/class/:classId/add-assignment" element={<AddAssignment />} />
+          <Route path="/class/:classId/add-assignment" element={<AddAssignment />} />
 
-        <Route path="/class/:classId/assignments" element={<ProtectedRoute><Assignments /></ProtectedRoute>} />
-        <Route path="/class/:classId/assignments/:assignmentId" element={<ProtectedRoute><AssignmentDetails /></ProtectedRoute>} />
-        <Route path="/class/:classId/people" element={<ProtectedRoute><ClassPeople /></ProtectedRoute>} />
+          <Route path="/class/:classId/assignments" element={<ProtectedRoute><Assignments /></ProtectedRoute>} />
+          <Route path="/class/:classId/assignments/:assignmentId" element={<ProtectedRoute><AssignmentDetails /></ProtectedRoute>} />
+          <Route path="/class/:classId/people" element={<ProtectedRoute><ClassPeople /></ProtectedRoute>} />
 
-        <Route path="/class/:classId/assignments/:assignmentId/submissions" element={<Submissions />} />
-        <Route path="/class/:classId/chats" element= {<ProtectedRoute><Chats /></ProtectedRoute>} />
+          <Route path="/class/:classId/assignments/:assignmentId/submissions" element={<Submissions />} />
+          <Route path="/class/:classId/chats" element={<ProtectedRoute><Chats /></ProtectedRoute>} />
 
-        <Route path="/class/:classId/chats/:chatId" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
-      </Routes>
-    </Router>
+          <Route path="/class/:classId/chats/:chatId" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
+          {/* <Route path="/meeting-setup" element={<ProtectedRoute><MeetingSetupPage /></ProtectedRoute>} /> */}
+          {/* <Route path="/class/:classId/video-preview" element={<ProtectedRoute><VideoPreviewPage /></ProtectedRoute>} />
+          <Route path="/class/:classId/join-call" element={<ProtectedRoute><CreateCallPage /></ProtectedRoute>} /> */}
+        <Route
+          path="/class/:classId/meeting"
+          element={
+            <StreamClientProvider>
+              <ProtectedRoute>
+                <Meeting />
+              </ProtectedRoute>
+            </StreamClientProvider>
+          }
+        />
+        </Routes>
+      </Router>
   );
 }
 
