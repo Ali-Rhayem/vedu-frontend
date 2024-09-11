@@ -34,9 +34,9 @@ function ClassPeople() {
 
   return (
     <div className="people-page">
-      <Sidebar />
+      <Navbar />
       <div className="people-page-container">
-        <Navbar />
+        <Sidebar />
         <div className="content">
           <Tabs />
           <div className="people-content">
@@ -66,7 +66,7 @@ function ClassPeople() {
                           src={
                             instructorData.profile_image
                               ? `http://127.0.0.1:8000/${instructorData.profile_image}`
-                              : "/path-to-default-image/default-profile.png"
+                              : "/assets/images/defaultpfp.jpg"
                           }
                           alt={`${instructorData.name}'s profile`}
                           className="person-image"
@@ -100,7 +100,11 @@ function ClassPeople() {
                   <div className="person-item" key={student.id}>
                     <div className="person-icon">
                       <img
-                        src={`http://127.0.0.1:8000/${student.student.profile_image}`}
+                        src={
+                          student.student.profile_image
+                            ? `http://127.0.0.1:8000/${student.student.profile_image}`
+                            : "/assets/images/defaultpfp.jpg"
+                        }
                         alt={`${student.student.name}'s profile`}
                         className="person-image"
                       />
