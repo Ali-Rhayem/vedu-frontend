@@ -47,13 +47,12 @@ function Home() {
     }
   };
 
-
   useEffect(() => {
     if (joinError) {
       setJoinError(null);
     }
-  },[classCode]);
-  
+  }, [classCode]);
+
   useEffect(() => {
     fetchCourses();
   }, [dispatch, navigate]);
@@ -167,15 +166,15 @@ function Home() {
 
   return (
     <div className="home-page">
-      <Sidebar />
+      <Navbar />
       <div className="home-container">
-        <Navbar />
+        <Sidebar />
         <div className="content">
           <div className="actions">
-            <button className="join-button" onClick={openJoinModal}>
+            <button className="join-button-home" onClick={openJoinModal}>
               Join
             </button>
-            <button className="create-button" onClick={openCreateModal}>
+            <button className="create-button-home" onClick={openCreateModal}>
               Create
             </button>
           </div>
@@ -207,14 +206,15 @@ function Home() {
                   <h4>{course.name}</h4>
                   <p>{course.description}</p>
                   <div className="class-info">
-                    <span>Participants: {(course.students || []).length}</span>
                   </div>
-                  <button
-                    className="details-button"
-                    onClick={() => handleViewDetails(course.id)}
-                  >
-                    View Details
-                  </button>
+                  <div className="db-button">
+                    <button
+                      className="details-button"
+                      onClick={() => handleViewDetails(course.id)}
+                    >
+                      View Details
+                    </button>
+                  </div>
                 </div>
               ))
             ) : (
@@ -226,20 +226,14 @@ function Home() {
                 <div key={course.id} className="class-card">
                   <h4>{course.name}</h4>
                   <p>{course.description}</p>
-                  <div className="class-info">
-                    <span>
-                      Instructor(s):{" "}
-                      {(course.instructors || [])
-                        .map((inst) => inst.name)
-                        .join(", ")}
-                    </span>
+                  <div className="db-button">
+                    <button
+                      className="details-button"
+                      onClick={() => handleViewDetails(course.id)}
+                    >
+                      View Details
+                    </button>
                   </div>
-                  <button
-                    className="details-button"
-                    onClick={() => handleViewDetails(course.id)}
-                  >
-                    View Details
-                  </button>
                 </div>
               ))
             ) : (

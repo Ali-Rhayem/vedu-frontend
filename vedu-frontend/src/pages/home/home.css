@@ -7,40 +7,58 @@ body {
 .home-page {
   display: flex;
   height: 100vh;
-}
-
-.content {
-  flex: 1;
-  display: flex;
   flex-direction: column;
 }
 
+.content {
+  flex-grow: 1; /* Take up the remaining width */
+  padding: 20px;
+  overflow-y: auto; /* Enable scrolling within the content area */
+  background-color: #141414; /* Match background with the page style */
+  height: 100vh; /* Ensure the content fills the height */
+  box-sizing: border-box;
+  margin-left: 280px;
+}
 .actions {
   display: flex;
   gap: 10px;
   justify-content: flex-end;
 }
 
-.join-button,
-.create-button {
+.join-button-home,
+.create-button-home {
   padding: 10px 20px;
   border-radius: 5px;
   border: none;
   cursor: pointer;
 }
 
-.join-button {
+.join-button-home {
+  background-color: #141414;
+  color: #00cfff;
+  border: 1px solid #00cfff;
+}
+
+.join-button-home:hover {
   background-color: #00cfff;
   color: #141414;
 }
 
-.create-button {
+.create-button-home:hover {
   background-color: #00cfff;
   color: #141414;
+}
+
+.create-button-home {
+  background-color: #141414;
+  color: #00cfff;
+  border: 1px solid #00cfff;
 }
 
 .classes {
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .classes h3 {
@@ -49,18 +67,23 @@ body {
 }
 
 .class-card {
-  background-color: #2b2b2b;
+  background-color: #2f2f2f;
   padding: 20px;
-  margin-bottom: 20px;
   border-radius: 10px;
-  border-left: 4px solid #00cfff;
-  color: #fff;
-  display: flex; 
-  flex-direction: column;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  display: flex; /* Add flexbox */
+  flex-direction: column; /* Column layout */
+  position: relative; /* Needed for absolute button placement */
 }
 
 .class-card h4 {
   margin-bottom: 10px;
+  color: white;
+}
+
+.class-card p {
+  margin-bottom: 10px;
+  color: grey;
 }
 
 .class-info {
@@ -70,15 +93,19 @@ body {
   flex-wrap: wrap;
 }
 
+.db-button {
+  display: flex;
+  justify-content: flex-end; /* Align button to the right */
+  margin-top: auto; /* Push button to the bottom */
+}
+
 .details-button {
-  margin-top: 15px;
   padding: 10px 20px;
   border-radius: 5px;
   border: 1px solid #00cfff;
-  background-color: #141414;
+  background-color: #2b2b2b;
   color: #00cfff;
   cursor: pointer;
-  align-self: flex-end; 
 }
 
 .details-button:hover {
@@ -87,8 +114,16 @@ body {
 }
 
 .home-container {
-  width: 90%;
   height: 100%;
   overflow-y: auto;
   scrollbar-width: none;
+  display: flex;
+}
+
+.home-container::-webkit-scrollbar {
+  display: none;
+}
+
+.content::-webkit-scrollbar{
+  display: none;
 }
