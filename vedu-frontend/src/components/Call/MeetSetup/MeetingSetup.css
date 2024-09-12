@@ -62,3 +62,37 @@
   height: 24px;
   width: 24px;
 }
+
+.controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 20px;
+}
+
+.controls button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+
+.controls button:hover {
+  background-color: #0056b3;
+}
+
+.controls .device-settings {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
