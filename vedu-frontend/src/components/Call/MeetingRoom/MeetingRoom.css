@@ -31,3 +31,13 @@
 .participants-list-container.show-block {
   display: block;
 }
+
+.call-controls-container {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
