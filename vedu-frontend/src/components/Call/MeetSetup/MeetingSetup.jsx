@@ -12,7 +12,7 @@ import {
   faVideoSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import "@stream-io/video-react-sdk/dist/css/styles.css";
-import "./MeetSetup/MeetingSetup.css";
+import "./MeetingSetup.css";
 
 const MeetingSetup = ({ call, onSetupComplete }) => {
   const [isMicOn, setIsMicOn] = useState(true);

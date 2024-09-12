@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getUserFromLocalStorage } from '../../pages/callHelpers';
 import { StreamCall, StreamTheme } from '@stream-io/video-react-sdk';
-import MeetingSetup from './MeetingSetup';
-import MeetingRoom from './MeetingRoom';
+import MeetingSetup from './MeetSetup/MeetingSetup.jsx';
+import MeetingRoom from './MeetingRoom/MeetingRoom.jsx';
 import { useGetCallById } from '../../pages/useGetCallById';
 import { useParams, useNavigate } from 'react-router-dom';
 

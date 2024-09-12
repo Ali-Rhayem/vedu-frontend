@@ -6,7 +6,7 @@ import {
   CallStatsButton,
 } from "@stream-io/video-react-sdk";
 import React, { useState } from "react";
-import "./MeetingRoom/MeetingRoom.css"; 
+import "./MeetingRoom.css"; 
 import { useNavigate, useParams } from "react-router-dom";
 
 const MeetingRoom = () => {
