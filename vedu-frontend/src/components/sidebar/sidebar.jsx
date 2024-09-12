@@ -1,11 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./sidebar.css";
 
 const Sidebar = () => {
   const courses = useSelector((state) => state.courses.courses);
   const navigate = useNavigate();
+  const location = useLocation(); 
 
   const handleCourseClick = (courseId) => {
     navigate(`/class/${courseId}`);
@@ -15,21 +16,27 @@ const Sidebar = () => {
     navigate("/home");
   };
 
-  console.log(courses);
+  const isCourseActive = (courseId) => {
+    return location.pathname.startsWith(`/class/${courseId}`);
+  };  
 
   return (
     <div className="sidebar">
-      <h2>VEDU</h2>
       <ul>
-        <li>
-          <a className="home" onClick={handleHomeClick}>Home</a>
+        <li 
+          className={location.pathname === "/home" ? "active" : ""}
+          onClick={handleHomeClick}
+        >
+          <span className="home">Home</span>
         </li>
-        <li className="active">
-          <a href="/classes">Classes</a>
-        </li>
+        
         {courses.length > 0 ? (
           courses.map((course, index) => (
-            <li key={`course-${index}-${course.id}`} onClick={() => handleCourseClick(course.id)}>
+            <li 
+              key={`course-${index}-${course.id}`} 
+              onClick={() => handleCourseClick(course.id)}
+              className={isCourseActive(course.id) ? "active" : ""}
+            >
               <span>{course.name}</span>
             </li>
           ))
