@@ -17,3 +17,8 @@
   position: relative;
   margin-bottom: 20px;
 }
+
+.call-layout-container {
+  max-width: 1000px;
+  width: 100%;
+}
