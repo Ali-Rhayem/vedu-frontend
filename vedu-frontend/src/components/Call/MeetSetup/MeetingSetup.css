@@ -33,3 +33,26 @@
   justify-content: center;
   gap: 15px;
 }
+
+.control-button {
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+}
+
+.control-button:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.control-button svg {
+  font-size: 24px;
+}
