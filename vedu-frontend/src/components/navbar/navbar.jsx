@@ -92,9 +92,7 @@ const Navbar = () => {
 
   return (
     <header className="top-bar">
-      <div className="search-bar">
-        <input type="text" placeholder="Search here" />
-      </div>
+      <h2>VEDU</h2>
       <div className="user-profile" onClick={toggleDropdown}>
         <div className="profile-info">
           <div className="name-email">
