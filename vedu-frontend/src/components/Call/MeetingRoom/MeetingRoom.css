@@ -22,3 +22,12 @@
   max-width: 1000px;
   width: 100%;
 }
+
+.participants-list-container {
+  display: none;
+  margin-left: 20px;
+}
+
+.participants-list-container.show-block {
+  display: block;
+}
