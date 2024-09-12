@@ -95,3 +95,17 @@
   height: 1px;
   background-color: #333;
 }
+
+.participants-toggle-button {
+  padding: 10px 15px;
+  background-color: #19232d;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.participants-toggle-button:hover {
+  background-color: #4c535b;
+}
