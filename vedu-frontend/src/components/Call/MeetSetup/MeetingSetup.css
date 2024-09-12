@@ -7,3 +7,14 @@
   background-color: #1c1c1c;
 }
 
+.video-preview-container {
+  position: relative;
+  width: 85vh;
+  height: 70vh;
+  display: flex;
+  background-color: #000;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
