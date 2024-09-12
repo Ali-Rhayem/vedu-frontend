@@ -18,11 +18,7 @@ import ProtectedInstructorRoute from './protectedroutes/protectedinstructorroute
 import Chats from './pages/chats/chats.jsx';
 import ChatPage from "./pages/ChatPage/ChatPage.jsx";
 import ProtectedClassRoute from './protectedroutes/ProtectedClassRoute.jsx';
-import { CreateCallPage } from './pages/CreateCallPage.jsx';
-import { VideoPreviewPage } from './components/Call/VideoPreview.jsx';
-// import { MeetingSetupPage } from './pages/MeetingSetupPage.jsx';
 import StreamClientProvider from './components/Call/StreamClientProvider.jsx'; // Import the provider
-import { StreamVideoProvider } from '@stream-io/video-react-sdk';
 import Meeting from './components/Call/Meeting.jsx';
 
 function App() {
@@ -48,9 +44,6 @@ function App() {
           <Route path="/class/:classId/chats" element={<ProtectedRoute><Chats /></ProtectedRoute>} />
 
           <Route path="/class/:classId/chats/:chatId" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
-          {/* <Route path="/meeting-setup" element={<ProtectedRoute><MeetingSetupPage /></ProtectedRoute>} /> */}
-          {/* <Route path="/class/:classId/video-preview" element={<ProtectedRoute><VideoPreviewPage /></ProtectedRoute>} />
-          <Route path="/class/:classId/join-call" element={<ProtectedRoute><CreateCallPage /></ProtectedRoute>} /> */}
         <Route
           path="/class/:classId/meeting"
           element={
