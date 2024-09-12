@@ -11,6 +11,7 @@ import {
   faVideo,
   faVideoSlash,
 } from "@fortawesome/free-solid-svg-icons";
+import "@stream-io/video-react-sdk/dist/css/styles.css";
 import "./MeetSetup/MeetingSetup.css";
 
 const MeetingSetup = ({ call, onSetupComplete }) => {
