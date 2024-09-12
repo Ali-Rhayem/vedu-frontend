@@ -56,3 +56,9 @@
 .control-button svg {
   font-size: 24px;
 }
+
+.mic-icon,
+.vid-icon {
+  height: 24px;
+  width: 24px;
+}
