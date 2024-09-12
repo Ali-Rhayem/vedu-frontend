@@ -20,6 +20,7 @@ import ChatPage from "./pages/ChatPage/ChatPage.jsx";
 import ProtectedClassRoute from './protectedroutes/ProtectedClassRoute.jsx';
 import StreamClientProvider from './components/Call/StreamClientProvider.jsx'; // Import the provider
 import Meeting from './components/Call/Meeting.jsx';
+import Compiler from './components/Call/Compiler/Compiler.jsx';
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
             </StreamClientProvider>
           }
         />
+        <Route path='/class/:classId/compiler' element={<Compiler/>}/>
         </Routes>
       </Router>
   );
