@@ -1,0 +1,49 @@
+.output-container {
+  width: 100%;
+}
+
+.output-header {
+  margin-bottom: 8px;
+  font-size: 18px;
+  color: #00cfff; 
+}
+
+.run-button {
+  padding: 10px 20px;
+  background-color: #00cfff;
+  color: #003f5e; 
+  border: 2px solid #00ffcc; 
+  border-radius: 8px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    transform 0.2s ease;
+}
+
+.run-button:hover {
+  background-color: #00ffcc;
+  border-color: #00cfff;
+  transform: scale(1.05);
+}
+
+.run-button.loading {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+.output-box {
+  margin-top: 10px;
+  height: 60vh;
+  padding: 10px;
+  border: 2px solid #00cfff;
+  border-radius: 8px;
+  background-color: #003f5e;
+  color: #f0f0f0;
+  overflow-y: auto;
+  transition: border-color 0.3s ease;
+}
+
+.output-box.error {
+  color: #ff0066;
+  border-color: #ff0066;
+}
