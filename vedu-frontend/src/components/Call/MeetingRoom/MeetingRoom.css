@@ -21,15 +21,9 @@
 .call-layout-container {
   max-width: 1000px;
   width: 100%;
-}
-
-.participants-list-container {
-  display: none;
-  margin-left: 20px;
-}
-
-.participants-list-container.show-block {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .call-controls-container {
@@ -40,6 +34,15 @@
   justify-content: center;
   align-items: center;
   gap: 15px;
+}
+
+.participants-list-container {
+  display: none;
+  margin-left: 20px;
+}
+
+.participants-list-container.show-block {
+  display: block;
 }
 
 .dropdown-menu {
@@ -108,4 +111,98 @@
 
 .participants-toggle-button:hover {
   background-color: #4c535b;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ...existing styles... */
+
+.compiler-toggle-button {
+  padding: 10px 15px;
+  background-color: #19232d;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: 10px;
+}
+
+.compiler-toggle-button:hover {
+  background-color: #4c535b;
+}
+
+.call-layout-container {
+  max-width: 1000px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toggle-compiler-button {
+  position: absolute; /* Adjust as needed */
+  top: 10px;
+  right: 20px;
+  background-color: #00cfff;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-compiler-button:hover {
+  background-color: #009fcc;
+}
+
+.toggle-compiler-button .fa-code {
+  margin-right: 5px;
+}
+
+.user-access-dropdown {
+  position: relative;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.user-list-dropdown {
+  position: absolute;
+  bottom: 110%;
+  left: 0;
+  background-color: #1c1c1c;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 10px;
+  z-index: 100;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.user-item span {
+  color: white;
+}
+
+.user-item button {
+  background-color: #00cfff;
+  color: #fff;
+  border: none;
+  padding: 5px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.user-item button:hover {
+  background-color: #009fcc;
 }
