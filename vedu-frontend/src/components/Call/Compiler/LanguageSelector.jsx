@@ -6,7 +6,7 @@ const languages = Object.entries(LANGUAGE_VERSIONS);
 
 const LanguageSelector = ({ language, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [maxWidth, setMaxWidth] = useState("auto"); // To store the max width
+  const [maxWidth, setMaxWidth] = useState("150px");
   const listRef = useRef(null);
 
   const toggleDropdown = () => {
@@ -18,18 +18,9 @@ const LanguageSelector = ({ language, onSelect }) => {
     setIsOpen(false);
   };
 
-  // Calculate the maximum width of the menu items once on mount
   useEffect(() => {
     if (listRef.current) {
-      const items = listRef.current.children;
-      let max = 0;
-      for (let item of items) {
-        const itemWidth = item.offsetWidth;
-        if (itemWidth > max) {
-          max = itemWidth;
-        }
-      }
-      setMaxWidth(`${max}px`);
+      setMaxWidth("150px");
     }
   }, [isOpen]);
 
@@ -51,6 +42,7 @@ const LanguageSelector = ({ language, onSelect }) => {
                 key={lang}
                 className={`menu-item ${lang === language ? "active" : ""}`}
                 onClick={() => handleSelect(lang)}
+                style={{ width: maxWidth }}
               >
                 {lang}
                 <span className="version"> ({version})</span>
