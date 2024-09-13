@@ -2,18 +2,24 @@ import { useState } from "react";
 import { executeCode } from "../../../api";
 import "./output.css";
 
-const Output = ({ editorRef, language }) => {
-  const [output, setOutput] = useState(null);
+const Output = ({ editorRef, language, output, onOutputUpdate }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const runCode = async () => {
+    if (!editorRef.current) {
+      alert("Editor is not yet ready");
+      return;
+    }
+
     const sourceCode = editorRef.current.getValue();
     if (!sourceCode) return;
+
     try {
       setIsLoading(true);
       const { run: result } = await executeCode(language, sourceCode);
-      setOutput(result.output.split("\n"));
+      const outputResult = result.output.split("\n");
+      onOutputUpdate(outputResult);
       result.stderr ? setIsError(true) : setIsError(false);
     } catch (error) {
       console.error(error);
