@@ -21,6 +21,7 @@ import ProtectedClassRoute from './protectedroutes/ProtectedClassRoute.jsx';
 import StreamClientProvider from './components/Call/StreamClientProvider.jsx'; // Import the provider
 import Meeting from './components/Call/Meeting.jsx';
 import Compiler from './components/Call/Compiler/Compiler.jsx';
+import ProtectedClassInstructorRoute from './protectedroutes/ProtectedClassInstructorRoute.jsx';
 
 function App() {
   return (
@@ -35,7 +36,7 @@ function App() {
           <Route path="/edit-personal-info" element={<ProtectedRoute><EditPersonalInfo /></ProtectedRoute>} />
           <Route path="/edit-address" element={<ProtectedRoute><EditAddress /></ProtectedRoute>} />
 
-          <Route path="/class/:classId/add-assignment" element={<AddAssignment />} />
+          <Route path="/class/:classId/add-assignment" element={<ProtectedClassInstructorRoute><AddAssignment /></ProtectedClassInstructorRoute>} />
 
           <Route path="/class/:classId/assignments" element={<ProtectedRoute><Assignments /></ProtectedRoute>} />
           <Route path="/class/:classId/assignments/:assignmentId" element={<ProtectedRoute><AssignmentDetails /></ProtectedRoute>} />
