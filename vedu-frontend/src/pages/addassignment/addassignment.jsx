@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./addassignment.css";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useAddAssignment } from "./useAddAssignment";
 
 function AddAssignment() {
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const {
     title,
     setTitle,
@@ -27,11 +28,19 @@ function AddAssignment() {
 
   const navigate = useNavigate();
 
+  const toggleSidebar = () => {
+    setIsSidebarVisible((prev) => !prev);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarVisible(false);
+  };
+
   return (
     <div className="add-assignment-page">
-      <Navbar />
+      <Navbar toggleSidebar={toggleSidebar} />
       <div className="Container">
-        <Sidebar />
+        <Sidebar isVisible={isSidebarVisible} closeSidebar={closeSidebar} />
         <div className="content">
           <div className="assignment-form">
             <div className="form-left">
