@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./classpeople.css";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { useClassPeople } from "./useClassPeople";
 
 function ClassPeople() {
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const { classId } = useParams();
   const {
     isOwner,
@@ -16,13 +17,21 @@ function ClassPeople() {
     setModalType,
     modalError,
     setModalError,
-    course,
     instructors,
     students,
     loading,
     error,
     handleAddPerson,
+    handleRemovePerson,
   } = useClassPeople(classId);
+
+  const toggleSidebar = () => {
+    setIsSidebarVisible((prev) => !prev);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarVisible(false);
+  };
 
   if (loading) {
     return <p>Loading...</p>;
@@ -34,9 +43,9 @@ function ClassPeople() {
 
   return (
     <div className="people-page">
-      <Navbar />
+      <Navbar toggleSidebar={toggleSidebar} />
       <div className="people-page-container">
-        <Sidebar />
+        <Sidebar isVisible={isSidebarVisible} closeSidebar={closeSidebar} />
         <div className="content">
           <Tabs />
           <div className="people-content">
@@ -74,6 +83,14 @@ function ClassPeople() {
                       </div>
                       <div className="person-details">
                         <span>{instructorData.name}</span>
+                        {isOwner && (
+                          <i
+                            className="fas fa-trash delete-person-icon"
+                            onClick={() =>
+                              handleRemovePerson(instructor.id, "instructor")
+                            }
+                          ></i>
+                        )}
                       </div>
                     </div>
                   );
@@ -90,7 +107,7 @@ function ClassPeople() {
                   className="add-person-button"
                   onClick={() => setModalType("Student")}
                 >
-                  <i className="fas fa-user-plus"></i>{" "}
+                  <i className="fas fa-user-plus"></i>
                 </button>
               )}
             </div>
@@ -111,6 +128,14 @@ function ClassPeople() {
                     </div>
                     <div className="person-details">
                       <span>{student.student.name}</span>
+                      {isOwner && (
+                        <i
+                          className="fas fa-trash delete-person-icon"
+                          onClick={() =>
+                            handleRemovePerson(student.id, "student")
+                          }
+                        ></i>
+                      )}
                     </div>
                   </div>
                 ))

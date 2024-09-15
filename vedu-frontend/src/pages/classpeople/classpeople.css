@@ -29,7 +29,8 @@ body {
   margin-bottom: 20px;
 }
 
-.teachers-div, .students-div {
+.teachers-div,
+.students-div {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -69,6 +70,9 @@ body {
 
 .person-details {
   flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
   color: #ddd;
   font-weight: bold;
 }
@@ -101,4 +105,16 @@ body {
 
 .add-person-button i {
   margin: 0;
+}
+
+.delete-person-icon {
+  color: #ff4c4c;
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 1.2rem;
+  margin-left: auto;
+}
+
+.delete-person-icon:hover {
+  color: #ff0000;
 }
