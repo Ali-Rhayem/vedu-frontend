@@ -3,13 +3,11 @@ import "./navbar.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resetCourses } from "../../redux/coursesSlice/coursesSlice";
-import { clearUser, setUser } from "../../redux/userSlice/userSlice";
-import { requestApi } from "../../utils/request";
-import { RequestMethods } from "../../utils/request_methods";
+import { clearUser } from "../../redux/userSlice/userSlice";
 import { clearAllAssignments } from "../../redux/assignmentsSlice/assignmentsSlice";
 import { clearAllClassPeople } from "../../redux/classPeopleSlice";
 
-const Navbar = () => {
+const Navbar = ({ toggleSidebar }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector((state) => state.user.data);
@@ -20,37 +18,13 @@ const Navbar = () => {
   };
 
   const handleClickOutside = (event) => {
-    if (!event.target.closest(".user-profile")) {
+    if (
+      !event.target.closest(".user-profile") &&
+      !event.target.closest(".profile-dropdown")
+    ) {
       setDropdownVisible(false);
     }
   };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!userData) {
-      const fetchUserData = async () => {
-        try {
-          const data = await requestApi({
-            route: "/api/user",
-            requestMethod: RequestMethods.GET,
-            navigationFunction: navigate,
-          });
-
-          dispatch(setUser(data));
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
-      };
-
-      fetchUserData();
-    }
-  }, [userData, dispatch]);
 
   const handleProfile = () => {
     navigate("/profile");
@@ -68,20 +42,14 @@ const Navbar = () => {
     navigate("/edit-address");
   };
 
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const handleLogout = () => {
-    // localStorage.removeItem("token");
-
-    // const persistor = persistStore(store);
-    // persistor.pause();
-
-    // persistor.flush().then(() => {
-    //   return persistor.purge();
-    // }).then(() => {
-    //   dispatch(resetCourses());
-    //   dispatch(clearUser());
-    //   console.log(userData);
-
-    // });
     localStorage.clear();
     dispatch(resetCourses());
     dispatch(clearUser());
@@ -93,7 +61,44 @@ const Navbar = () => {
   return (
     <header className="top-bar">
       <h2>VEDU</h2>
-      <div className="user-profile" onClick={toggleDropdown}>
+
+      <div className="menu-icon">
+        <div>
+          <img
+            src={
+              userData?.profile_image
+                ? `http://127.0.0.1:8000/${userData.profile_image}`
+                : "/assets/images/defaultpfp.jpg"
+            }
+            alt="User Profile"
+            className="profile-image-navbar"
+            onClick={toggleDropdown}
+          />
+        </div>
+        <span onClick={toggleSidebar}>&#9776;</span>
+      </div>
+
+      {dropdownVisible && (
+        <div className="profile-dropdown menu-profile">
+          <ul>
+            <li onClick={handleProfile}>
+              <a>Profile</a>
+            </li>
+            <li onClick={handleEditAddress}>
+              <a>Address</a>
+            </li>
+            <li onClick={handleEditPersonalInfo}>
+              <a>Edit Personal Info</a>
+            </li>
+            <li onClick={handleEditProfile}>
+              <a>Edit Profile</a>
+            </li>
+            <li onClick={handleLogout}>Logout</li>
+          </ul>
+        </div>
+      )}
+
+      <div className="user-profile-navbar" onClick={toggleDropdown}>
         <div className="profile-info">
           <div className="name-email">
             <span>{userData.name}</span>
@@ -106,28 +111,9 @@ const Navbar = () => {
                 : "/assets/images/defaultpfp.jpg"
             }
             alt="User Profile"
-            className="profile-image"
+            className="profile-image-navbar"
           />
         </div>
-        {dropdownVisible && (
-          <div className="profile-dropdown">
-            <ul>
-              <li onClick={handleProfile}>
-                <a>Profile</a>
-              </li>
-              <li onClick={handleEditAddress}>
-                <a>Address</a>
-              </li>
-              <li onClick={handleEditPersonalInfo}>
-                <a>Edit Personal Info</a>
-              </li>
-              <li onClick={handleEditProfile}>
-                <a>Edit Profile</a>
-              </li>
-              <li onClick={handleLogout}>Logout</li>
-            </ul>
-          </div>
-        )}
       </div>
     </header>
   );
