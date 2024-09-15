@@ -41,6 +41,18 @@ const classPeopleSlice = createSlice({
       }
       state.students[classId].push(student);
     },
+    removeInstructor: (state, action) => {
+      const { classId, instructorId } = action.payload;
+      state.instructors[classId] = state.instructors[classId].filter(
+        (instructor) => instructor.id !== instructorId
+      );
+    },
+    removeStudent: (state, action) => {
+      const { classId, studentId } = action.payload;
+      state.students[classId] = state.students[classId].filter(
+        (student) => student.id !== studentId
+      );
+    },
     clearAllClassPeople: (state) => {
         state.instructors = {};
         state.students = {};
@@ -56,6 +68,8 @@ export const {
   setClassPeopleError,
   addInstructor,
   addStudent,
+  removeInstructor,
+  removeStudent,
   clearAllClassPeople, 
 } = classPeopleSlice.actions;
 
