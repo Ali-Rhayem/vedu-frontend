@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./assignments.css";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
@@ -9,6 +9,7 @@ import { useAssignments } from "./useAssignments";
 
 function Assignments() {
   const { classId } = useParams();
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   const {
     assignments,
@@ -29,11 +30,19 @@ function Assignments() {
     return <p>Loading assignments...</p>;
   }
 
+  const toggleSidebar = () => {
+    setIsSidebarVisible((prev) => !prev);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarVisible(false);
+  };
+
   return (
     <div className="assignments-page">
-      <Navbar />
+      <Navbar toggleSidebar={toggleSidebar} />
       <div className="assignments-container">
-        <Sidebar />
+        <Sidebar isVisible={isSidebarVisible} closeSidebar={closeSidebar} />
         <div className="content">
           <Tabs />
           <div className="assignments-content">
