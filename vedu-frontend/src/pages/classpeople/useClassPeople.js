@@ -1,8 +1,8 @@
-// useClassPeople.js
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
+import { removeInstructor, removeStudent } from "../../redux/classPeopleSlice.js"; 
 import {
     setClassPeopleLoading,
     setClassPeopleSuccess,
@@ -144,6 +144,31 @@ export const useClassPeople = (classId) => {
         }
     };
 
+    const handleRemovePerson = async (personId, personType) => {
+        try {
+            const route =
+                personType === "instructor"
+                    ? `/api/course-instructor/${personId}`
+                    : `/api/course-student/${personId}`;
+
+            await requestApi({
+                route,
+                requestMethod: "DELETE",
+            });
+
+            if (personType === "instructor") {
+                dispatch(removeInstructor({ classId, instructorId: personId }));
+            } else if (personType === "student") {
+                dispatch(removeStudent({ classId, studentId: personId }));
+            }
+
+            alert(`${personType === "instructor" ? "Instructor" : "Student"} removed successfully`);
+        } catch (error) {
+            console.error(`Error removing ${personType}:`, error);
+            alert(`Failed to remove ${personType}. Please try again.`);
+        }
+    };
+
     return {
         isOwner,
         modalType,
@@ -156,5 +181,6 @@ export const useClassPeople = (classId) => {
         loading,
         error,
         handleAddPerson,
+        handleRemovePerson,
     };
 };
