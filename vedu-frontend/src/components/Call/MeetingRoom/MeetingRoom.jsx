@@ -42,7 +42,11 @@ const MeetingRoom = () => {
     if (!socket.current) {
       socket.current = io("http://localhost:3001");
 
-      socket.current.emit("join", { userData, isInstructor: IsInstructor });
+      socket.current.emit("join", {
+        classId,
+        userData,
+        isInstructor: IsInstructor,
+      });
 
       socket.current.on("toggle-compiler-update", (isCompilerVisible) => {
         setShowCompiler(isCompilerVisible);
@@ -73,7 +77,7 @@ const MeetingRoom = () => {
         socket.current = null;
       }
     };
-  }, [IsInstructor, userData]);
+  }, [IsInstructor, userData, classId]);
 
   const handleToggleCompiler = () => {
     const newCompilerState = !showCompiler;
@@ -107,7 +111,9 @@ const MeetingRoom = () => {
   };
 
   return (
-    <section className="meeting-room-section">
+    <section
+      className={`meeting-room-section ${showCompiler ? "compiler-open" : ""}`}
+    >
       <div className="meeting-room-container">
         {IsInstructor && (
           <div className="instructor-controls">
@@ -118,36 +124,6 @@ const MeetingRoom = () => {
               <FontAwesomeIcon icon={faCode} />
               {showCompiler ? " Hide Editor" : " Show Editor"}
             </button>
-
-            {/* User Access Dropdown */}
-            <div className="user-access-dropdown">
-              <button
-                className="dropdown-button"
-                onClick={() => setUserDropdownVisible(!userDropdownVisible)}
-              >
-                Manage Users
-              </button>
-
-              {userDropdownVisible && (
-                <div className="dropdown-content user-list-dropdown">
-                  {connectedUsers.map((user) => (
-                    <div key={user.userId} className="user-item">
-                      <span>{user.userData.name}</span>
-                      <button
-                        onClick={() =>
-                          handleUpdateUserAccess(
-                            user.userId,
-                            !user.hasEditAccess
-                          )
-                        }
-                      >
-                        {user.hasEditAccess ? "Remove Access" : "Grant Access"}
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
           </div>
         )}
 
@@ -202,7 +178,11 @@ const MeetingRoom = () => {
         </div>
       </div>
 
-      <div className="call-controls-container">
+      <div
+        className={`call-controls-container ${
+          showCompiler ? "below-compiler" : ""
+        }`}
+      >
         <CallControls onLeave={() => navigate(`/class/${classId}`)} />
 
         <div className="dropdown-menu">
@@ -245,6 +225,32 @@ const MeetingRoom = () => {
         >
           Show Participants
         </button>
+
+        <div className="user-access-dropdown">
+          <button
+            className="dropdown-button"
+            onClick={() => setUserDropdownVisible(!userDropdownVisible)}
+          >
+            Manage Users
+          </button>
+
+          {userDropdownVisible && (
+            <div className="dropdown-content user-list-dropdown">
+              {connectedUsers.map((user) => (
+                <div key={user.userId} className="user-item">
+                  <span>{user.userData.name}</span>
+                  <button
+                    onClick={() =>
+                      handleUpdateUserAccess(user.userId, !user.hasEditAccess)
+                    }
+                  >
+                    {user.hasEditAccess ? "Remove Access" : "Grant Access"}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );
