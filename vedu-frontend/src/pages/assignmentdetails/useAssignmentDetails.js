@@ -2,12 +2,34 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { requestApi } from "../../utils/request";
-import { addSubmission } from "../../redux/assignmentsSlice/assignmentsSlice";
+import { addSubmission, removeSubmission  } from "../../redux/assignmentsSlice/assignmentsSlice";
 
 export const useAssignmentDetails = () => {
     const dispatch = useDispatch();
     const [uploadedFile, setUploadedFile] = useState(null);
     const userData = useSelector((state) => state.user.data);
+
+    const handleUnsubmit = async (submissionId, classId, assignmentId) => {
+        try {
+            await requestApi({
+                route: `/api/submission/${submissionId}`,
+                requestMethod: "DELETE",
+            });
+
+            dispatch(
+                removeSubmission({
+                    classId,
+                    assignmentId,
+                    submissionId,
+                })
+            );
+
+            alert("Submission removed successfully!");
+        } catch (error) {
+            console.error("Error removing submission:", error);
+            alert("Failed to remove submission. Please try again.");
+        }
+    };
 
     const handleAddWork = () => {
         const fileInput = document.createElement("input");
@@ -85,6 +107,7 @@ export const useAssignmentDetails = () => {
         uploadedFile,
         setUploadedFile,
         handleAddWork,
+        handleUnsubmit,
         handleMarkDone,
         getFileIcon,
     };
