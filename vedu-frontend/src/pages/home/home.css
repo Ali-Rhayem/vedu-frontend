@@ -11,11 +11,11 @@ body {
 }
 
 .content {
-  flex-grow: 1; /* Take up the remaining width */
+  flex-grow: 1; 
   padding: 20px;
-  overflow-y: auto; /* Enable scrolling within the content area */
-  background-color: #141414; /* Match background with the page style */
-  height: 100vh; /* Ensure the content fills the height */
+  overflow-y: auto;
+  background-color: #141414; 
+  height: 100vh;
   box-sizing: border-box;
   margin-left: 280px;
 }
@@ -71,9 +71,9 @@ body {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-  display: flex; /* Add flexbox */
-  flex-direction: column; /* Column layout */
-  position: relative; /* Needed for absolute button placement */
+  display: flex; 
+  flex-direction: column; 
+  position: relative; 
 }
 
 .class-card h4 {
@@ -95,8 +95,8 @@ body {
 
 .db-button {
   display: flex;
-  justify-content: flex-end; /* Align button to the right */
-  margin-top: auto; /* Push button to the bottom */
+  justify-content: flex-end; 
+  margin-top: auto; 
 }
 
 .details-button {
@@ -124,6 +124,17 @@ body {
   display: none;
 }
 
-.content::-webkit-scrollbar{
+.content::-webkit-scrollbar {
   display: none;
+}
+
+@media (max-width: 768px) {
+  .home-container {
+    flex-direction: column;
+  }
+
+  .content {
+    margin-left: 0;
+    padding-top: 60px; 
+  }
 }

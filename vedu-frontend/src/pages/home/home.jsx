@@ -15,6 +15,7 @@ function Home() {
   const navigate = useNavigate();
   const userData = useSelector((state) => state.user.data);
   const courses = useSelector((state) => state.courses.courses) || [];
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   const [error, setError] = useState(null);
   const [classCode, setClassCode] = useState("");
@@ -45,6 +46,14 @@ function Home() {
     } catch (err) {
       setError("Failed to fetch courses");
     }
+  };
+
+  const toggleSidebar = () => {
+    setIsSidebarVisible((prev) => !prev);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarVisible(false);
   };
 
   useEffect(() => {
@@ -158,7 +167,6 @@ function Home() {
     return <div>{error}</div>;
   }
 
-  // Separate courses into instructor and student courses
   const instructorCourses = courses.filter(
     (course) => course.is_instructor_course
   );
@@ -166,9 +174,9 @@ function Home() {
 
   return (
     <div className="home-page">
-      <Navbar />
+      <Navbar toggleSidebar={toggleSidebar} />
       <div className="home-container">
-        <Sidebar />
+        <Sidebar isVisible={isSidebarVisible} closeSidebar={closeSidebar} />
         <div className="content">
           <div className="actions">
             <button className="join-button-home" onClick={openJoinModal}>
@@ -205,8 +213,7 @@ function Home() {
                 <div key={course.id} className="class-card">
                   <h4>{course.name}</h4>
                   <p>{course.description}</p>
-                  <div className="class-info">
-                  </div>
+                  <div className="class-info"></div>
                   <div className="db-button">
                     <button
                       className="details-button"
