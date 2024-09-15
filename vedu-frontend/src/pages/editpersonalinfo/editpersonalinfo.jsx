@@ -3,38 +3,50 @@ import "./editpersonalinfo.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
+import { setUser } from "../../redux/userSlice/userSlice";
 
 function EditPersonalInfo() {
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [bio, setBio] = useState("");
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.user.data);
+
+  const [firstName, setFirstName] = useState(userData?.first_name || "");
+  const [lastName, setLastName] = useState(userData?.last_name || "");
+  const [email, setEmail] = useState(userData?.email || "");
+  const [bio, setBio] = useState(userData?.bio || "");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState(userData?.phone_number || "");
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const data = await requestApi({
-          route: "/api/user",
-          requestMethod: RequestMethods.GET,
-          navigationFunction: navigate,
-        });
+    if (!userData) {
+      const fetchUserData = async () => {
+        try {
+          const data = await requestApi({
+            route: "/api/user",
+            requestMethod: RequestMethods.GET,
+            navigationFunction: navigate,
+          });
 
-        setEmail(data.email);
-        setBio(data.bio);
-        setPhoneNumber(data.phone_number);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
+          setFirstName(data.first_name);
+          setLastName(data.last_name);
+          setEmail(data.email);
+          setBio(data.bio);
+          setPhoneNumber(data.phone_number);
 
-    fetchUserData();
-  }, [navigate]);
+          dispatch(setUser(data));
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      };
+
+      fetchUserData();
+    }
+  }, [userData, navigate, dispatch]);
 
   const handleCancel = () => {
     navigate("/profile");
@@ -67,6 +79,19 @@ function EditPersonalInfo() {
       } else {
         console.log("Success:", data.message);
         alert("Personal information updated successfully.");
+
+        dispatch(
+          setUser({
+            ...userData,
+            first_name: payload.first_name,
+            last_name: payload.last_name,
+            email: payload.email,
+            bio: payload.bio,
+            phone_number: payload.phone_number,
+          })
+        );
+
+        navigate("/profile");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -74,11 +99,20 @@ function EditPersonalInfo() {
     }
   }
 
+  const toggleSidebar = () => {
+    setIsSidebarVisible((prev) => !prev);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarVisible(false);
+  };
+
+
   return (
     <div className="edit-profile-page">
-      <Navbar />
+      <Navbar toggleSidebar={toggleSidebar} />
       <div className="Container">
-        <Sidebar />
+        <Sidebar isVisible={isSidebarVisible} closeSidebar={closeSidebar} />
         <div className="content">
           <div className="profile-content">
             <h3>Edit Personal Information</h3>

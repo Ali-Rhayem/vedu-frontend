@@ -9,10 +9,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/userSlice/userSlice";
 
 function Editprofile() {
-  const userData = useSelector((state) => state.user.data); 
+  const userData = useSelector((state) => state.user.data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [name, setName] = useState(userData?.name || ""); 
+  const [name, setName] = useState(userData?.name || "");
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+
   const [profileImage, setProfileImage] = useState(
     userData?.profile_image
       ? `http://127.0.0.1:8000/${userData.profile_image}`
@@ -67,11 +69,19 @@ function Editprofile() {
     navigate("/profile");
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarVisible((prev) => !prev);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarVisible(false);
+  };
+
   return (
     <div className="edit-personal-info-page">
-      <Navbar />
+      <Navbar toggleSidebar={toggleSidebar} />
       <div className="ep-Container">
-        <Sidebar />
+        <Sidebar isVisible={isSidebarVisible} closeSidebar={closeSidebar} />
         <div className="content">
           <div className="profile-content">
             <h3>Edit Profile</h3>
