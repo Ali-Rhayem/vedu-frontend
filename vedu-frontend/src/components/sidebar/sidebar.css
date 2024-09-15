@@ -3,12 +3,9 @@
   background-color: #1f1f1f;
   color: white;
   padding: 20px;
-  display: flex;
-  flex-direction: column;
   height: 100vh;
-  overflow-y: auto;
-  scrollbar-width: none;
   position: fixed;
+  transition: transform 0.3s ease;
 }
 
 .sidebar::-webkit-scrollbar {
@@ -34,7 +31,7 @@
   text-decoration: none;
   display: flex;
   align-items: center;
-  padding: 10px; 
+  padding: 10px;
   border-radius: 5px;
 }
 
@@ -46,7 +43,7 @@
 }
 
 .sidebar ul li.active a {
-  color: #141414; 
+  color: #141414;
 }
 
 .sidebar li span {
@@ -63,4 +60,24 @@
 
 .sidebar ul li span {
   cursor: pointer;
+}
+
+.sidebar.visible {
+  transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 50px;
+    left: 0;
+    transform: translateX(-100%);
+    z-index: 1000;
+  }
+
+  .sidebar.visible {
+    transform: translateX(0);
+  }
 }
