@@ -1,35 +1,123 @@
 .compiler-container {
   display: flex;
+  flex-wrap: wrap; 
   height: 100vh;
   padding: 20px;
   width: 100%;
   background-color: #1f1f1f;
+  box-sizing: border-box; 
+}
+
+
+.compiler-left {
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+  min-width: 250px; 
+}
+
+.compiler-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 250px; 
 }
 
 .language-editor-container {
-  flex: 1; 
-  margin-right: 20px;
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
 
 .language-selector {
-  margin-bottom: 10px;
+  margin-bottom: 10px !important;
 }
 
 .editor-div {
+  display: flex;
+  flex: 1 1 auto;
   border: 2px solid #00cfff;
-  height: 60vh;
 }
+
 
 .editor {
-  height: 100%;
-  width: 100%;
-  background-color: #0a0a0a;
-}
-
-.output {
   flex: 1;
-  height: 50%;
+  width: 100% !important;
+  background-color: #0a0a0a !important;
 }
 
+.output-container {
+  display: flex;
+  flex-direction: column;
+  height: 50vh !important;
+}
+
+.output-header {
+  margin-bottom: 8px !important;
+  font-size: 18px !important;
+  color: #00cfff !important;
+}
+
+.run-button {
+  padding: 10px 20px;
+  background-color: #00cfff;
+  color: #003f5e;
+  border: 2px solid #00ffcc;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+  width: 150px;
+}
+
+.run-button:hover {
+  background-color: #00ffcc !important;
+  border-color: #00cfff !important;
+  transform: scale(1.05) !important;
+}
+
+.run-button.loading {
+  background-color: gray !important;
+  cursor: not-allowed !important;
+}
+
+.output-box {
+  flex: 1;
+  padding: 10px !important;
+  border: 2px solid #00cfff !important;
+  border-radius: 8px !important;
+  background-color: #003f5e !important;
+  color: #f0f0f0 !important;
+  overflow-y: auto;
+  transition: border-color 0.3s ease !important;
+}
+
+.output-box.error {
+  color: #ff0066 !important;
+  border-color: #ff0066 !important;
+}
+
+@media (max-width: 768px) {
+  .compiler-container {
+    display: block;
+    flex-direction: column; 
+      overflow-y: auto;
+  }
+
+  .compiler-left, .compiler-right {
+    margin-right: 0;
+    width: 100% ;
+    min-width: 100%;
+  }
+  
+  .editor-div{
+    height: 200px;
+  }
+
+  .run-button {
+    width: 30%;
+    padding: 10px 15px;
+  }
+}

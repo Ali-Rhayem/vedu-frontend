@@ -67,27 +67,30 @@ const Compiler = ({ isInstructor, HasEditAccess, socket }) => {
 
   return (
     <div className="compiler-container">
-      <div className="language-editor-container">
-        <div className="language-selector">
-          <LanguageSelector language={language} onSelect={onSelect} />
-        </div>
-        <div className="editor-div">
-          <Editor
-            options={{
-              readOnly: !isInstructor && !HasEditAccess,
-              minimap: { enabled: false },
-            }}
-            theme="vs-dark"
-            language={language}
-            value={value}
-            defaultValue={CODE_SNIPPETS[language]}
-            onChange={handleCodeChange}
-            onMount={onMount}
-            className="editor"
-          />
+      <div className="compiler-left">
+        <div className="language-editor-container">
+          <div className="language-selector">
+            <LanguageSelector language={language} onSelect={onSelect} />
+          </div>
+          <div className="editor-div">
+            <Editor
+              options={{
+                readOnly: !isInstructor && !HasEditAccess,
+                minimap: { enabled: false },
+              }}
+              theme="vs-dark"
+              language={language}
+              value={value}
+              defaultValue={CODE_SNIPPETS[language]}
+              onChange={handleCodeChange}
+              onMount={onMount}
+              className="editor"
+            />
+          </div>
         </div>
       </div>
-      <div className="output">
+
+      <div className="compiler-right">
         {isEditorReady ? (
           <Output
             editorRef={editorRef}
