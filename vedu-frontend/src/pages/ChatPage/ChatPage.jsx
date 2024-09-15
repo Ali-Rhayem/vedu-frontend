@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Sidebar from "../../components/sidebar/sidebar";
@@ -9,16 +9,17 @@ import echo from "../../echo";
 import "./chatpage.css";
 import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 function ChatPage() {
-  const { chatId, classId } = useParams();
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const { chatId } = useParams();
   const { state } = useLocation();
   const userData = useSelector((state) => state.user.data);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [messagesFetched, setMessagesFetched] = useState(false);
-  console.log("userData", userData);
+  const messagesEndRef = useRef(null);
   const navigate = useNavigate();
 
   const recipientName = state?.receiverName || "Recipient";
@@ -27,14 +28,23 @@ function ChatPage() {
     navigate(-1);
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarVisible((prev) => !prev);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarVisible(false);
+  };
+
   useEffect(() => {
     if (chatId) {
-      console.log(`Navigated to chat with ID: ${chatId}`);
-
       window.postMessage({ type: "CHAT_NAVIGATED", chatId: chatId }, "*");
-      console.log("window.postMessage", window.postMessage);
     }
   }, [chatId]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -47,6 +57,7 @@ function ChatPage() {
 
           setMessages(data);
           setMessagesFetched(true);
+          scrollToBottom(); 
         } catch (error) {
           console.error("Error fetching messages:", error);
         }
@@ -60,18 +71,19 @@ function ChatPage() {
     const channel = echo.channel(`chat.${chatId}`);
     channel.listen(".message.sent", (event) => {
       setMessages((prevMessages) => [...prevMessages, event.message]);
+      scrollToBottom();
     });
-  
+
     return () => {
       channel.stopListening(".message.sent");
     };
   }, [chatId]);
-  
+
   const sendMessage = async () => {
     if (message.trim() === "") return;
 
     try {
-      const response = await requestApi({
+      await requestApi({
         route: "/api/messages",
         requestMethod: RequestMethods.POST,
         body: JSON.stringify({
@@ -84,31 +96,35 @@ function ChatPage() {
         },
       });
 
-      setMessage(""); // Clear input
+      setMessage(""); 
+      scrollToBottom(); 
     } catch (error) {
       console.error("Error sending message:", error);
     }
   };
 
+  useEffect(() => {
+    scrollToBottom(); 
+  }, [messages]);
+
   return (
-    <div className="chat-page flex">
-      <Navbar />
-      <div className="chat-container flex-1 flex flex-col">
-        <Sidebar />
-        <div className="chat-content-cp p-4 flex flex-col h-full">
-          <div className="chat-section flex flex-col flex-1 overflow-hidden">
-            <div className="chat-header-section p-4 bg-gray-800 text-white">
+    <div className="chat-page">
+      <Navbar toggleSidebar={toggleSidebar} />
+      <div className="chat-container">
+        <Sidebar isVisible={isSidebarVisible} closeSidebar={closeSidebar} />
+        <div className="chat-content-cp">
+          <div className="chat-section">
+            <div className="chat-header-section">
               <div className="header-cp">
                 <FontAwesomeIcon
                   icon={faArrowLeft}
-                  className="cursor-pointer"
-                  size="lg"
+                  className="back-icon"
                   onClick={handleBackClick}
-                />{" "}
-                <h2> {recipientName}</h2>
+                />
+                <h2>{recipientName}</h2>
               </div>
             </div>
-            <div className="messages flex-1">
+            <div className="messages">
               {messages.map((msg, index) => {
                 const isCurrentUser = msg.sender_id === userData.id;
                 const chatAlignment = isCurrentUser ? "chat-end" : "chat-start";
@@ -116,11 +132,8 @@ function ChatPage() {
                 return (
                   <div
                     key={`message-${msg.id}-${index}`}
-                    className={`chat ${chatAlignment} mb-4`}
+                    className={`chat ${chatAlignment}`}
                   >
-                    <div className="chat-image avatar">
-                      <div className="w-10 rounded-full"></div>
-                    </div>
                     <div className="chat-bubble">
                       <div className="chat-message-row">
                         <span className="message-text">{msg.message}</span>
@@ -135,22 +148,23 @@ function ChatPage() {
                   </div>
                 );
               })}
+              <div ref={messagesEndRef} />
             </div>
 
-            <div className="chat-input mt-4 flex items-center">
+            <div className="chat-input">
               <input
                 type="text"
-                className="input input-bordered flex-1 mr-2"
+                className="input-field"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Type something..."
+                placeholder="Type a message..."
               />
               <button
                 type="button"
-                className="btn btn-primary"
+                className="send-button"
                 onClick={sendMessage}
               >
-                Send
+                <FontAwesomeIcon icon={faPaperPlane} />
               </button>
             </div>
           </div>
