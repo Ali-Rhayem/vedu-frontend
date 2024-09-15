@@ -6,6 +6,7 @@ body {
 
 .submissions-page {
   display: flex;
+  flex-direction: column;
   height: 100vh;
 }
 
@@ -154,7 +155,7 @@ body {
 }
 
 .submissions-container {
-  width: 90%;
+  width: 100%;
   height: 100%;
   overflow-y: auto;
   scrollbar-width: none;

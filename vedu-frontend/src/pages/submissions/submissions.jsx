@@ -11,36 +11,56 @@ import { useSubmissions } from "./usesubmissions.js";
 function Submissions() {
   const { assignmentId, classId } = useParams();
   const assignments = useSelector((state) => state.assignments[classId]) || {};
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   const currentAssignment = Object.keys(assignments)
     .flatMap((topicName) => assignments[topicName].assignments)
     .find((assignment) => assignment.id === parseInt(assignmentId));
 
-  const [updatedSubmissions, setUpdatedSubmissions] = useState(currentAssignment?.submissions || []);
-  const { handleDownload, handleGradeChange, handleSaveGrade } = useSubmissions();
+  const [updatedSubmissions, setUpdatedSubmissions] = useState(
+    currentAssignment?.submissions || []
+  );
+  const { handleDownload, handleGradeChange, handleSaveGrade } =
+    useSubmissions();
 
   console.log("Current Assignment from Redux:", currentAssignment);
 
+  const toggleSidebar = () => {
+    setIsSidebarVisible((prev) => !prev);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarVisible(false);
+  };
+
   return (
     <div className="submissions-page">
-      <Sidebar />
+      <Navbar toggleSidebar={toggleSidebar} />
       <div className="submissions-container">
-        <Navbar />
+        <Sidebar isVisible={isSidebarVisible} closeSidebar={closeSidebar} />
         <div className="content">
           <Tabs />
           <div className="submissions-content">
-            <h3>{currentAssignment ? currentAssignment.title : `Assignment ${assignmentId}`}</h3>
+            <h3>
+              {currentAssignment
+                ? currentAssignment.title
+                : `Assignment ${assignmentId}`}
+            </h3>
             {updatedSubmissions.map((submission) => (
               <div className="submission-item" key={submission.id}>
                 <div className="submission-header">
                   <div className="student-info">
                     <div className="student-avatar"></div>
-                    <div className="student-name">{submission.student.name}</div>
+                    <div className="student-name">
+                      {submission.student.name}
+                    </div>
                   </div>
                   <div className="download-section">
                     <a
                       className="download-icon"
-                      onClick={() => handleDownload(submission.id, submission.file_url)}
+                      onClick={() =>
+                        handleDownload(submission.id, submission.file_url)
+                      }
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -68,12 +88,28 @@ function Submissions() {
                       type="number"
                       placeholder="Enter grade"
                       value={submission.grade || ""}
-                      onChange={(e) => handleGradeChange(e, submission.id, currentAssignment, setUpdatedSubmissions)}
+                      onChange={(e) =>
+                        handleGradeChange(
+                          e,
+                          submission.id,
+                          currentAssignment,
+                          setUpdatedSubmissions
+                        )
+                      }
                     />
-                    <span>/{currentAssignment ? currentAssignment.grade : "100"}</span>
+                    <span>
+                      /{currentAssignment ? currentAssignment.grade : "100"}
+                    </span>
                     <button
                       className="save-grade-button"
-                      onClick={() => handleSaveGrade(submission.id, submission.grade, assignmentId, classId)}
+                      onClick={() =>
+                        handleSaveGrade(
+                          submission.id,
+                          submission.grade,
+                          assignmentId,
+                          classId
+                        )
+                      }
                     >
                       Save Grade
                     </button>
