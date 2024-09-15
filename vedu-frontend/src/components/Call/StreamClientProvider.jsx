@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  StreamVideo,
-  StreamVideoClient,
-} from "@stream-io/video-react-sdk";
+import { useParams } from "react-router-dom"; 
+import { StreamVideo, StreamVideoClient } from "@stream-io/video-react-sdk";
 import {
   getStreamToken,
   getUserFromLocalStorage,
@@ -13,6 +11,7 @@ const apiKey = process.env.REACT_APP_STREAM_API_KEY;
 const StreamClientProvider = ({ children }) => {
   const [client, setClient] = useState(null);
   const [call, setCall] = useState(null);
+  const { classId } = useParams(); 
 
   useEffect(() => {
     const initializeClient = async () => {
@@ -25,24 +24,20 @@ const StreamClientProvider = ({ children }) => {
         token: token,
       });
 
-      const videoCall = videoClient.call("default", "my-first-call");
-
+      const videoCall = videoClient.call("default", classId);
+      await videoCall.create();
       setClient(videoClient);
       setCall(videoCall);
     };
 
     initializeClient();
-  }, []);
+  }, [classId]);
 
   if (!client || !call) {
     return <div>Loading...</div>;
   }
 
-  return (
-    <StreamVideo client={client}>
-      {children}
-    </StreamVideo>
-  );
+  return <StreamVideo client={client}>{children}</StreamVideo>;
 };
 
 export default StreamClientProvider;
