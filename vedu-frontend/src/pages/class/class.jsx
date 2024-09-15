@@ -27,7 +27,7 @@ function Class() {
       fetchedClasses: state.classPeople.fetchedClasses[classId],
     })
   );
-
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const foundClass = courses.find((course) => course.id === parseInt(classId));
 
   useEffect(() => {
@@ -83,6 +83,14 @@ function Class() {
     }
   }, [classId, courses, navigate]);
 
+  const toggleSidebar = () => {
+    setIsSidebarVisible((prev) => !prev);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarVisible(false);
+  };
+
   const handleJoinMeeting = () => {
     navigate(`/class/${classId}/meeting`);
   };
@@ -93,9 +101,9 @@ function Class() {
 
   return (
     <div className="class-page">
-      <Navbar />
+      <Navbar toggleSidebar={toggleSidebar} />
       <div className="Container">
-        <Sidebar />
+        <Sidebar isVisible={isSidebarVisible} closeSidebar={closeSidebar} />
         <div className="content">
           <Tabs />
           <div className="class-header">
@@ -120,7 +128,6 @@ function Class() {
           </div>
 
           <div className="stream">
-            {/* Render class stream or other dynamic content here */}
             <div className="stream-item">
               <div className="stream-icon">
                 <i className="fas fa-clipboard"></i>
