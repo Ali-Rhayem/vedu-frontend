@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
@@ -19,12 +19,23 @@ function AssignmentDetailsPage() {
   const userSubmission = currentAssignment?.submissions?.find(
     (submission) => submission.student_id === parseInt(userData.id)
   );
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
-  const { uploadedFile, handleAddWork, handleMarkDone, getFileIcon } =
-    useAssignmentDetails();
+  const {
+    uploadedFile,
+    handleAddWork,
+    handleMarkDone,
+    handleUnsubmit,
+    getFileIcon,
+  } = useAssignmentDetails();
 
-  console.log("Current Assignment:", currentAssignment);
-  console.log("User Submission:", userSubmission);
+  const toggleSidebar = () => {
+    setIsSidebarVisible((prev) => !prev);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarVisible(false);
+  };
 
   if (!currentAssignment) {
     return <p>Loading assignment...</p>;
@@ -32,9 +43,9 @@ function AssignmentDetailsPage() {
 
   return (
     <div className="assignment-details-page">
-      <Navbar />
+      <Navbar toggleSidebar={toggleSidebar} />
       <div className="assignment-details-container">
-        <Sidebar />
+        <Sidebar isVisible={isSidebarVisible} closeSidebar={closeSidebar} />
         <div className="content">
           <Tabs />
           <div className="assignment-content">
@@ -76,29 +87,67 @@ function AssignmentDetailsPage() {
               {currentAssignment.grade !== null && (
                 <div className="grade-section-ad">
                   <h4>
-                    Your Grade: {userSubmission?.grade} /{" "}
+                    Your Grade: {userSubmission?.grade || "N/A"} /{" "}
                     {currentAssignment.grade}
                   </h4>
                 </div>
               )}
+
               <h4>Your Work</h4>
-              <div className="uploaded-file">
-                {uploadedFile && (
-                  <ul>
-                    <li>{uploadedFile.name}</li>
-                  </ul>
+              <div className="submission-details">
+                {userSubmission ? (
+                  <>
+                    <div className="submitted-file">
+                      {userSubmission.file_url && (
+                        <a
+                          href={`http://127.0.0.1:8000/storage/${userSubmission.file_url}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {userSubmission.file_url.split("/").pop()}
+                        </a>
+                      )}
+                    </div>
+                    <div className="work-actions">
+                      <button
+                        className="unsubmit-button"
+                        onClick={() =>
+                          handleUnsubmit(
+                            userSubmission.id,
+                            classId,
+                            assignmentId
+                          )
+                        }
+                      >
+                        ❌ Unsubmit
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="uploaded-file">
+                      {uploadedFile && (
+                        <ul>
+                          <li>{uploadedFile.name}</li>
+                        </ul>
+                      )}
+                    </div>
+                    <div className="work-actions">
+                      <button
+                        className="add-work-button"
+                        onClick={handleAddWork}
+                      >
+                        + Add Work
+                      </button>
+                      <button
+                        className="mark-done-button"
+                        onClick={() => handleMarkDone(assignmentId, classId)}
+                      >
+                        ✔ Mark Done
+                      </button>
+                    </div>
+                  </>
                 )}
-              </div>
-              <div className="work-actions">
-                <button className="add-work-button" onClick={handleAddWork}>
-                  + Add Work
-                </button>
-                <button
-                  className="mark-done-button"
-                  onClick={() => handleMarkDone(assignmentId, classId)}
-                >
-                  ✔ Mark Done
-                </button>
               </div>
             </div>
           </div>

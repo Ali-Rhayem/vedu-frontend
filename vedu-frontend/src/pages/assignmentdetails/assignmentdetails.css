@@ -63,6 +63,33 @@ body {
 .attachment .file-item a {
   color: #00cfff;
   text-decoration: none;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-all; 
+  display: inline-block;
+  max-width: 100%; 
+}
+
+.submitted-file {
+  width: 100%;
+  word-wrap: break-word; 
+  white-space: normal;
+  overflow-wrap: anywhere;
+  display: inline-block;
+}
+
+.submitted-file a {
+  color: #00cfff;
+  text-decoration: none;
+  display: inline-block;
+  word-break: break-all;
+  max-width: 100%; 
+  white-space: normal; 
+}
+
+.submitted-file a:hover {
+  text-decoration: underline;
 }
 
 .attachment .file-item a:hover {
@@ -77,13 +104,30 @@ body {
   background-color: #1f1f1f;
   padding: 20px;
   border-radius: 10px;
-  text-align: center;
   width: 25%;
+  text-align: center;
+  align-self: flex-start;
 }
 
-.your-work h4 {
+.grade-section-ad {
+  margin-bottom: 20px;
+  background-color: #1f1f1f;
+  padding: 10px;
+  border-radius: 10px;
   color: #00cfff;
-  margin-bottom: 15px;
+}
+
+.submission-details {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.submitted-file {
+  width: 100%;
+}
+
+.submitted-file a {
+  width: 100%;
 }
 
 .work-actions {
@@ -93,7 +137,8 @@ body {
 }
 
 .add-work-button,
-.mark-done-button {
+.mark-done-button,
+.unsubmit-button {
   padding: 10px;
   border-radius: 5px;
   border: 2px solid #00cfff;
@@ -104,7 +149,8 @@ body {
 }
 
 .add-work-button:hover,
-.mark-done-button:hover {
+.mark-done-button:hover,
+.unsubmit-button:hover {
   background-color: #00cfff;
   color: #141414;
 }
@@ -113,16 +159,4 @@ body {
   height: 100%;
   overflow-y: auto;
   scrollbar-width: none;
-}
-
-.grade-section-ad {
-  margin-top: 20px;
-  background-color: #1f1f1f;
-  border-radius: 10px;
-  color: #00cfff;
-  text-align: center;
-}
-
-.grade-section h4 {
-  margin: 0;
 }
