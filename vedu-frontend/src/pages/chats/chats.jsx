@@ -14,6 +14,7 @@ import {
 } from "../../redux/classPeopleSlice";
 
 function Chats() {
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const dispatch = useDispatch();
   const { classId } = useParams();
   const navigate = useNavigate();
@@ -21,6 +22,14 @@ function Chats() {
   const { instructors, students, error, loading } = useSelector(
     (state) => state.classPeople
   );
+
+  const toggleSidebar = () => {
+    setIsSidebarVisible((prev) => !prev);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarVisible(false);
+  };
 
   useEffect(() => {
     if (!instructors[classId] || !students[classId]) {
@@ -107,11 +116,15 @@ function Chats() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="error-message">Error: {error}</div>;
   }
 
   const users = [
@@ -121,9 +134,9 @@ function Chats() {
 
   return (
     <div className="chats-page">
-      <Navbar />
+      <Navbar toggleSidebar={toggleSidebar} />
       <div className="chats-container">
-        <Sidebar />
+        <Sidebar isVisible={isSidebarVisible} closeSidebar={closeSidebar} />
         <div className="content">
           <div className="tabs-chat">
             <Tabs />
@@ -141,9 +154,17 @@ function Chats() {
                     return (
                       <li
                         key={`user-${user.id}`}
+                        className="user-item-chats"
                         onClick={() => startChat(user.id, user.name)}
                       >
-                        {user.name}
+                        <img
+                          src={
+                            user.avatarUrl || "/assets/images/defaultpfp.jpg"
+                          }
+                          alt={`${user.name}'s avatar`}
+                          className="user-avatar"
+                        />
+                        <span className="user-name">{user.name}</span>
                       </li>
                     );
                   })}

@@ -10,49 +10,97 @@ body {
   flex-direction: column;
 }
 
-.chat-container {
+.chats-container {
   display: flex;
   height: calc(100vh - 80px);
 }
 
-.people-list {
-  width: 200px;
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tabs-chat {
   background-color: #1f1f1f;
-  padding: 15px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+}
+
+.chat-content {
+  flex: 1;
+  display: flex;
+  background-color: #1f1f1f;
+  padding: 20px;
+}
+
+.people-list {
+  width: 100%;
+  background-color: #1f1f1f;
+  border-radius: 10px;
 }
 
 .people-list h3 {
   color: #00cfff;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .people-list ul {
   list-style-type: none;
   padding: 0;
-  color: #00cfff;
+  margin: 0;
 }
 
-.people-list ul li {
-  margin-bottom: 10px;
-  cursor: pointer;
-}
-
-.people-list ul li:hover {
-  text-decoration: underline;
-}
-
-
-.chats-container {
-  height: 100%;
-  overflow-y: auto;
-  scrollbar-width: none;
-}
-
-
-
-.section-row {
+.user-item-chats {
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  background-color: #2b2b2b;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.user-item-chats:hover {
+  background-color: #3c3c3c;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.user-name {
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loading-spinner {
+  border: 8px solid #1f1f1f;
+  border-top: 8px solid #00cfff;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-top: 20px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
