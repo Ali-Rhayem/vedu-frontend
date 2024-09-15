@@ -147,3 +147,8 @@ body {
   margin: 0;
 }
 
+@media (max-width: 768px) {
+  .profile-section-content{
+    margin-left: 0px;
+  }
+}

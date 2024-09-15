@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./profile.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
@@ -12,6 +12,16 @@ function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user.data);
+  console.log("userData", userData);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarVisible((prev) => !prev);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarVisible(false);
+  };
 
   useEffect(() => {
     if (!userData) {
@@ -51,9 +61,9 @@ function Profile() {
 
   return (
     <div className="profile-page">
-      <Navbar />
+      <Navbar toggleSidebar={toggleSidebar} />
       <div className="profile-container">
-        <Sidebar />
+        <Sidebar isVisible={isSidebarVisible} closeSidebar={closeSidebar} />
         <div className="profile-content-pfp">
           <div className="profile-section-content">
             <h3>Profile</h3>
