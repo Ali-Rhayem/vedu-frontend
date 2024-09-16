@@ -48,19 +48,19 @@
 .participants-list-container {
   position: fixed;
   top: 0;
-  right: -300px; 
+  right: -300px;
   width: 300px;
   height: 100vh;
   background-color: #1c1c1c;
   border-left: 1px solid #333;
   z-index: 1000;
   overflow-y: auto;
-  transition: right 0.3s ease; 
+  transition: right 0.3s ease;
   padding: 20px;
 }
 
 .participants-list-container.show-block {
-  right: 0; 
+  right: 0;
 }
 
 .dropdown-menu {
@@ -135,7 +135,6 @@
   display: none;
 }
 
-
 .compiler-toggle-button {
   padding: 10px 15px;
   background-color: #19232d;
@@ -161,8 +160,8 @@
 
 .toggle-compiler-button {
   position: fixed;
-  top: 20px; 
-  right: 20px; 
+  top: 20px;
+  right: 20px;
   background-color: #00cfff;
   color: #fff;
   border: none;
@@ -171,7 +170,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  z-index: 1000; 
+  z-index: 1000;
 }
 
 .toggle-compiler-button:hover {
@@ -226,8 +225,8 @@
   background-color: #009fcc;
 }
 
-.request-access-button{
-    padding: 10px 15px;
+.request-access-button {
+  padding: 10px 15px;
   background-color: #19232d;
   color: white;
   border: none;
@@ -235,9 +234,60 @@
   cursor: pointer;
 }
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000; 
+}
+
+.modal-content {
+  background-color: #1c1c1c;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  text-align: center;
+}
+
+.modal-content h3 {
+  color: white;
+  margin-bottom: 20px;
+}
+
+.request-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.request-item span {
+  color: white;
+}
+
+.request-item button {
+  background-color: #00cfff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.request-item button:hover {
+  background-color: #009fcc;
+}
+
 @media screen and (max-width: 768px) {
   .participants-list-container {
-    width: 50%; 
+    width: 50%;
     right: -100%;
   }
 

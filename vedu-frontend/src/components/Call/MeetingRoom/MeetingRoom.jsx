@@ -29,6 +29,7 @@ const MeetingRoom = () => {
   const [showCompiler, setShowCompiler] = useState(false);
   const [accessRequests, setAccessRequests] = useState([]);
   const [connectedUsers, setConnectedUsers] = useState([]);
+  const [showRequestModal, setShowRequestModal] = useState(false);
   const socket = useRef(null);
   const navigate = useNavigate();
 
@@ -68,6 +69,7 @@ const MeetingRoom = () => {
 
         socket.current.on("access-request-update", (requests) => {
           setAccessRequests(requests);
+          setShowRequestModal(true);
         });
       }
     }
@@ -93,6 +95,7 @@ const MeetingRoom = () => {
 
   const handleRespondToRequest = (userId, approve) => {
     socket.current.emit("respond-to-request", { userId, approve });
+    setShowRequestModal(false);
   };
 
   const handleUpdateUserAccess = (userId, hasEditAccess) => {
@@ -128,24 +131,30 @@ const MeetingRoom = () => {
           </div>
         )}
 
-        {IsInstructor && accessRequests.length > 0 && (
-          <div className="access-requests">
-            <h3>Access Requests</h3>
-            {accessRequests.map((request) => (
-              <div key={request.userId} className="request-item">
-                <span>{request.userData.name}</span>
-                <button
-                  onClick={() => handleRespondToRequest(request.userId, true)}
-                >
-                  Approve
-                </button>
-                <button
-                  onClick={() => handleRespondToRequest(request.userId, false)}
-                >
-                  Deny
-                </button>
-              </div>
-            ))}
+        {IsInstructor && accessRequests.length > 0 && showRequestModal && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h3>Access Requests</h3>
+              {accessRequests.map((request) => (
+                <div key={request.userId} className="request-item">
+                  <span>
+                    {request.userData.name} is requesting edit access.
+                  </span>
+                  <button
+                    onClick={() => handleRespondToRequest(request.userId, true)}
+                  >
+                    Approve
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleRespondToRequest(request.userId, false)
+                    }
+                  >
+                    Deny
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
