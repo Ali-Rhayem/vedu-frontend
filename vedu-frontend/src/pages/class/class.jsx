@@ -11,6 +11,7 @@ import {
   setClassPeopleError,
   setClassPeopleSuccess,
 } from "../../redux/classPeopleSlice";
+import { setAssignments } from "../../redux/assignmentsSlice/assignmentsSlice";
 
 function Class() {
   const dispatch = useDispatch();
@@ -18,17 +19,16 @@ function Class() {
   const { classId } = useParams();
   const [classDetails, setClassDetails] = useState(null);
   const navigate = useNavigate();
-  const { instructors, students, loading, error, fetchedClasses } = useSelector(
-    (state) => ({
-      instructors: state.classPeople.instructors[classId] || [],
-      students: state.classPeople.students[classId] || [],
-      loading: state.classPeople.loading,
-      error: state.classPeople.error,
-      fetchedClasses: state.classPeople.fetchedClasses[classId],
-    })
-  );
+  const { fetchedClasses } = useSelector((state) => ({
+    instructors: state.classPeople.instructors[classId] || [],
+    students: state.classPeople.students[classId] || [],
+    loading: state.classPeople.loading,
+    error: state.classPeople.error,
+    fetchedClasses: state.classPeople.fetchedClasses[classId],
+  }));
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const foundClass = courses.find((course) => course.id === parseInt(classId));
+  const assignments = useSelector((state) => state.assignments[classId]);
 
   useEffect(() => {
     if (!fetchedClasses && foundClass) {
@@ -61,6 +61,30 @@ function Class() {
   }, [classId, foundClass, fetchedClasses, dispatch]);
 
   useEffect(() => {
+    if (!assignments) {
+      const fetchAssignmentsByTopic = async () => {
+        try {
+          const data = await requestApi({
+            route: `/api/assignments/course/${classId}/by-topic`,
+            requestMethod: RequestMethods.GET,
+            navigationFunction: navigate,
+          });
+
+          if (data && data.topics) {
+            dispatch(setAssignments({ classId, topics: data.topics }));
+          } else {
+            dispatch(setAssignments({ classId, topics: {} }));
+          }
+        } catch (error) {
+          console.error("Error fetching assignments:", error);
+        }
+      };
+
+      fetchAssignmentsByTopic();
+    }
+  }, [classId, assignments, dispatch, navigate]);
+
+  useEffect(() => {
     if (foundClass) {
       setClassDetails(foundClass);
       console.log("Class details from Redux:", foundClass);
@@ -91,8 +115,16 @@ function Class() {
     setIsSidebarVisible(false);
   };
 
+  const handleViewDetails = (assignmentId) => {
+    navigate(`/class/${classId}/assignments/${assignmentId}`);
+  };
+
   const handleJoinMeeting = () => {
     navigate(`/class/${classId}/meeting`);
+  };
+
+  const handleViewAssignment = (assignmentId) => {
+    navigate(`/class/${classId}/assignment/${assignmentId}`);
   };
 
   if (!classDetails) {
@@ -128,15 +160,29 @@ function Class() {
           </div>
 
           <div className="stream">
-            <div className="stream-item">
-              <div className="stream-icon">
-                <i className="fas fa-clipboard"></i>
-              </div>
-              <div className="stream-content">
-                <p>Teacher posted a new assignment</p>
-                <button className="view-button">View</button>
-              </div>
-            </div>
+            {assignments &&
+              Object.keys(assignments).map((topicName) => (
+                <div key={topicName}>
+                  {assignments[topicName].assignments.map((assignment) => (
+                    <div className="stream-item" key={assignment.id}>
+                      <div className="stream-icon">
+                        <i className="fas fa-clipboard"></i>
+                      </div>
+                      <div className="stream-content">
+                        <p>
+                          Teacher posted a new assignment: {assignment.title}
+                        </p>
+                        <button
+                          className="view-button"
+                          onClick={() => handleViewDetails(assignment.id)}
+                        >
+                          View
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ))}
           </div>
         </div>
       </div>
