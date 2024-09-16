@@ -159,7 +159,9 @@ function Chats() {
                       >
                         <img
                           src={
-                            user.avatarUrl || "/assets/images/defaultpfp.jpg"
+                            user.profile_image
+                              ? `http://127.0.0.1:8000/${user.profile_image}`
+                              : "/assets/images/defaultpfp.jpg"
                           }
                           alt={`${user.name}'s avatar`}
                           className="user-avatar"
