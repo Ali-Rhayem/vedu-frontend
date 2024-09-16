@@ -2,7 +2,7 @@ import { useState } from "react";
 import { executeCode } from "../../../api";
 import "./output.css";
 
-const Output = ({ editorRef, language, output, onOutputUpdate }) => {
+const Output = ({ editorRef, language, output, onOutputUpdate,HasEditAccess }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -35,7 +35,7 @@ const Output = ({ editorRef, language, output, onOutputUpdate }) => {
       <button
         className={`run-button ${isLoading ? "loading" : ""}`}
         onClick={runCode}
-        disabled={isLoading}
+        disabled={isLoading || !HasEditAccess}
       >
         {isLoading ? "Running..." : "Run Code"}
       </button>

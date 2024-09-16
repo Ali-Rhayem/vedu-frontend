@@ -97,6 +97,7 @@ const Compiler = ({ isInstructor, HasEditAccess, socket }) => {
             language={language}
             output={output}
             onOutputUpdate={handleOutputUpdate}
+            HasEditAccess={HasEditAccess}
           />
         ) : (
           <p>Editor is loading...</p>
