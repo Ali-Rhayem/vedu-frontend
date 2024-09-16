@@ -121,10 +121,7 @@ const MeetingRoom = () => {
       <div className="meeting-room-container">
         {IsInstructor && (
           <div className="instructor-controls">
-            <button
-              className="toggle-compiler-button"
-              onClick={handleToggleCompiler}
-            >
+            <button className="toggle-compiler-button" onClick={handleToggleCompiler}>
               <FontAwesomeIcon icon={faCode} />
               {showCompiler ? " Hide Editor" : " Show Editor"}
             </button>
@@ -141,15 +138,10 @@ const MeetingRoom = () => {
                     {request.userData.name} is requesting edit access.
                   </span>
                   <button
-                    onClick={() => handleRespondToRequest(request.userId, true)}
-                  >
+                    onClick={() => handleRespondToRequest(request.userId, true)}>
                     Approve
                   </button>
-                  <button
-                    onClick={() =>
-                      handleRespondToRequest(request.userId, false)
-                    }
-                  >
+                  <button onClick={() => handleRespondToRequest(request.userId, false)}>
                     Deny
                   </button>
                 </div>
@@ -159,40 +151,25 @@ const MeetingRoom = () => {
         )}
 
         {showCompiler ? (
-          <Compiler
-            isInstructor={IsInstructor}
-            HasEditAccess={HasEditAccess}
-            socket={socket.current}
-          />
+          <Compiler isInstructor={IsInstructor} HasEditAccess={HasEditAccess} socket={socket.current}/>
         ) : (
           <div className="call-layout-container">
             <RenderCallLayout />
           </div>
         )}
 
-        <div
-          className={`participants-list-container ${
-            showParticipants ? "show-block" : ""
-          }`}
-        >
+        <div className={`participants-list-container ${showParticipants ? "show-block" : ""}`}>
           <CallParticipantsList onClose={() => setShowParticipants(false)} />
         </div>
       </div>
 
-      <div
-        className={`call-controls-container ${
-          showCompiler ? "below-compiler" : ""
-        }`}
-      >
+      <div className={`call-controls-container ${showCompiler ? "below-compiler" : ""}`}>
         {!showCompiler && (
           <>
             <CallControls onLeave={() => navigate(`/class/${classId}`)} />
             <div className="dropdown-menu">
               <div className="dropdown-trigger">
-                <button
-                  className="dropdown-button"
-                  onClick={() => setDropdownVisible(!dropdownVisible)}
-                >
+                <button className="dropdown-button" onClick={() => setDropdownVisible(!dropdownVisible)}>
                   Change Layout
                 </button>
 
@@ -201,13 +178,11 @@ const MeetingRoom = () => {
                     {["Grid", "Speaker-Left", "Speaker-Right"].map(
                       (item, index) => (
                         <div key={index}>
-                          <button
-                            onClick={() => {
+                          <button onClick={() => {
                               setLayout(item.toLowerCase().replace("-", " "));
                               setDropdownVisible(false);
                             }}
-                            className="dropdown-item"
-                          >
+                            className="dropdown-item">
                             {item}
                           </button>
                           {index < 2 && <hr className="dropdown-separator" />}
@@ -223,32 +198,23 @@ const MeetingRoom = () => {
         )}
 
         {!showCompiler && (
-          <button
-            className="participants-toggle-button"
-            onClick={() => setShowParticipants((prev) => !prev)}
-          >
+          <button className="participants-toggle-button" onClick={() => setShowParticipants((prev) => !prev)}>
             Show Participants
           </button>
         )}
 
         {showCompiler && (
           <>
-            <CustomCallControls />
+            <CustomCallControls onLeave={() => navigate(`/class/${classId}`)}/>
             {!HasEditAccess && (
-              <button
-                className="request-access-button"
-                onClick={handleRequestEditAccess}
-              >
+              <button className="request-access-button" onClick={handleRequestEditAccess}>
                 Request Edit Access
               </button>
             )}
 
             {IsInstructor && (
               <div className="user-access-dropdown">
-                <button
-                  className="dropdown-button"
-                  onClick={() => setUserDropdownVisible(!userDropdownVisible)}
-                >
+                <button className="dropdown-button" onClick={() => setUserDropdownVisible(!userDropdownVisible)}>
                   Manage Users
                 </button>
 
@@ -257,9 +223,7 @@ const MeetingRoom = () => {
                     {connectedUsers.map((user) => (
                       <div key={user.userId} className="user-item">
                         <span>{user.userData.name}</span>
-                        <button
-                          onClick={() =>
-                            handleUpdateUserAccess(
+                        <button onClick={() => handleUpdateUserAccess(
                               user.userId,
                               !user.hasEditAccess
                             )
