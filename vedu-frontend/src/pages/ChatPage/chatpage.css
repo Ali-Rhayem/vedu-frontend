@@ -125,7 +125,7 @@ body {
   align-self: flex-end;
 }
 
-.chat-input {
+.chat-input-cp {
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -149,7 +149,7 @@ body {
   color: #888888;
 }
 
-.send-button {
+.send-button-cp {
   background-color: transparent;
   border: none;
   color: #00cfff;
@@ -158,7 +158,7 @@ body {
   margin-left: 10px;
 }
 
-.send-button:hover {
+.send-button-cp:hover {
   color: #00a3d1;
 }
 
@@ -168,3 +168,4 @@ body {
     margin-left: 0;
   }
 }
+

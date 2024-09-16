@@ -57,7 +57,7 @@ function ChatPage() {
 
           setMessages(data);
           setMessagesFetched(true);
-          scrollToBottom(); 
+          scrollToBottom();
         } catch (error) {
           console.error("Error fetching messages:", error);
         }
@@ -96,15 +96,15 @@ function ChatPage() {
         },
       });
 
-      setMessage(""); 
-      scrollToBottom(); 
+      setMessage("");
+      scrollToBottom();
     } catch (error) {
       console.error("Error sending message:", error);
     }
   };
 
   useEffect(() => {
-    scrollToBottom(); 
+    scrollToBottom();
   }, [messages]);
 
   return (
@@ -151,7 +151,7 @@ function ChatPage() {
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="chat-input">
+            <div className="chat-input-cp">
               <input
                 type="text"
                 className="input-field"
@@ -161,7 +161,7 @@ function ChatPage() {
               />
               <button
                 type="button"
-                className="send-button"
+                className="send-button-cp"
                 onClick={sendMessage}
               >
                 <FontAwesomeIcon icon={faPaperPlane} />
