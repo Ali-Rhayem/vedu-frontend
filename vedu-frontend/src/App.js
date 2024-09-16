@@ -14,11 +14,10 @@ import Assignments from './pages/assignments/assignments.jsx';
 import ClassPeople from './pages/classpeople/classpeople.jsx';
 import AssignmentDetails from './pages/assignmentdetails/assignmentdetails.jsx';
 import Submissions from './pages/submissions/submissions.jsx';
-import ProtectedInstructorRoute from './protectedroutes/protectedinstructorroute/protectedinstructorroute.jsx';
 import Chats from './pages/chats/chats.jsx';
 import ChatPage from "./pages/ChatPage/ChatPage.jsx";
 import ProtectedClassRoute from './protectedroutes/ProtectedClassRoute.jsx';
-import StreamClientProvider from './components/Call/StreamClientProvider.jsx'; // Import the provider
+import StreamClientProvider from './components/Call/StreamClientProvider.jsx';
 import Meeting from './components/Call/Meeting.jsx';
 import Compiler from './components/Call/Compiler/Compiler.jsx';
 import ProtectedClassInstructorRoute from './protectedroutes/ProtectedClassInstructorRoute.jsx';
