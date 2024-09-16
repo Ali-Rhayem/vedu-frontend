@@ -13,6 +13,7 @@ import { faCode } from "@fortawesome/free-solid-svg-icons";
 import { io } from "socket.io-client";
 import { useSelector } from "react-redux";
 import "./MeetingRoom.css";
+import CustomCallControls from "../CustomCallControls/CustomCallControls";
 
 const MeetingRoom = () => {
   const { classId } = useParams();
@@ -127,15 +128,6 @@ const MeetingRoom = () => {
           </div>
         )}
 
-        {showCompiler && !IsInstructor && !HasEditAccess && (
-          <button
-            className="request-access-button"
-            onClick={handleRequestEditAccess}
-          >
-            Request Edit Access
-          </button>
-        )}
-
         {IsInstructor && accessRequests.length > 0 && (
           <div className="access-requests">
             <h3>Access Requests</h3>
@@ -183,74 +175,99 @@ const MeetingRoom = () => {
           showCompiler ? "below-compiler" : ""
         }`}
       >
-        <CallControls onLeave={() => navigate(`/class/${classId}`)} />
+        {!showCompiler && (
+          <>
+            <CallControls onLeave={() => navigate(`/class/${classId}`)} />
+            <div className="dropdown-menu">
+              <div className="dropdown-trigger">
+                <button
+                  className="dropdown-button"
+                  onClick={() => setDropdownVisible(!dropdownVisible)}
+                >
+                  Change Layout
+                </button>
 
-        <div className="dropdown-menu">
-          <div className="dropdown-trigger">
-            <button
-              className="dropdown-button"
-              onClick={() => setDropdownVisible(!dropdownVisible)}
-            >
-              Change Layout
-            </button>
+                {dropdownVisible && (
+                  <div className="dropdown-content">
+                    {["Grid", "Speaker-Left", "Speaker-Right"].map(
+                      (item, index) => (
+                        <div key={index}>
+                          <button
+                            onClick={() => {
+                              setLayout(item.toLowerCase().replace("-", " "));
+                              setDropdownVisible(false);
+                            }}
+                            className="dropdown-item"
+                          >
+                            {item}
+                          </button>
+                          {index < 2 && <hr className="dropdown-separator" />}
+                        </div>
+                      )
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+            <CallStatsButton />
+          </>
+        )}
 
-            {dropdownVisible && (
-              <div className="dropdown-content">
-                {["Grid", "Speaker-Left", "Speaker-Right"].map(
-                  (item, index) => (
-                    <div key={index}>
-                      <button
-                        onClick={() => {
-                          setLayout(item.toLowerCase().replace("-", " "));
-                          setDropdownVisible(false);
-                        }}
-                        className="dropdown-item"
-                      >
-                        {item}
-                      </button>
-                      {index < 2 && <hr className="dropdown-separator" />}
-                    </div>
-                  )
+        {!showCompiler && (
+          <button
+            className="participants-toggle-button"
+            onClick={() => setShowParticipants((prev) => !prev)}
+          >
+            Show Participants
+          </button>
+        )}
+
+        {showCompiler && (
+          <>
+            <CustomCallControls />
+            {!HasEditAccess && (
+              <button
+                className="request-access-button"
+                onClick={handleRequestEditAccess}
+              >
+                Request Edit Access
+              </button>
+            )}
+
+            {IsInstructor && (
+              <div className="user-access-dropdown">
+                <button
+                  className="dropdown-button"
+                  onClick={() => setUserDropdownVisible(!userDropdownVisible)}
+                >
+                  Manage Users
+                </button>
+
+                {userDropdownVisible && (
+                  <div className="dropdown-content user-list-dropdown">
+                    {connectedUsers.map((user) => (
+                      <div key={user.userId} className="user-item">
+                        <span>{user.userData.name}</span>
+                        <button
+                          onClick={() =>
+                            handleUpdateUserAccess(
+                              user.userId,
+                              !user.hasEditAccess
+                            )
+                          }
+                        >
+                          {user.hasEditAccess
+                            ? "Remove Access"
+                            : "Grant Access"}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 )}
               </div>
             )}
-          </div>
-        </div>
-
-        <CallStatsButton />
-
-        <button
-          className="participants-toggle-button"
-          onClick={() => setShowParticipants((prev) => !prev)}
-        >
-          Show Participants
-        </button>
-
-        <div className="user-access-dropdown">
-          <button
-            className="dropdown-button"
-            onClick={() => setUserDropdownVisible(!userDropdownVisible)}
-          >
-            Manage Users
-          </button>
-
-          {userDropdownVisible && (
-            <div className="dropdown-content user-list-dropdown">
-              {connectedUsers.map((user) => (
-                <div key={user.userId} className="user-item">
-                  <span>{user.userData.name}</span>
-                  <button
-                    onClick={() =>
-                      handleUpdateUserAccess(user.userId, !user.hasEditAccess)
-                    }
-                  >
-                    {user.hasEditAccess ? "Remove Access" : "Grant Access"}
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+          </>
+        )}
       </div>
     </section>
   );
