@@ -51,7 +51,7 @@ function AssignmentDetailsPage() {
           <div className="assignment-content">
             <div className="assignment-details-ad">
               <h3>{currentAssignment.title}</h3>
-
+              <p className="description">{currentAssignment.description}</p>
               {currentAssignment.documents &&
               currentAssignment.documents.length > 0 ? (
                 <div className="attachment">
@@ -79,8 +79,6 @@ function AssignmentDetailsPage() {
                   <p>No attachments available.</p>
                 </div>
               )}
-
-              <p className="description">{currentAssignment.description}</p>
             </div>
 
             <div className="your-work">
