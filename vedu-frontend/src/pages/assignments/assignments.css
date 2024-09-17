@@ -81,8 +81,16 @@ body {
   width: 40px;
   height: 40px;
   background-color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 50%;
   margin-right: 15px;
+}
+
+.assignment-icon i {
+  font-size: 18px;
+  color: #00cfff;
 }
 
 .assignment-details {
@@ -122,7 +130,7 @@ body {
   margin-left: 10px;
 }
 
-.view-submissions-button{
+.view-submissions-button {
   padding: 10px 15px;
   background-color: #00cfff;
   color: #141414;
@@ -138,4 +146,57 @@ body {
 
 .view-submissions-button:hover {
   background-color: #009fe3;
+}
+
+.dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  background: none;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  border: none;
+  color: #00cfff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.dropdown-toggle:hover {
+  background-color: #444;
+}
+
+.assignment-dropdown {
+  display: block;
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: #282828;
+  border: 1px solid #444;
+  border-radius: 5px;
+  z-index: 1000;
+  text-align: left;
+}
+
+.assignment-dropdown ul {
+  list-style-type: none;
+  padding: 10px;
+  margin: 0;
+}
+
+.assignment-dropdown ul li {
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.assignment-dropdown ul li:hover {
+  background-color: #444;
+  color: #00cfff;
+}
+
+.assignment-item:hover {
+  background-color: #3c3c3c;
 }
