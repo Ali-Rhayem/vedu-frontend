@@ -4,14 +4,19 @@ import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
 import Tabs from "../../components/Tabs/tabs";
 import Modal from "../addtopic/Modal";
-import { useParams, useNavigate } from "react-router-dom"; // Add useNavigate for navigation
+import { useParams, useNavigate } from "react-router-dom";
 import { useAssignments } from "./useAssignments";
+import { requestApi } from "../../utils/request";
+import { RequestMethods } from "../../utils/request_methods";
+import { removeAssignment } from "../../redux/assignmentsSlice/assignmentsSlice";
+import { useDispatch } from "react-redux";
 
 function Assignments() {
   const { classId } = useParams();
-  const navigate = useNavigate(); // Initialize useNavigate for navigation
+  const navigate = useNavigate();
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-  const [dropdownVisible, setDropdownVisible] = useState(null); // State for tracking which dropdown is visible
+  const [dropdownVisible, setDropdownVisible] = useState(null);
+  const dispatch = useDispatch();
 
   const {
     assignments,
@@ -27,6 +32,29 @@ function Assignments() {
     handleViewSubmissions,
     handleCreateClick,
   } = useAssignments(classId);
+
+  const handleClickOutside = (event) => {
+    if (
+      !event.target.closest(".assignment-dropdown") &&
+      !event.target.closest(".dropdown-toggle")
+    ) {
+      setDropdownVisible(null);
+    }
+  };
+
+  const handleDeleteAssignment = async (assignmentId, topicName) => {
+    try {
+      await requestApi({
+        route: `/api/assignments/${assignmentId}`,
+        requestMethod: RequestMethods.DELETE,
+      });
+
+      dispatch(removeAssignment({ classId, topicName, assignmentId }));
+      alert(`Assignment ${assignmentId} deleted successfully.`);
+    } catch (error) {
+      console.error("Failed to delete assignment:", error);
+    }
+  };
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -51,21 +79,9 @@ function Assignments() {
     setDropdownVisible((prev) => (prev === assignmentId ? null : assignmentId));
   };
 
-  const handleClickOutside = (event) => {
-    if (
-      !event.target.closest(".assignment-dropdown") &&
-      !event.target.closest(".dropdown-toggle")
-    ) {
-      setDropdownVisible(null);
-    }
-  };
-
-  const handleAssignmentClick = (assignmentId) => {
-    navigate(`/assignments/${assignmentId}`); 
-  };
 
   const handleDropdownClick = (event) => {
-    event.stopPropagation(); 
+    event.stopPropagation();
   };
 
   return (
@@ -132,23 +148,30 @@ function Assignments() {
                             {dropdownVisible === assignment.id && (
                               <div className="assignment-dropdown">
                                 <ul>
-                                  <li
-                                    onClick={(e) => {
-                                      handleDropdownClick(e);
-                                      handleViewDetails(assignment.id);
-                                    }}
-                                  >
-                                    View Details
-                                  </li>
                                   {course.is_instructor_course && (
-                                    <li
-                                      onClick={(e) => {
-                                        handleDropdownClick(e);
-                                        handleViewSubmissions(assignment.id);
-                                      }}
-                                    >
-                                      View Submissions
-                                    </li>
+                                    <>
+                                      <li
+                                        onClick={(e) => {
+                                          handleDropdownClick(e);
+                                          handleViewSubmissions(assignment.id);
+                                        }}
+                                      >
+                                        Submissions
+                                      </li>
+                                      <li>Edit</li>
+                                      <li
+                                        className="dropdown-delete-assignment"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleDeleteAssignment(
+                                            assignment.id,
+                                            topicName
+                                          );
+                                        }}
+                                      >
+                                        Delete
+                                      </li>
+                                    </>
                                   )}
                                 </ul>
                               </div>

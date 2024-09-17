@@ -197,6 +197,11 @@ body {
   color: #00cfff;
 }
 
+.assignment-dropdown ul li.dropdown-delete-assignment:hover {
+  background-color: #444;
+  color: red;
+}
+
 .assignment-item:hover {
   background-color: #3c3c3c;
 }
