@@ -8,7 +8,11 @@ import { RequestMethods } from "../../utils/request_methods";
 import { useDispatch, useSelector } from "react-redux";
 import JoinClass from "../joinclass/joinclass";
 import CreateClass from "../createclass/createclass";
-import { setCourses, addCourse } from "../../redux/coursesSlice/coursesSlice";
+import {
+  setCourses,
+  addCourse,
+  resetCourses,
+} from "../../redux/coursesSlice/coursesSlice";
 
 function Home() {
   const dispatch = useDispatch();
@@ -16,12 +20,15 @@ function Home() {
   const userData = useSelector((state) => state.user.data);
   const courses = useSelector((state) => state.courses.courses) || [];
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-
+  const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState(null);
+  const [classToEdit, setClassToEdit] = useState(null);
   const [error, setError] = useState(null);
   const [classCode, setClassCode] = useState("");
   const [joinError, setJoinError] = useState(null);
-  const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+  console.log("Courses", courses);
 
   const fetchCourses = async () => {
     try {
@@ -48,6 +55,10 @@ function Home() {
     }
   };
 
+  useEffect(() => {
+    fetchCourses();
+  }, [dispatch, navigate]);
+
   const toggleSidebar = () => {
     setIsSidebarVisible((prev) => !prev);
   };
@@ -55,16 +66,6 @@ function Home() {
   const closeSidebar = () => {
     setIsSidebarVisible(false);
   };
-
-  useEffect(() => {
-    if (joinError) {
-      setJoinError(null);
-    }
-  }, [classCode]);
-
-  useEffect(() => {
-    fetchCourses();
-  }, [dispatch, navigate]);
 
   const handleViewDetails = (courseId) => {
     navigate(`/class/${courseId}`);
@@ -119,6 +120,12 @@ function Home() {
   };
 
   const openCreateModal = () => {
+    setClassToEdit(null);
+    setIsCreateModalOpen(true);
+  };
+
+  const openEditModal = (course) => {
+    setClassToEdit(course);
     setIsCreateModalOpen(true);
   };
 
@@ -126,40 +133,80 @@ function Home() {
     setIsCreateModalOpen(false);
   };
 
-  const handleCreateClass = async (classData) => {
+  const handleCreateOrUpdateClass = async (classData, classId = null) => {
     try {
-      const response = await requestApi({
-        route: "/api/courses",
-        requestMethod: RequestMethods.POST,
-        body: {
-          ...classData,
-          owner_id: userData.id,
-        },
-        navigationFunction: navigate,
-      });
-
-      if (response && response.course) {
-        const updatedCourses = [
-          ...courses,
-          { ...response.course, is_instructor_course: true },
-        ];
-        dispatch(setCourses(updatedCourses));
-
-        await requestApi({
-          route: "api/course-instructor",
-          requestMethod: RequestMethods.POST,
+      if (classId) {
+        const response = await requestApi({
+          route: `/api/courses/${classId}`,
+          requestMethod: RequestMethods.PUT,
           body: {
-            course_id: response.course.id,
-            instructor_id: userData.id,
+            ...classData,
+            owner_id: userData.id,
           },
           navigationFunction: navigate,
         });
 
-        alert(`Class ${response.course.name} created successfully!`);
-        closeCreateModal();
+        if (response && response.course) {
+          const updatedCourses = courses.map((course) =>
+            course.id === classId
+              ? { ...response.course, is_instructor_course: true }
+              : course
+          );
+          dispatch(setCourses(updatedCourses));
+        }
+      } else {
+        const response = await requestApi({
+          route: "/api/courses",
+          requestMethod: RequestMethods.POST,
+          body: {
+            ...classData,
+            owner_id: userData.id,
+          },
+          navigationFunction: navigate,
+        });
+
+        if (response && response.course) {
+          dispatch(
+            addCourse({ ...response.course, is_instructor_course: true })
+          );
+
+          await requestApi({
+            route: "api/course-instructor",
+            requestMethod: RequestMethods.POST,
+            body: {
+              course_id: response.course.id,
+              instructor_id: userData.id,
+            },
+            navigationFunction: navigate,
+          });
+
+          alert(`Class ${response.course.name} created successfully!`);
+        }
       }
+      closeCreateModal();
     } catch (err) {
-      console.error("Failed to create class:", err);
+      console.error("Failed to create or update class:", err);
+    }
+  };
+
+  const toggleDropdown = (courseId) => {
+    setDropdownVisible(dropdownVisible === courseId ? null : courseId);
+  };
+
+  const handleDeleteClass = async (courseId) => {
+    try {
+      await requestApi({
+        route: `/api/courses/${courseId}`,
+        requestMethod: RequestMethods.DELETE,
+        navigationFunction: navigate,
+      });
+
+      const updatedCourses = courses.filter((course) => course.id !== courseId);
+      dispatch(setCourses(updatedCourses));
+
+      alert(`Class ${courseId} deleted successfully!`);
+    } catch (err) {
+      console.error("Failed to delete class:", err);
     }
   };
 
@@ -204,14 +251,39 @@ function Home() {
           <CreateClass
             isOpen={isCreateModalOpen}
             onClose={closeCreateModal}
-            onSubmit={handleCreateClass}
+            onSubmit={handleCreateOrUpdateClass}
+            classToEdit={classToEdit} 
           />
           <div className="classes">
             <h3>Instructor Courses</h3>
             {instructorCourses.length > 0 ? (
               instructorCourses.map((course) => (
                 <div key={course.id} className="class-card">
-                  <h4>{course.name}</h4>
+                  <div className="class-card-header">
+                    <h4>{course.name}</h4>
+                    {course.owner_id === userData.id && (
+                      <div className="dropdown-wrapper">
+                        <button
+                          className="dropdown-toggle"
+                          onClick={() => toggleDropdown(course.id)}
+                        >
+                          &#8942;
+                        </button>
+                        {dropdownVisible === course.id && (
+                          <div className="class-dropdown">
+                            <ul>
+                              <li onClick={() => openEditModal(course)}>
+                                Edit
+                              </li>
+                              <li className="delete-dropdown" onClick={() => handleDeleteClass(course.id)}>
+                                Delete
+                              </li>
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                   <p>{course.description}</p>
                   <div className="class-info"></div>
                   <div className="db-button">
