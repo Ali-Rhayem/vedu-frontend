@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "./createclass.css";
 
-function CreateClass({ isOpen, onClose, onSubmit }) {
+function CreateClass({ isOpen, onClose, onSubmit, classToEdit = null }) {
   const [className, setClassName] = useState("");
   const [classDescription, setClassDescription] = useState("");
+
+  useEffect(() => {
+    if (classToEdit) {
+      setClassName(classToEdit.name);
+      setClassDescription(classToEdit.description);
+    } else {
+      setClassName("");
+      setClassDescription("");
+    }
+  }, [classToEdit, isOpen]);
 
   const handleClassNameChange = (event) => {
     setClassName(event.target.value);
@@ -14,25 +24,24 @@ function CreateClass({ isOpen, onClose, onSubmit }) {
   };
 
   const handleSubmit = () => {
-    onSubmit({
+    const classData = {
       name: className,
       description: classDescription,
-    });
-  };
-
-  useEffect(() => {
-    if (!isOpen) {
-      setClassName("");
-      setClassDescription("");
+    };
+    
+    if (classToEdit) {
+      onSubmit(classData, classToEdit.id); 
+    } else {
+      onSubmit(classData); 
     }
-  }, [isOpen]);
+  };
 
   if (!isOpen) return null;
 
   return (
     <div className="createclass-overlay">
       <div className="createclass-content">
-        <h3>Create Class</h3>
+        <h3>{classToEdit ? "Edit Class" : "Create Class"}</h3>
         <input
           type="text"
           placeholder="Enter class name"
@@ -52,7 +61,7 @@ function CreateClass({ isOpen, onClose, onSubmit }) {
             Cancel
           </button>
           <button className="createclass-button submit" onClick={handleSubmit}>
-            Add Class
+            {classToEdit ? "Update Class" : "Add Class"}
           </button>
         </div>
       </div>
