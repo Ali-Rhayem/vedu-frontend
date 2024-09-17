@@ -19,19 +19,27 @@ const Sidebar = ({ isVisible, closeSidebar }) => {
   };
 
   const isCourseActive = (courseId) => {
-    return location.pathname.startsWith(`/class/${courseId}`);
+    const currentCourseId = location.pathname.split("/class/")[1];
+    return currentCourseId && parseInt(currentCourseId, 10) === courseId;
   };
 
   return (
     <div className={`sidebar ${isVisible ? "visible" : ""}`}>
       <ul>
-        <li className={location.pathname === "/home" ? "active" : ""} onClick={handleHomeClick}>
+        <li
+          className={location.pathname === "/home" ? "active" : ""}
+          onClick={handleHomeClick}
+        >
           <span className="home">Home</span>
         </li>
 
         {courses.length > 0 ? (
           courses.map((course) => (
-            <li key={course.id} onClick={() => handleCourseClick(course.id)} className={isCourseActive(course.id) ? "active" : ""}>
+            <li
+              key={course.id}
+              onClick={() => handleCourseClick(course.id)}
+              className={isCourseActive(course.id) ? "active" : ""}
+            >
               <span>{course.name}</span>
             </li>
           ))
