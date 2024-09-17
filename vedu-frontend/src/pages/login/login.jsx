@@ -88,15 +88,15 @@ function Login() {
               />
             </div>
             {error && <p className="error-message">{error}</p>}
-            <div className="forgot-password">
+            {/* <div className="forgot-password">
               <a href="#">Forgot your password?</a>
-            </div>
-            <button type="submit" className="login-button">Sign in</button>
-            <button type="button" className="google-button">Connect with Google</button>
+            </div> */}
+            <button type="submit" className="login-button">Log in</button>
+            <button type="button" className="google-button" onClick={handleRegister}>Create Account</button>
           </form>
-          <div className="create-account">
+          {/* <div className="create-account">
             <a onClick={handleRegister}>Create account ?</a>
-          </div>
+          </div> */}
         </div>
         <div className="blue-side"></div>
       </div>

@@ -51,10 +51,10 @@ function Register() {
     <div className="register-wrapper">
       <div className="register-container">
         <div className="blue-side-register">
-          <div className="content-register">
+          {/* <div className="content-register">
             <img src="path/to/your/image.png" alt="Illustration" />
             <p>lorem ipsum dolor sit amet</p>
-          </div>
+          </div> */}
         </div>
         <div className="register-box">
           <h2>Register</h2>
