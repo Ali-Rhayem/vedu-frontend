@@ -13,11 +13,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "@stream-io/video-react-sdk/dist/css/styles.css";
 import "./MeetingSetup.css";
+import { useNavigate } from "react-router-dom";
 
 const MeetingSetup = ({ call, onSetupComplete }) => {
   const [isMicOn, setIsMicOn] = useState(true);
   const [isCamOn, setIsCamOn] = useState(true);
   const [isCallJoined, setIsCallJoined] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!call) {
@@ -68,6 +70,18 @@ const MeetingSetup = ({ call, onSetupComplete }) => {
     }
   };
 
+  const handleBackToClass = async () => {
+    try {
+      if (call) {
+        await call.leave();
+        console.log("Left the call successfully");
+      }
+      navigate(`/class/${call.id}`);
+    } catch (error) {
+      console.error("Error leaving the call:", error);
+    }
+  };
+
   return (
     <div className="meeting-setup">
       <StreamCall call={call}>
@@ -97,6 +111,9 @@ const MeetingSetup = ({ call, onSetupComplete }) => {
         </div>
 
         <div className="controls">
+          <button className="back-to-class" onClick={handleBackToClass}>
+            Back to Class
+          </button>
           <button className="join-meeting" onClick={handleJoinMeeting}>
             Join Meeting
           </button>

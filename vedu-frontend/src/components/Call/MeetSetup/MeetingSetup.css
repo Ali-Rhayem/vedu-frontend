@@ -72,22 +72,27 @@
   gap: 20px;
 }
 
-.controls button {
+.join-meeting {
   padding: 10px 20px;
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 40px;
 }
 
-.controls button:hover {
+.join-meeting:hover {
   background-color: #0056b3;
+  transform: scale(1.05); 
+}
+
+.join-meeting:active {
+  transform: scale(0.95);
 }
 
 .controls .device-settings {
@@ -95,4 +100,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.back-to-class {
+  padding: 10px 20px;
+  background-color: #ff4b4b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+
+.back-to-class:hover {
+  background-color: #d83a3a;
+  transform: scale(1.05);
+}
+
+.back-to-class:active {
+  transform: scale(0.95);
 }
