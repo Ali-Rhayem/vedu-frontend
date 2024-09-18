@@ -142,3 +142,8 @@ body {
   overflow-y: auto;
   scrollbar-width: none;
 }
+
+.upload-image-ep{
+  cursor: pointer;
+  color: #009fe3;
+}

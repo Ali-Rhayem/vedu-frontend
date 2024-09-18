@@ -101,11 +101,7 @@ function Editprofile() {
                   />
                   <span
                     onClick={handleFileInputClick}
-                    style={{
-                      color: "blue",
-                      cursor: "pointer",
-                      textDecoration: "underline",
-                    }}
+                    className="upload-image-ep"
                   >
                     Upload Image
                   </span>
