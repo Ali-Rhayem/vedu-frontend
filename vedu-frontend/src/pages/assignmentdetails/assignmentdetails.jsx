@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Sidebar from "../../components/sidebar/sidebar";
 import Navbar from "../../components/navbar/navbar";
@@ -16,10 +16,22 @@ function AssignmentDetailsPage() {
     .flatMap((topicName) => assignments[topicName].assignments)
     .find((assignment) => assignment.id === parseInt(assignmentId));
 
+  console.log("currentAssignment", currentAssignment);
+
+
   const userSubmission = currentAssignment?.submissions?.find(
     (submission) => submission.student_id === parseInt(userData.id)
   );
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const courses = useSelector((state) => state.courses.courses) || [];
+  const foundClass = courses.find((course) => course.id === parseInt(classId));
+  const [IsInstructor, setIsInstructor] = useState(false);
+
+  useEffect(() => {
+    if (foundClass?.is_instructor_course) {
+      setIsInstructor(true);
+    }
+  }, [foundClass]);
 
   const {
     uploadedFile,
@@ -81,73 +93,75 @@ function AssignmentDetailsPage() {
               )}
             </div>
 
-            <div className="your-work">
-              {currentAssignment.grade !== null && (
-                <div className="grade-section-ad">
-                  <h4>
-                    Your Grade: {userSubmission?.grade || "N/A"} /{" "}
-                    {currentAssignment.grade}
-                  </h4>
-                </div>
-              )}
-
-              <h4>Your Work</h4>
-              <div className="submission-details">
-                {userSubmission ? (
-                  <>
-                    <div className="submitted-file">
-                      {userSubmission.file_url && (
-                        <a
-                          href={`http://127.0.0.1:8000/storage/${userSubmission.file_url}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {userSubmission.file_url.split("/").pop()}
-                        </a>
-                      )}
-                    </div>
-                    <div className="work-actions">
-                      <button
-                        className="unsubmit-button"
-                        onClick={() =>
-                          handleUnsubmit(
-                            userSubmission.id,
-                            classId,
-                            assignmentId
-                          )
-                        }
-                      >
-                        ❌ Unsubmit
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="uploaded-file">
-                      {uploadedFile && (
-                        <ul>
-                          <li>{uploadedFile.name}</li>
-                        </ul>
-                      )}
-                    </div>
-                    <div className="work-actions">
-                      <button
-                        className="add-work-button"
-                        onClick={handleAddWork}
-                      >
-                        + Add Work
-                      </button>
-                      <button
-                        className="mark-done-button"
-                        onClick={() => handleMarkDone(assignmentId, classId)}
-                      >
-                        ✔ Mark Done
-                      </button>
-                    </div>
-                  </>
+            {!IsInstructor && (
+              <div className="your-work">
+                {currentAssignment.grade !== null && (
+                  <div className="grade-section-ad">
+                    <h4>
+                      Your Grade: {userSubmission?.grade || "N/A"} /{" "}
+                      {currentAssignment.grade}
+                    </h4>
+                  </div>
                 )}
+
+                <h4>Your Work</h4>
+                <div className="submission-details">
+                  {userSubmission ? (
+                    <>
+                      <div className="submitted-file">
+                        {userSubmission.file_url && (
+                          <a
+                            href={`http://127.0.0.1:8000/storage/${userSubmission.file_url}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {userSubmission.file_url.split("/").pop()}
+                          </a>
+                        )}
+                      </div>
+                      <div className="work-actions">
+                        <button
+                          className="unsubmit-button"
+                          onClick={() =>
+                            handleUnsubmit(
+                              userSubmission.id,
+                              classId,
+                              assignmentId
+                            )
+                          }
+                        >
+                          ❌ Unsubmit
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="uploaded-file">
+                        {uploadedFile && (
+                          <ul>
+                            <li>{uploadedFile.name}</li>
+                          </ul>
+                        )}
+                      </div>
+                      <div className="work-actions">
+                        <button
+                          className="add-work-button"
+                          onClick={handleAddWork}
+                        >
+                          + Add Work
+                        </button>
+                        <button
+                          className="mark-done-button"
+                          onClick={() => handleMarkDone(assignmentId, classId)}
+                        >
+                          ✔ Mark Done
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
