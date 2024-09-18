@@ -154,9 +154,9 @@ function Class() {
             <button className="join-button" onClick={handleJoinMeeting}>
               Join Meeting
             </button>
-            {foundClass.is_instructor_course && (
+            {/* {foundClass.is_instructor_course && (
               <button className="announce-button">Announce</button>
-            )}
+            )} */}
           </div>
 
           <div className="stream">
