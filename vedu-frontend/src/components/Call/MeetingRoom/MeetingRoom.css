@@ -1,0 +1,378 @@
+.meeting-room-section {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #1c1c1c;
+  color: white;
+}
+
+.meeting-room-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  flex-grow: 1;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.instructor-controls {
+  width: 100%;
+  display: flex;
+  gap: 15px;
+  position: relative;
+}
+
+.call-layout-container {
+  max-width: 1000px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.call-controls-container {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.participants-list-container {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100vh;
+  background-color: #1c1c1c;
+  border-left: 1px solid #333;
+  z-index: 1000;
+  overflow-y: auto;
+  transition: right 0.3s ease;
+  padding: 20px;
+}
+
+.participants-list-container.show-block {
+  right: 0;
+}
+
+.dropdown-menu {
+  position: relative;
+}
+
+.dropdown-trigger {
+  position: relative;
+}
+
+.dropdown-button {
+  padding: 10px 15px;
+  background-color: #19232d;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dropdown-button:hover {
+  background-color: #4c535b;
+}
+
+.dropdown-content {
+  position: absolute;
+  bottom: 110%;
+  left: 0;
+  background-color: #1c1c1c;
+  border: 1px solid #333;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  z-index: 100;
+}
+
+.dropdown-item {
+  padding: 10px;
+  background: none;
+  border: none;
+  color: white;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #333;
+}
+
+.dropdown-separator {
+  border: none;
+  height: 1px;
+  background-color: #333;
+}
+
+.participants-toggle-button {
+  padding: 10px 15px;
+  background-color: #19232d;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.participants-toggle-button:hover {
+  background-color: #4c535b;
+}
+
+.hidden {
+  display: none;
+}
+
+.compiler-toggle-button {
+  padding: 10px 15px;
+  background-color: #19232d;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: 10px;
+}
+
+.compiler-toggle-button:hover {
+  background-color: #4c535b;
+}
+
+.call-layout-container {
+  max-width: 1000px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toggle-compiler-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #00cfff;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+}
+
+.toggle-compiler-button:hover {
+  background-color: #009fcc;
+}
+
+.toggle-compiler-button .fa-code {
+  margin-right: 5px;
+}
+
+.user-access-dropdown {
+  position: relative;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.user-list-dropdown {
+  width: 200px;
+  position: absolute;
+  bottom: 110%;
+  left: 0;
+  background-color: #1c1c1c;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 10px;
+  z-index: 100;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.user-item span {
+  color: white;
+}
+
+.user-item button {
+  background-color: #00cfff;
+  color: #fff;
+  border: none;
+  padding: 5px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.user-item button:hover {
+  background-color: #009fcc;
+}
+
+.request-access-button {
+  padding: 10px 15px;
+  background-color: #19232d;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background-color: #1c1c1c;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  text-align: center;
+}
+
+.modal-content h3 {
+  color: white;
+  margin-bottom: 20px;
+}
+
+.request-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.request-item span {
+  color: white;
+}
+
+.request-item button {
+  background-color: #00cfff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.request-item button:hover {
+  background-color: #009fcc;
+}
+
+@media screen and (max-width: 768px) {
+  .participants-list-container {
+    width: 50%;
+    right: -100%;
+  }
+
+  .participants-list-container.show-block {
+    right: 0;
+  }
+}
+
+.ai-assistant-container {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100vh;
+  background-color: #1c1c1c;
+  border-left: 1px solid #333;
+  z-index: 1000;
+  overflow-y: auto;
+  transition: right 0.3s ease;
+  padding-top: 20px;
+}
+
+.ai-assistant-container.show-block {
+  right: 0;
+}
+
+/* AI Assistant Button */
+.toggle-ai-button {
+  background-color: #19232d;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggle-ai-button:hover {
+  background-color: #4c535b;
+}
+
+.ai-assistant-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.3s ease;
+}
+
+.ai-assistant-close:hover {
+  color: #ff4d4d;
+}
+
+.chat-panel-container {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100vh;
+  background-color: #1c1c1c;
+  border-left: 1px solid #333;
+  z-index: 1000;
+  overflow-y: auto;
+  transition: right 0.3s ease;
+}
+
+.chat-panel-container.show-block {
+  right: 0;
+}
+
+.toggle-chat-button {
+  background-color: #19232d;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggle-chat-button:hover {
+  background-color: #4c535b;
+}

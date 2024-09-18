@@ -1,0 +1,154 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #141414;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.profile-page {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.profile-container {
+  overflow-y: auto;
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: row;
+}
+
+.profile-content-pfp {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.profile-section-content {
+  background-color: #2b2b2b;
+  padding: 20px;
+  border-radius: 10px;
+  color: #fff;
+  margin-left: 280px;
+}
+
+.profile-section-content h3 {
+  margin-bottom: 20px;
+  color: #00cfff;
+}
+
+.profile-section {
+  background-color: #1f1f1f;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+.profile-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.profile-section-header h4 {
+  margin: 0;
+  color: #00cfff;
+}
+
+.profile-edit-button {
+  padding: 5px 15px;
+  background-color: #00cfff;
+  color: #141414;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.profile-edit-button:hover {
+  background-color: #009fe3;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.profile-flex-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; 
+}
+
+
+.profile-email,
+.profile-phone {
+  flex: 1;
+  text-align: left;
+  margin: 0;
+}
+
+.profile-email {
+  width: 50%;
+}
+
+.profile-phone {
+  width: 50%;
+}
+
+/* .profile-personal-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+} */
+
+.profile-row {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.profile-address-info {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.profile-address-cc,
+.profile-address-code{
+  flex: 1;
+  text-align: left;
+  margin: 0;
+}
+
+.profile-address-cc {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+.profile-image img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-name {
+  margin-top: 15px;
+}
+
+.profile-info-group p {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .profile-section-content{
+    margin-left: 0px;
+  }
+}

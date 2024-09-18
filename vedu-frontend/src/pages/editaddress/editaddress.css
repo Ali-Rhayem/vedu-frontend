@@ -1,0 +1,119 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #141414;
+}
+
+.edit-address-page {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.address-content {
+  background-color: #2b2b2b;
+  padding: 40px;
+  border-radius: 15px;
+  color: #fff;
+  width: 90%;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.address-content h3 {
+  margin-bottom: 20px;
+  color: #00cfff;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.address-section {
+  background-color: #1f1f1f;
+  padding: 25px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.section-header h4 {
+  margin: 0 0 15px;
+  color: #00cfff;
+  text-align: left;
+  font-size: 1.25em;
+}
+
+.address-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.info-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-group label {
+  margin-bottom: 5px;
+  color: #00cfff;
+}
+
+.info-group input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #444;
+  background-color: #333;
+  color: #ddd;
+  outline: none;
+}
+
+.info-group input::placeholder {
+  color: #888;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.cancel-button,
+.confirm-button {
+  padding: 10px 30px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  min-width: 120px;
+}
+
+.cancel-button {
+  background-color: #555;
+  color: #ddd;
+}
+
+.confirm-button {
+  background-color: #00cfff;
+  color: #141414;
+}
+
+.cancel-button:hover {
+  background-color: #777;
+}
+
+.confirm-button:hover {
+  background-color: #009fe3;
+}
+
+.Container {
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}

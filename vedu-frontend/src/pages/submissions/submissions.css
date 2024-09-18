@@ -1,0 +1,175 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #141414;
+}
+
+.submissions-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.submissions-content {
+  background-color: #2b2b2b;
+  padding: 30px;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.submissions-content h3 {
+  color: #00cfff;
+  margin-bottom: 20px;
+}
+
+.submission-item {
+  background-color: #1f1f1f;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 150px;
+}
+
+.submission-header {
+  display: flex;
+  align-items: center;
+}
+
+.student-info {
+  display: flex;
+  align-items: center;
+}
+
+.student-avatar {
+  width: 50px;
+  height: 50px;
+  background-color: #444;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.student-name {
+  color: #00cfff;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.submission-body {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-right: 50px; 
+}
+
+.download-section {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  margin: 20px;
+}
+
+.download-icon {
+  width: 40px;
+  height: 40px;
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%; 
+  background-color: transparent;
+  color: #00cfff;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.download-icon:hover {
+  background-color: #00cfff;
+  color: #141414;
+}
+
+.download-icon svg {
+  width: 24px;
+  height: 24px;
+  color: #00cfff;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.download-icon:hover svg {
+  color: #141414;
+}
+.grade-section {
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+  color: #00cfff;
+}
+
+.grade-section label {
+  margin-bottom: 5px;
+}
+
+.grade-section input {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #444;
+  color: #ddd;
+  width: 60px; 
+  margin-right: 5px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.grade-section span {
+  font-size: 16px;
+}
+
+.save-grade-button {
+  padding: 5px 10px; 
+  border-radius: 5px;
+  border: 2px solid #00cfff;
+  background-color: transparent;
+  color: #00cfff;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.save-grade-button:hover {
+  background-color: #00cfff;
+  color: #141414;
+}
+
+.submissions-container {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.submissions-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.submissions-container::-webkit-scrollbar-thumb {
+  background-color: #444;
+  border-radius: 10px;
+}
+
+.submissions-container::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}

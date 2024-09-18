@@ -1,0 +1,126 @@
+.meeting-setup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #1c1c1c;
+}
+
+.video-preview-container {
+  position: relative;
+  width: 85vh;
+  height: 70vh;
+  display: flex;
+  background-color: #000;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
+
+.video-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.controls-overlay {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.control-button {
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+}
+
+.control-button:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.control-button svg {
+  font-size: 24px;
+}
+
+.mic-icon,
+.vid-icon {
+  height: 24px;
+  width: 24px;
+}
+
+.controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 20px;
+}
+
+.join-meeting {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+
+.join-meeting:hover {
+  background-color: #0056b3;
+  transform: scale(1.05); 
+}
+
+.join-meeting:active {
+  transform: scale(0.95);
+}
+
+.controls .device-settings {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-to-class {
+  padding: 10px 20px;
+  background-color: #ff4b4b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+
+.back-to-class:hover {
+  background-color: #d83a3a;
+  transform: scale(1.05);
+}
+
+.back-to-class:active {
+  transform: scale(0.95);
+}

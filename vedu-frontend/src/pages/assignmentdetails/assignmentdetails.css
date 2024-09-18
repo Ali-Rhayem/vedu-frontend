@@ -1,0 +1,162 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #141414;
+}
+
+.assignment-details-page {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.assignment-content {
+  display: flex;
+  justify-content: space-between;
+  background-color: #2b2b2b;
+  padding: 30px;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.assignment-details-ad {
+  max-width: 60%;
+}
+
+.assignment-details-ad h3 {
+  color: #00cfff;
+  margin-bottom: 15px;
+}
+
+.attachment {
+  margin-bottom: 20px;
+}
+
+.attachment h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.attachment .file-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.attachment .file-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.file-icon {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.attachment .file-item a {
+  color: #00cfff;
+  text-decoration: none;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-all; 
+  display: inline-block;
+  max-width: 100%; 
+}
+
+.submitted-file {
+  width: 100%;
+  word-wrap: break-word; 
+  white-space: normal;
+  overflow-wrap: anywhere;
+  display: inline-block;
+}
+
+.submitted-file a {
+  color: #00cfff;
+  text-decoration: none;
+  display: inline-block;
+  word-break: break-all;
+  max-width: 100%; 
+  white-space: normal; 
+}
+
+.submitted-file a:hover {
+  text-decoration: underline;
+}
+
+.attachment .file-item a:hover {
+  text-decoration: underline;
+}
+
+.description {
+  color: #ddd;
+}
+
+.your-work {
+  background-color: #1f1f1f;
+  padding: 20px;
+  border-radius: 10px;
+  width: 25%;
+  text-align: center;
+  align-self: flex-start;
+}
+
+.grade-section-ad {
+  margin-bottom: 20px;
+  background-color: #1f1f1f;
+  padding: 10px;
+  border-radius: 10px;
+  color: #00cfff;
+}
+
+.submission-details {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.submitted-file {
+  width: 100%;
+}
+
+.submitted-file a {
+  width: 100%;
+}
+
+.work-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.add-work-button,
+.mark-done-button,
+.unsubmit-button {
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid #00cfff;
+  background-color: transparent;
+  color: #00cfff;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.add-work-button:hover,
+.mark-done-button:hover,
+.unsubmit-button:hover {
+  background-color: #00cfff;
+  color: #141414;
+}
+
+.assignment-details-container {
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}

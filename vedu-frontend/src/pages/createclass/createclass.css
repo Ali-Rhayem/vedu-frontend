@@ -1,0 +1,87 @@
+.createclass-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.createclass-content {
+  background-color: #1f1f1f;
+  padding: 30px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.createclass-content h3 {
+  color: #00cfff;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.createclass-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #444;
+  color: #ddd;
+  margin-bottom: 10px;
+}
+
+.createclass-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px; /* Added gap for spacing between buttons */
+  margin-top: 20px;
+}
+
+.createclass-button {
+  flex: 1; /* Ensures both buttons have the same size */
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid #00cfff;
+  background-color: transparent;
+  color: #00cfff;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  text-align: center;
+}
+
+.createclass-button.submit:hover {
+  background-color: #00cfff;
+  color: #141414;
+}
+
+.cancel {
+  background-color: #555;
+  border: 2px solid #555;
+  color: #ddd;
+}
+
+.cancel:hover {
+  background-color: #777;
+}
+
+/* Responsive styling for smaller screens */
+@media (max-width: 600px) {
+  .createclass-content {
+    width: 90%; /* Make the modal take up more space on smaller screens */
+    padding: 20px;
+  }
+
+  .createclass-input {
+    padding: 8px;
+  }
+
+  .createclass-button {
+    padding: 8px; /* Adjust padding for smaller buttons */
+  }
+}

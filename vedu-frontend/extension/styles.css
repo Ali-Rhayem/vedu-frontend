@@ -1,0 +1,60 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #1e1e1e;
+  color: #ffffff; 
+  width: 400px; 
+  height: 400px;
+}
+
+h1 {
+  font-size: 28px; /* Larger font for title */
+  color: #00cfff; /* Vibrant blue color for the title */
+  margin-bottom: 20px;
+  text-align: center; /* Centered title */
+}
+
+#fetchSummary {
+  display: block;
+  width: 100%;
+  background-color: #00cfff;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 18px; /* Larger font for button */
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+#fetchSummary:hover {
+  background-color: #00a0d1; /* Slightly darker blue on hover */
+}
+
+#summary {
+  margin-top: 20px;
+  font-size: 16px;
+  padding: 15px;
+  background-color: #282828; /* Chat background color for cards */
+  border-radius: 10px;
+  border: 1px solid #444444;
+  color: #dddddd; /* Lighter text for readability */
+  max-height: 350px; /* Increased max-height */
+  overflow-y: auto;
+}
+
+/* Scrollbar styling */
+#summary::-webkit-scrollbar {
+  width: 8px;
+}
+
+#summary::-webkit-scrollbar-thumb {
+  background-color: #00cfff;
+  border-radius: 4px;
+}
+
+#summary::-webkit-scrollbar-track {
+  background-color: #1e1e1e;
+}
