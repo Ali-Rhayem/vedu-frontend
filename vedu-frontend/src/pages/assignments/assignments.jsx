@@ -158,7 +158,7 @@ function Assignments() {
                                       >
                                         Submissions
                                       </li>
-                                      <li>Edit</li>
+                                      {/* <li>Edit</li> */}
                                       <li
                                         className="dropdown-delete-assignment"
                                         onClick={(e) => {
