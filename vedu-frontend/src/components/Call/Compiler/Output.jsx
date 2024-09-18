@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { executeCode } from "../../../api";
-import "./output.css";
 
 const Output = ({ editorRef, language, output, onOutputUpdate,HasEditAccess }) => {
   const [isLoading, setIsLoading] = useState(false);
