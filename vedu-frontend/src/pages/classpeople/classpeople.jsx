@@ -7,9 +7,11 @@ import AddPersonModal from "../addpersonmodal/addpersonmodal";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useParams } from "react-router-dom";
 import { useClassPeople } from "./useClassPeople";
+import { useSelector } from "react-redux";
 
 function ClassPeople() {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const userData = useSelector((state) => state.user.data);
   const { classId } = useParams();
   const {
     isOwner,
@@ -83,7 +85,7 @@ function ClassPeople() {
                       </div>
                       <div className="person-details">
                         <span>{instructorData.name}</span>
-                        {isOwner && (
+                        {isOwner && instructorData.id !== userData.id && (
                           <i
                             className="fas fa-trash delete-person-icon"
                             onClick={() =>
