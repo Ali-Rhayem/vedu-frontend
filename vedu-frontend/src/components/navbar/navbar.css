@@ -5,6 +5,7 @@
   background-color: #1f1f1f;
   padding: 10px 20px;
   color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .search-bar input {
@@ -29,7 +30,7 @@
   object-fit: cover;
 }
 
-.profile-image-navbar{
+.profile-image-navbar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -45,8 +46,8 @@
 
 .profile-dropdown {
   display: block;
-  position: absolute; 
-  top: 80px; 
+  position: absolute;
+  top: 80px;
   right: 10px;
   background-color: #282828;
   border: 1px solid #444;
@@ -92,7 +93,7 @@
     display: none;
   }
 
-  .profile-image-navbar{
+  .profile-image-navbar {
     width: 35px;
     height: 35px;
     border-radius: 50%;
