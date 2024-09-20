@@ -34,24 +34,22 @@ body {
 }
 
 .join-button-home {
-  background-color: #141414;
-  color: #00cfff;
+  background-color: #00cfff;
+  color: #141414;
   border: 1px solid #00cfff;
 }
 
 .join-button-home:hover {
-  background-color: #00cfff;
-  color: #141414;
+  background-color: #009fe3;
 }
 
 .create-button-home:hover {
-  background-color: #00cfff;
-  color: #141414;
+  background-color: #009fe3;
 }
 
 .create-button-home {
-  background-color: #141414;
-  color: #00cfff;
+  background-color: #00cfff;
+  color: #141414;
   border: 1px solid #00cfff;
 }
 
@@ -89,7 +87,7 @@ body {
 .class-card-header {
   display: flex;
   justify-content: space-between;
-  align-items: center; 
+  align-items: center;
   width: 100%;
 }
 
@@ -110,14 +108,13 @@ body {
   padding: 10px 20px;
   border-radius: 5px;
   border: 1px solid #00cfff;
-  background-color: #2b2b2b;
-  color: #00cfff;
+  background-color: #00cfff;
+  color: #141414;
   cursor: pointer;
 }
 
 .details-button:hover {
-  background-color: #00cfff;
-  color: #141414;
+  background-color: #009fe3;
 }
 
 .home-container {
@@ -176,9 +173,33 @@ body {
   color: #00cfff;
 }
 
-.class-dropdown ul li.delete-dropdown:hover{
+.class-dropdown ul li.delete-dropdown:hover {
   background-color: #444;
-  color: red
+  color: red;
+}
+
+.Toastify__toast--success {
+  background-color: #00cfff !important; 
+  color: #141414 !important; 
+}
+
+.Toastify__toast--error {
+  background-color: #e74c3c !important;
+  color: #fff !important; 
+}
+
+.Toastify__toast--info {
+  background-color: #00cfff !important;
+  color: #141414 !important;
+}
+
+.Toastify__toast--warning {
+  background-color: #f39c12 !important;
+  color: #fff !important;
+}
+
+.Toastify__close-button {
+  color: #fff !important;
 }
 
 @media (max-width: 768px) {

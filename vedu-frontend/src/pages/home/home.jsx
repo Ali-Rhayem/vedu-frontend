@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
 import "./home.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
@@ -13,6 +14,7 @@ import {
   addCourse,
   resetCourses,
 } from "../../redux/coursesSlice/coursesSlice";
+import { toast, ToastContainer } from "react-toastify";
 
 function Home() {
   const dispatch = useDispatch();
@@ -96,7 +98,14 @@ function Home() {
       });
 
       if (response && response.message === "Successfully joined the class") {
-        alert("Successfully joined the class!");
+        toast.success("Successfully joined the class!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
 
         const updatedCourses = [
           ...courses,
@@ -153,6 +162,14 @@ function Home() {
               : course
           );
           dispatch(setCourses(updatedCourses));
+          toast.success("Class updated successfully!", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
         }
       } else {
         const response = await requestApi({
@@ -180,12 +197,27 @@ function Home() {
             navigationFunction: navigate,
           });
 
-          alert(`Class ${response.course.name} created successfully!`);
+          toast.success(`Class ${response.course.name} created successfully!`, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
         }
       }
       closeCreateModal();
     } catch (err) {
       console.error("Failed to create or update class:", err);
+      toast.error("Failed to create or update class. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
@@ -204,9 +236,24 @@ function Home() {
       const updatedCourses = courses.filter((course) => course.id !== courseId);
       dispatch(setCourses(updatedCourses));
 
-      alert(`Class ${courseId} deleted successfully!`);
+      toast.success(`Class ${courseId} deleted successfully!`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     } catch (err) {
       console.error("Failed to delete class:", err);
+      toast.error("Failed to delete class. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
@@ -252,7 +299,7 @@ function Home() {
             isOpen={isCreateModalOpen}
             onClose={closeCreateModal}
             onSubmit={handleCreateOrUpdateClass}
-            classToEdit={classToEdit} 
+            classToEdit={classToEdit}
           />
           <div className="classes">
             <h3>Instructor Courses</h3>
@@ -275,7 +322,10 @@ function Home() {
                               <li onClick={() => openEditModal(course)}>
                                 Edit
                               </li>
-                              <li className="delete-dropdown" onClick={() => handleDeleteClass(course.id)}>
+                              <li
+                                className="delete-dropdown"
+                                onClick={() => handleDeleteClass(course.id)}
+                              >
                                 Delete
                               </li>
                             </ul>
@@ -321,6 +371,7 @@ function Home() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
