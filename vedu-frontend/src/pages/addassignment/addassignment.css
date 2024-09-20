@@ -20,11 +20,27 @@ body {
 .assignment-form {
   display: flex;
   justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+  background-color: #1f1f1f;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .form-left,
 .form-right {
   width: 48%;
+}
+
+@media (max-width: 768px) {
+  .assignment-form {
+    flex-direction: column;
+  }
+
+  .form-left,
+  .form-right {
+    width: 100%;
+  }
 }
 
 .form-group {
@@ -33,29 +49,42 @@ body {
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   color: #00cfff;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border-radius: 5px;
   border: 1px solid #555;
   background-color: #333;
   color: #ddd;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #00cfff;
 }
 
 .form-group textarea {
-  height: 100px;
+  height: 120px;
 }
 
-.file-upload {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.file-upload input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #444;
+  border-radius: 5px;
+  border: 1px solid #555;
+  color: #ddd;
 }
 
 .uploaded-files {
@@ -66,8 +95,10 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 5px;
-  color: #ddd;
+  padding: 8px;
+  background-color: #333;
+  border-radius: 5px;
+  margin-bottom: 8px;
 }
 
 .uploaded-file button {
@@ -75,54 +106,59 @@ body {
   border: none;
   color: #00cfff;
   cursor: pointer;
+  transition: color 0.3s ease;
 }
 
-.form-actions {
+.uploaded-file button:hover {
+  color: #009fe3;
+}
+
+.form-actions-aa {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   gap: 10px;
+  margin-top: 20px;
 }
 
-.cancel-button,
-.add-button,
-.upload-button {
-  padding: 10px 20px;
+.cancel-button-aa,
+.add-button-aa {
+  width: 48%; /* Ensure buttons take up 50% of input width */
+  padding: 12px 0;
   border-radius: 5px;
   border: none;
   cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  text-align: center;
 }
 
-.cancel-button {
+.cancel-button-aa {
   background-color: #555;
   color: #ddd;
 }
 
-.add-button {
+.add-button-aa {
   background-color: #00cfff;
   color: #141414;
 }
 
-.upload-button {
-  background-color: #00cfff;
-  color: #141414;
-}
-
-.cancel-button:hover {
+.cancel-button-aa:hover {
   background-color: #777;
 }
 
-.add-button:hover,
-.upload-button:hover {
+.add-button-aa:hover {
   background-color: #009fe3;
-}
-
-.form-right .form-group {
-  display: flex;
-  flex-direction: column;
 }
 
 .Container {
   height: 100%;
   overflow-y: auto;
   scrollbar-width: none;
+}
+
+.add-assignment-title {
+  color: #00cfff;
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
 }
