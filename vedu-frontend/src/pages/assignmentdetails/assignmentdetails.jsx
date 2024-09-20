@@ -6,6 +6,8 @@ import Tabs from "../../components/Tabs/tabs";
 import "./assignmentdetails.css";
 import { useSelector } from "react-redux";
 import { useAssignmentDetails } from "./useAssignmentDetails";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AssignmentDetailsPage() {
   const { assignmentId, classId } = useParams();
@@ -165,6 +167,7 @@ function AssignmentDetailsPage() {
           </div>
         </div>
       </div>
+      <ToastContainer/>
     </div>
   );
 }
