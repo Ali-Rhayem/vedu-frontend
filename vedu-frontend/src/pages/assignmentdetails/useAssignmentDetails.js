@@ -1,8 +1,9 @@
-// useAssignmentDetails.js
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { requestApi } from "../../utils/request";
-import { addSubmission, removeSubmission  } from "../../redux/assignmentsSlice/assignmentsSlice";
+import { addSubmission, removeSubmission } from "../../redux/assignmentsSlice/assignmentsSlice";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const useAssignmentDetails = () => {
     const dispatch = useDispatch();
@@ -24,10 +25,22 @@ export const useAssignmentDetails = () => {
                 })
             );
 
-            alert("Submission removed successfully!");
+            toast.success("Submission removed successfully!", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
         } catch (error) {
             console.error("Error removing submission:", error);
-            alert("Failed to remove submission. Please try again.");
+            toast.error("Failed to remove submission. Please try again.", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
         }
     };
 
@@ -45,12 +58,24 @@ export const useAssignmentDetails = () => {
 
     const handleMarkDone = async (assignmentId, classId) => {
         if (!uploadedFile) {
-            alert("Please add a file before marking as done.");
+            toast.error("Please add a file before marking as done.", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
             return;
         }
 
         if (!userData || !userData.id) {
-            alert("User information not loaded. Please try again later.");
+            toast.error("User information not loaded. Please try again later.", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
             return;
         }
 
@@ -69,7 +94,13 @@ export const useAssignmentDetails = () => {
                 },
             });
 
-            alert("Submission created successfully!");
+            toast.success("Submission created successfully!", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
 
             dispatch(
                 addSubmission({
@@ -82,7 +113,13 @@ export const useAssignmentDetails = () => {
             setUploadedFile(null);
         } catch (error) {
             console.error("Error submitting work:", error);
-            alert("Failed to submit work. Please try again.");
+            toast.error("Failed to submit work. Please try again.", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
         }
     };
 
