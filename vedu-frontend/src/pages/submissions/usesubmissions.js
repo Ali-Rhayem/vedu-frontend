@@ -2,6 +2,8 @@ import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
 import { useDispatch } from "react-redux";
 import { updateSubmissionGrade } from "../../redux/assignmentsSlice/assignmentsSlice";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const useSubmissions = () => {
   const dispatch = useDispatch();
@@ -23,19 +25,44 @@ export const useSubmissions = () => {
         link.click();
         link.remove();
       } else {
-        alert('Failed to download the file.');
+        toast.error('Failed to download the file.', {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     } catch (error) {
       console.error('Error downloading the file:', error);
+      toast.error('Error downloading the file. Please try again.', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
   const handleGradeChange = (e, submissionId, currentAssignment, setUpdatedSubmissions) => {
     const value = parseInt(e.target.value, 10);
     if (currentAssignment && value > currentAssignment.grade) {
-      alert(`Grade cannot exceed ${currentAssignment.grade}`);
+      toast.error(`Grade cannot exceed ${currentAssignment.grade}`, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     } else if (value < 0) {
-      alert(`Grade cannot be less than 0`);
+      toast.error(`Grade cannot be less than 0`, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     } else {
       setUpdatedSubmissions((prevSubmissions) =>
         prevSubmissions.map((submission) =>
@@ -49,7 +76,13 @@ export const useSubmissions = () => {
 
   const handleSaveGrade = async (submissionId, grade, assignmentId, classId) => {
     if (grade === null || grade === undefined || grade === "") {
-      alert("Please enter a grade.");
+      toast.error("Please enter a grade.", {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       return;
     }
 
@@ -63,7 +96,14 @@ export const useSubmissions = () => {
           Accept: "application/json",
         },
       });
-      alert("Grade saved successfully!");
+
+      toast.success("Grade saved successfully!", {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
 
       dispatch(
         updateSubmissionGrade({
@@ -75,7 +115,13 @@ export const useSubmissions = () => {
       );
     } catch (error) {
       console.error("Error saving grade:", error);
-      alert("Failed to save grade. Please try again.");
+      toast.error("Failed to save grade. Please try again.", {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
