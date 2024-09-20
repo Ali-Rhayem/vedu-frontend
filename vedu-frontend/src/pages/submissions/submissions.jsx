@@ -7,6 +7,8 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useSubmissions } from "./usesubmissions.js";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Submissions() {
   const { assignmentId, classId } = useParams();
@@ -20,6 +22,8 @@ function Submissions() {
   const [updatedSubmissions, setUpdatedSubmissions] = useState(
     currentAssignment?.submissions || []
   );
+
+  console.log("Updated Submissions:", updatedSubmissions);
   const { handleDownload, handleGradeChange, handleSaveGrade } =
     useSubmissions();
 
@@ -50,7 +54,17 @@ function Submissions() {
               <div className="submission-item" key={submission.id}>
                 <div className="submission-header">
                   <div className="student-info">
-                    <div className="student-avatar"></div>
+                    <div className="student-avatar">
+                      <img
+                        src={
+                          submission.student.profile_image
+                            ? `http://127.0.0.1:8000/${submission.student.profile_image}`
+                            : "/assets/images/defaultpfp.jpg"
+                        }
+                        alt={`${submission.student.name}'s avatar`}
+                        className="user-avatar"
+                      />
+                    </div>
                     <div className="student-name">
                       {submission.student.name}
                     </div>
@@ -120,6 +134,7 @@ function Submissions() {
           </div>
         </div>
       </div>
+      <ToastContainer/>
     </div>
   );
 }
