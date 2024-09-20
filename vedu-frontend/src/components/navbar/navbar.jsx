@@ -6,6 +6,7 @@ import { resetCourses } from "../../redux/coursesSlice/coursesSlice";
 import { clearUser } from "../../redux/userSlice/userSlice";
 import { clearAllAssignments } from "../../redux/assignmentsSlice/assignmentsSlice";
 import { clearAllClassPeople } from "../../redux/classPeopleSlice";
+import logo from "../../assets/logo2.png";
 
 const Navbar = ({ toggleSidebar }) => {
   const dispatch = useDispatch();
@@ -55,12 +56,15 @@ const Navbar = ({ toggleSidebar }) => {
     dispatch(clearUser());
     dispatch(clearAllAssignments());
     dispatch(clearAllClassPeople());
-    navigate("/login");
+    navigate("/");
   };
 
   return (
     <header className="top-bar">
-      <h2>VEDU</h2>
+      <div className="logo-container">
+        <img className="logo" src={logo} alt="Logo" />
+        <h2>VEDU</h2>
+      </div>
 
       <div className="menu-icon">
         <div>
