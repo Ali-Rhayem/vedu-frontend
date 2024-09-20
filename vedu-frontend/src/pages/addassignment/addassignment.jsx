@@ -5,6 +5,8 @@ import Navbar from "../../components/navbar/navbar";
 import { useNavigate } from "react-router-dom";
 
 import { useAddAssignment } from "./useAddAssignment";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AddAssignment() {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
@@ -42,9 +44,9 @@ function AddAssignment() {
       <div className="Container">
         <Sidebar isVisible={isSidebarVisible} closeSidebar={closeSidebar} />
         <div className="content">
+          <h3 className="add-assignment-title">New Assignment</h3>
           <div className="assignment-form">
             <div className="form-left">
-              <h3>New Assignment</h3>
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label>Topic</label>
@@ -103,15 +105,15 @@ function AddAssignment() {
                   </div>
                 </div>
 
-                <div className="form-actions">
+                <div className="form-actions-aa">
                   <button
                     type="button"
-                    className="cancel-button"
+                    className="cancel-button-aa"
                     onClick={() => navigate(-1)}
                   >
                     Cancel
                   </button>
-                  <button type="submit" className="add-button">
+                  <button type="submit" className="add-button-aa">
                     Add
                   </button>
                 </div>
@@ -141,6 +143,7 @@ function AddAssignment() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

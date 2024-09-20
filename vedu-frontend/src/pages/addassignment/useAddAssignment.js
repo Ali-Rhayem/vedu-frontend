@@ -5,6 +5,8 @@ import { RequestMethods } from "../../utils/request_methods";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addAssignment } from "../../redux/assignmentsSlice/assignmentsSlice";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const useAddAssignment = () => {
     const [title, setTitle] = useState("");
@@ -18,7 +20,7 @@ export const useAddAssignment = () => {
     const course = useSelector((state) =>
         state.courses.courses.find((course) => course.id === parseInt(classId))
     );
-    
+
     const assignments = useSelector((state) => state.assignments[classId]) || {};
 
     const topics = Object.keys(assignments).map((topicName) => {
@@ -56,7 +58,13 @@ export const useAddAssignment = () => {
             const topicName = selectedTopic ? selectedTopic.name : null;
 
             if (!topicName) {
-                alert("Please select a valid topic.");
+                toast.error("Please select a valid topic.", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
                 return;
             }
 
