@@ -8,6 +8,8 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useParams } from "react-router-dom";
 import { useClassPeople } from "./useClassPeople";
 import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ClassPeople() {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
@@ -160,6 +162,7 @@ function ClassPeople() {
           setModalError={setModalError}
         />
       )}
+      <ToastContainer/>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
-import { removeInstructor, removeStudent } from "../../redux/classPeopleSlice.js"; 
+import { removeInstructor, removeStudent } from "../../redux/classPeopleSlice.js";
 import {
     setClassPeopleLoading,
     setClassPeopleSuccess,
@@ -10,6 +10,8 @@ import {
     addInstructor,
     addStudent,
 } from "../../redux/classPeopleSlice";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const useClassPeople = (classId) => {
     const [isOwner, setIsOwner] = useState(false);
@@ -61,6 +63,13 @@ export const useClassPeople = (classId) => {
                     );
                 } catch (err) {
                     dispatch(setClassPeopleError("Failed to fetch class people"));
+                    toast.error("Failed to fetch class people.", {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                    });
                 }
             };
 
@@ -162,10 +171,25 @@ export const useClassPeople = (classId) => {
                 dispatch(removeStudent({ classId, studentId: personId }));
             }
 
-            alert(`${personType === "instructor" ? "Instructor" : "Student"} removed successfully`);
+            toast.success(
+                `${personType === "instructor" ? "Instructor" : "Student"} removed successfully.`,
+                {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                }
+            );
         } catch (error) {
             console.error(`Error removing ${personType}:`, error);
-            alert(`Failed to remove ${personType}. Please try again.`);
+            toast.error(`Failed to remove ${personType}. Please try again.`, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
         }
     };
 
