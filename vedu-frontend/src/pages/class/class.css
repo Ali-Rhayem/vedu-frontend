@@ -17,7 +17,6 @@ body {
   padding: 20px;
 }
 
-
 .search-bar input {
   padding: 8px;
   border-radius: 20px;
@@ -69,6 +68,10 @@ body {
   background-color: #00cfff;
 }
 
+.join-button:hover{
+  background-color: #009fe3;
+}
+
 .announce-button {
   background-color: #00cfff;
 }
@@ -108,14 +111,13 @@ body {
   padding: 5px 15px;
   border-radius: 5px;
   border: 1px solid #00cfff;
-  background-color: #2f2f2f;
-  color: #00cfff;
+  background-color: #00cfff;
+  color: #141414;
   cursor: pointer;
 }
 
 .view-button:hover {
-  background-color: #00cfff;
-  color: #141414;
+  background-color: #009fe3;
 }
 
 .Container {
