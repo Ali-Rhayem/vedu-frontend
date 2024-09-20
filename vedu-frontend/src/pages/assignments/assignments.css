@@ -54,7 +54,10 @@ body {
   color: #141414;
 }
 
-.add-topic-button:hover,
+.add-topic-button:hover {
+  background-color: #777;
+}
+
 .create-button:hover {
   background-color: #009fe3;
 }

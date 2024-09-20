@@ -10,6 +10,8 @@ import { requestApi } from "../../utils/request";
 import { RequestMethods } from "../../utils/request_methods";
 import { removeAssignment } from "../../redux/assignmentsSlice/assignmentsSlice";
 import { useDispatch } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Assignments() {
   const { classId } = useParams();
@@ -50,9 +52,22 @@ function Assignments() {
       });
 
       dispatch(removeAssignment({ classId, topicName, assignmentId }));
-      alert(`Assignment ${assignmentId} deleted successfully.`);
+      toast.success(`Assignment deleted successfully.`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     } catch (error) {
       console.error("Failed to delete assignment:", error);
+      toast.error("Failed to delete assignment. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
@@ -78,7 +93,6 @@ function Assignments() {
   const toggleDropdown = (assignmentId) => {
     setDropdownVisible((prev) => (prev === assignmentId ? null : assignmentId));
   };
-
 
   const handleDropdownClick = (event) => {
     event.stopPropagation();
@@ -207,6 +221,7 @@ function Assignments() {
           />
         </div>
       </Modal>
+      <ToastContainer />
     </div>
   );
 }
