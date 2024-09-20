@@ -50,13 +50,17 @@ body {
   margin-bottom: 5px;
 }
 
-.input-group input {
-  width: 100%;
-  padding: 10px;
+.input-group input,
+.login-button,
+.google-button {
+  width: calc(100% - 20px); 
+  padding: 15px; 
   border-radius: 10px;
   border: 1px solid #555;
   background-color: #333;
   color: #ddd;
+  margin: 0 auto; 
+  box-sizing: border-box;
 }
 
 .forgot-password {
