@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./editpersonalinfo.css";
 import Navbar from "../../components/navbar/navbar";
 import Sidebar from "../../components/sidebar/sidebar";
@@ -41,6 +43,13 @@ function EditPersonalInfo() {
           dispatch(setUser(data));
         } catch (error) {
           console.error("Error fetching user data:", error);
+          toast.error("Error fetching user data.", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
         }
       };
 
@@ -75,11 +84,22 @@ function EditPersonalInfo() {
 
       if (data.errors) {
         console.error("Validation errors:", data.errors);
-        alert("There are validation errors. Please check your input.");
+        toast.error("Validation errors. Please check your input.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       } else {
         console.log("Success:", data.message);
-        alert("Personal information updated successfully.");
-
+        toast.success("Personal information updated successfully.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
         dispatch(
           setUser({
             ...userData,
@@ -95,7 +115,13 @@ function EditPersonalInfo() {
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   }
 
@@ -106,7 +132,6 @@ function EditPersonalInfo() {
   const closeSidebar = () => {
     setIsSidebarVisible(false);
   };
-
 
   return (
     <div className="edit-profile-page">
@@ -210,6 +235,7 @@ function EditPersonalInfo() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
