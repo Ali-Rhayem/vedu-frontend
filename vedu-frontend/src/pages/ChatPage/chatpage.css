@@ -3,7 +3,7 @@ body {
   font-family: Arial, sans-serif;
   background-color: #141414;
   height: 100vh;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .chat-page {
@@ -15,14 +15,14 @@ body {
 .chat-container {
   display: flex;
   flex: 1;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .chat-content-cp {
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-left: 280px; 
+  margin-left: 280px;
   overflow: hidden;
 }
 
@@ -31,15 +31,16 @@ body {
   display: flex;
   flex-direction: column;
   background-color: #1f1f1f;
-  overflow: hidden; 
+  overflow: hidden;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .chat-header-section {
-  flex-shrink: 0; 
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   padding: 15px;
-  background-color: #1f1f1f; 
+  background-color: #1f1f1f;
   color: #ffffff;
   border-bottom: 1px solid #444;
 }
@@ -64,10 +65,10 @@ body {
 }
 
 .messages {
-  flex: 1; 
-  overflow-y: auto; 
+  flex: 1;
+  overflow-y: auto;
   padding: 15px;
-  background-color: #141414; 
+  background-color: #141414;
 }
 
 .messages::-webkit-scrollbar {
@@ -109,7 +110,7 @@ body {
 }
 
 .chat-end .chat-bubble {
-  background-color: #00cfff; 
+  background-color: #00cfff;
   align-self: flex-end;
   border-top-right-radius: 0;
 }
@@ -162,10 +163,8 @@ body {
   color: #00a3d1;
 }
 
-
 @media (max-width: 768px) {
-  .chat-content-cp{
+  .chat-content-cp {
     margin-left: 0;
   }
 }
-
