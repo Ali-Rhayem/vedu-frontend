@@ -21,11 +21,13 @@ import StreamClientProvider from './components/Call/StreamClientProvider.jsx';
 import Meeting from './components/Call/Meeting.jsx';
 import Compiler from './components/Call/Compiler/Compiler.jsx';
 import ProtectedClassInstructorRoute from './protectedroutes/ProtectedClassInstructorRoute.jsx';
+import LandingPage from './pages/LandingPage.jsx';
 
 function App() {
   return (
       <Router>
         <Routes>
+          <Route path="/" element={<LandingPage/>}/>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
