@@ -1,6 +1,31 @@
 /* global chrome */
 let chatId = null;
 
+function showToast(message, type = 'success') {
+    const toastContainer = document.getElementById('toast-container');
+
+    const toast = document.createElement('div');
+    toast.classList.add('toast');
+    toast.classList.add(type === 'error' ? 'toast-error' : 'toast-success');
+    toast.textContent = message;
+
+    toastContainer.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 100);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+
+if (!document.getElementById('toast-container')) {
+    const toastContainer = document.createElement('div');
+    toastContainer.id = 'toast-container';
+    document.body.appendChild(toastContainer);
+}
+
 chrome.runtime.sendMessage({ type: 'REQUEST_CHAT_ID' }, (response) => {
     if (chrome.runtime.lastError) {
         console.error('Runtime error:', chrome.runtime.lastError);
@@ -20,7 +45,7 @@ document.getElementById('fetchSummary').addEventListener('click', () => {
         fetchSummary(chatId);
     } else {
         console.error('Chat ID not found.');
-        alert('Chat ID not found. Please ensure you are on the correct page.');
+        showToast('Chat ID not found.', 'error');
     }
 });
 
