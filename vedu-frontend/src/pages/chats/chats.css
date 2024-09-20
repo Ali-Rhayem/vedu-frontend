@@ -11,8 +11,10 @@ body {
 }
 
 .chats-container {
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
   display: flex;
-  height: calc(100vh - 80px);
 }
 
 .content {
@@ -20,7 +22,6 @@ body {
   display: flex;
   flex-direction: column;
 }
-
 
 .chat-content {
   flex: 1;
