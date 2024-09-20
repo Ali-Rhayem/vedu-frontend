@@ -14,6 +14,8 @@ import {
   faRobot,
   faUsers,
   faComments,
+  faCheck,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { io } from "socket.io-client";
 import { useSelector } from "react-redux";
@@ -21,6 +23,7 @@ import "./MeetingRoom.css";
 import CustomCallControls from "../CustomCallControls/CustomCallControls";
 import AIAssistant from "../AIAssistant";
 import ChatPanel from "../ChatPanel/ChatPanel";
+import Navbar from "../../../pages/login/Nav";
 
 const MeetingRoom = () => {
   const { classId } = useParams();
@@ -52,7 +55,7 @@ const MeetingRoom = () => {
 
   useEffect(() => {
     if (!socket.current) {
-      socket.current = io("http://localhost:3001");
+      socket.current = io("http://35.180.33.199:80");
 
       socket.current.emit("join", {
         classId,
@@ -138,6 +141,8 @@ const MeetingRoom = () => {
   };
 
   return (
+    <>
+    <Navbar showButtons={false}/>
     <section
       className={`meeting-room-section ${showCompiler ? "compiler-open" : ""}`}
     >
@@ -218,7 +223,7 @@ const MeetingRoom = () => {
             messages={chatMessages}
             onSendMessage={handleSendMessage}
             onClose={() => setShowChat(false)}
-            currentUser={userData.name} 
+            currentUser={userData.name}
           />
         </div>
       </div>
@@ -317,9 +322,17 @@ const MeetingRoom = () => {
                             )
                           }
                         >
-                          {user.hasEditAccess
-                            ? "Remove Access"
-                            : "Grant Access"}
+                          {user.hasEditAccess ? (
+                            <FontAwesomeIcon
+                              icon={faTimes}
+                              title="Remove Access"
+                            />
+                          ) : (
+                            <FontAwesomeIcon
+                              icon={faCheck}
+                              title="Grant Access"
+                            />
+                          )}
                         </button>
                       </div>
                     ))}
@@ -331,6 +344,7 @@ const MeetingRoom = () => {
         )}
       </div>
     </section>
+    </>
   );
 };
 

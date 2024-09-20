@@ -160,7 +160,7 @@
 
 .toggle-compiler-button {
   position: fixed;
-  top: 20px;
+  top: 75px;
   right: 20px;
   background-color: #00cfff;
   color: #fff;
@@ -188,7 +188,7 @@
 }
 
 .user-list-dropdown {
-  width: 200px;
+  width: 150px;
   position: absolute;
   bottom: 110%;
   left: 0;
@@ -208,22 +208,7 @@
   margin-bottom: 5px;
 }
 
-.user-item span {
-  color: white;
-}
 
-.user-item button {
-  background-color: #00cfff;
-  color: #fff;
-  border: none;
-  padding: 5px 8px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.user-item button:hover {
-  background-color: #009fcc;
-}
 
 .request-access-button {
   padding: 10px 15px;
@@ -375,4 +360,20 @@
 
 .toggle-chat-button:hover {
   background-color: #4c535b;
+}
+
+.user-item button {
+  background-color: #00cfff;
+  color: #fff;
+  border: none;
+  padding: 5px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-item button:hover {
+  background-color: #009fcc;
 }
