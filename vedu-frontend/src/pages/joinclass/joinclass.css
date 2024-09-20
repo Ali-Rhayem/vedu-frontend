@@ -34,20 +34,20 @@
 }
 
 .joinclass-button {
-  flex: 1; /* Makes both buttons equal width */
+  flex: 1;
   padding: 10px;
   border-radius: 5px;
   border: 2px solid #00cfff;
   background-color: transparent;
-  color: #00cfff;
+  background-color: #00cfff;
+  color: #141414;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   text-align: center;
 }
 
 .joinclass-button.join:hover {
-  background-color: #00cfff;
-  color: #141414;
+  background-color: #009fe3;
 }
 
 .cancel {

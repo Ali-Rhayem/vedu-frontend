@@ -27,7 +27,7 @@
 }
 
 .createclass-input {
-  width: 100%;
+  width: 95%;
   padding: 10px;
   border-radius: 5px;
   border: none;
@@ -39,25 +39,24 @@
 .createclass-actions {
   display: flex;
   justify-content: space-between;
-  gap: 10px; /* Added gap for spacing between buttons */
+  gap: 10px;
   margin-top: 20px;
 }
 
 .createclass-button {
-  flex: 1; /* Ensures both buttons have the same size */
+  flex: 1;
   padding: 10px;
   border-radius: 5px;
   border: 2px solid #00cfff;
-  background-color: transparent;
-  color: #00cfff;
+  background-color: #00cfff;
+  color: #141414;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   text-align: center;
 }
 
 .createclass-button.submit:hover {
-  background-color: #00cfff;
-  color: #141414;
+  background-color: #009fe3;
 }
 
 .cancel {
@@ -70,10 +69,9 @@
   background-color: #777;
 }
 
-/* Responsive styling for smaller screens */
 @media (max-width: 600px) {
   .createclass-content {
-    width: 90%; /* Make the modal take up more space on smaller screens */
+    width: 90%;
     padding: 20px;
   }
 
@@ -82,6 +80,6 @@
   }
 
   .createclass-button {
-    padding: 8px; /* Adjust padding for smaller buttons */
+    padding: 8px;
   }
 }
