@@ -15,10 +15,12 @@ function Editprofile() {
   const [name, setName] = useState(userData?.name || "");
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
+  const baseUrl =
+    process.env.REACT_APP_API_BASE_URL_PRODUCTION ||
+    process.env.REACT_APP_API_BASE_URL_LOCAL;
+
   const [profileImage, setProfileImage] = useState(
-    userData?.profile_image
-      ? `http://127.0.0.1:8000/${userData.profile_image}`
-      : ""
+    userData?.profile_image ? `${baseUrl}/${userData.profile_image}` : ""
   );
   const fileInputRef = useRef();
 
@@ -54,7 +56,7 @@ function Editprofile() {
         console.log("Profile updated successfully", data);
         dispatch(setUser(data.user));
 
-        setProfileImage(`http://127.0.0.1:8000/${data.user.profile_image}`);
+        setProfileImage(`${baseUrl}/${data.user.profile_image}`);
       }
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -90,7 +92,7 @@ function Editprofile() {
                 <div className="profile-picture">
                   <div className="profile-img">
                     <img
-                      src={profileImage || "path/to/default-image.png"}
+                      src={profileImage || "/assets/images/defaultpfp.jpg"}
                       alt="Profile"
                     />
                   </div>
