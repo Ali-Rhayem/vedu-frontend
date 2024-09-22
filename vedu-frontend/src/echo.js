@@ -8,7 +8,7 @@ const echo = new Echo({
     key: process.env.REACT_APP_PUSHER_KEY,
     cluster: process.env.REACT_APP_PUSHER_CLUSTER,
     forceTLS: true,
-    authEndpoint: 'http://localhost:8000/api/broadcasting/auth',
+    authEndpoint: 'http://ec2-35-180-33-199.eu-west-3.compute.amazonaws.com/api/broadcasting/auth',
     auth: {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
