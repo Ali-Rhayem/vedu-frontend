@@ -20,7 +20,6 @@ function AssignmentDetailsPage() {
 
   console.log("currentAssignment", currentAssignment);
 
-
   const userSubmission = currentAssignment?.submissions?.find(
     (submission) => submission.student_id === parseInt(userData.id)
   );
@@ -77,7 +76,10 @@ function AssignmentDetailsPage() {
                           {getFileIcon(document.file_url)}
                         </span>
                         <a
-                          href={`http://127.0.0.1:8000/storage/${document.file_url}`}
+                          href={`${
+                            process.env.REACT_APP_API_BASE_URL_PRODUCTION ||
+                            process.env.REACT_APP_API_BASE_URL_LOCAL
+                          }/storage/${document.file_url}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           download
@@ -112,8 +114,16 @@ function AssignmentDetailsPage() {
                     <>
                       <div className="submitted-file">
                         {userSubmission.file_url && (
+                          // <a
+                          //   href={`http://127.0.0.1:8000/storage/${userSubmission.file_url}`}
+                          //   target="_blank"
+                          //   rel="noopener noreferrer"
+                          // >
                           <a
-                            href={`http://127.0.0.1:8000/storage/${userSubmission.file_url}`}
+                            href={`${
+                              process.env.REACT_APP_API_BASE_URL_PRODUCTION ||
+                              process.env.REACT_APP_API_BASE_URL_LOCAL
+                            }${userSubmission.file_url}`}
                             target="_blank"
                             rel="noopener noreferrer"
                           >
@@ -167,7 +177,7 @@ function AssignmentDetailsPage() {
           </div>
         </div>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }
