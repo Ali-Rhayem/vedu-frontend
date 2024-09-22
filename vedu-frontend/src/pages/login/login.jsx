@@ -20,6 +20,12 @@ function Login() {
     }
   }, [email, password]);
 
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/home");
+    }
+  }, []);
+
   const handleLogin = async (e) => {
     e.preventDefault();
 

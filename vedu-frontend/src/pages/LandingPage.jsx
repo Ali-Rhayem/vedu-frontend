@@ -1,5 +1,5 @@
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../assets/logo2.png";
 import video1 from "../assets/video3.mp4";
 import video2 from "../assets/video4.mp4";
@@ -20,17 +20,23 @@ const LandingPage = () => {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/home");
+    }
+  }, []);
+
   const toggleNavbar = () => {
     setMobileDrawerOpen(!mobileDrawerOpen);
   };
 
   const handleSignInClick = () => {
     navigate("/login");
-  }
+  };
 
   const handleRegister = () => {
     navigate("/register");
-  }
+  };
 
   return (
     <>
@@ -52,7 +58,7 @@ const LandingPage = () => {
               <a href="#" className="btn-signin" onClick={handleSignInClick}>
                 Sign In
               </a>
-              <a href="#" className="btn-create"  onClick={handleRegister}>
+              <a href="#" className="btn-create" onClick={handleRegister}>
                 Register
               </a>
             </div>
