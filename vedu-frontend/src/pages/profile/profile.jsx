@@ -83,7 +83,10 @@ function Profile() {
                   <img
                     src={
                       userData?.profile_image
-                        ? `http://127.0.0.1:8000/${userData.profile_image}`
+                        ? `${
+                            process.env.REACT_APP_API_BASE_URL_PRODUCTION ||
+                            process.env.REACT_APP_API_BASE_URL_LOCAL
+                          }${userData.profile_image}`
                         : "/assets/images/defaultpfp.jpg"
                     }
                     alt="Profile"
