@@ -37,16 +37,16 @@ function App() {
           <Route path="/edit-personal-info" element={<ProtectedRoute><EditPersonalInfo /></ProtectedRoute>} />
           <Route path="/edit-address" element={<ProtectedRoute><EditAddress /></ProtectedRoute>} />
 
-          <Route path="/class/:classId/add-assignment" element={<ProtectedClassInstructorRoute><AddAssignment /></ProtectedClassInstructorRoute>} />
+          <Route path="/class/:classId/add-assignment" element={<ProtectedClassRoute><ProtectedClassInstructorRoute><AddAssignment /></ProtectedClassInstructorRoute></ProtectedClassRoute>} />
 
-          <Route path="/class/:classId/assignments" element={<ProtectedRoute><Assignments /></ProtectedRoute>} />
-          <Route path="/class/:classId/assignments/:assignmentId" element={<ProtectedRoute><AssignmentDetails /></ProtectedRoute>} />
-          <Route path="/class/:classId/people" element={<ProtectedRoute><ClassPeople /></ProtectedRoute>} />
+          <Route path="/class/:classId/assignments" element={<ProtectedRoute><ProtectedClassRoute><Assignments /></ProtectedClassRoute></ProtectedRoute>} />
+          <Route path="/class/:classId/assignments/:assignmentId" element={<ProtectedRoute><ProtectedClassRoute><AssignmentDetails /></ProtectedClassRoute></ProtectedRoute>} />
+          <Route path="/class/:classId/people" element={<ProtectedRoute><ProtectedClassRoute><ClassPeople /></ProtectedClassRoute></ProtectedRoute>} />
 
-          <Route path="/class/:classId/assignments/:assignmentId/submissions" element={<ProtectedClassInstructorRoute><Submissions /></ProtectedClassInstructorRoute>} />
-          <Route path="/class/:classId/chats" element={<ProtectedRoute><Chats /></ProtectedRoute>} />
+          <Route path="/class/:classId/assignments/:assignmentId/submissions" element={<ProtectedClassRoute><ProtectedClassInstructorRoute><Submissions /></ProtectedClassInstructorRoute></ProtectedClassRoute>} />
+          <Route path="/class/:classId/chats" element={<ProtectedRoute><ProtectedClassRoute><Chats /></ProtectedClassRoute></ProtectedRoute>} />
 
-          <Route path="/class/:classId/chats/:chatId" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
+          <Route path="/class/:classId/chats/:chatId" element={<ProtectedRoute><ProtectedClassRoute><ChatPage /></ProtectedClassRoute></ProtectedRoute>} />
         <Route
           path="/class/:classId/meeting"
           element={
