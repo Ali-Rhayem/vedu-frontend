@@ -1,7 +1,10 @@
 import axios from "axios";
 import { RequestMethods } from "./request_methods";
 
-axios.defaults.baseURL = "http://127.0.0.1:8000";
+const baseURL =
+    process.env.REACT_APP_API_BASE_URL_PRODUCTION || process.env.REACT_APP_API_BASE_URL_LOCAL;
+
+axios.defaults.baseURL = baseURL;
 
 export const requestApi = async ({
     includeToken = true,
@@ -20,7 +23,10 @@ export const requestApi = async ({
 
         const combinedHeaders = {
             ...authHeaders,
-            ...headers, 
+            ...headers,
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         };
 
         const { data } = await axios.request({
