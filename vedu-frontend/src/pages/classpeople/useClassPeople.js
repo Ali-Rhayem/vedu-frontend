@@ -22,14 +22,17 @@ export const useClassPeople = (classId) => {
         state.courses.courses.find((course) => course.id === parseInt(classId))
     );
     const userData = useSelector((state) => state.user.data);
-    const { instructors, students, loading, error, fetchedClasses } = useSelector((state) => ({
-        instructors: state.classPeople.instructors[classId] || [],
-        students: state.classPeople.students[classId] || [],
-        loading: state.classPeople.loading,
-        error: state.classPeople.error,
-        fetchedClasses: state.classPeople.fetchedClasses[classId],
-    }));
-
+    const instructors = useSelector(
+        (state) => state.classPeople.instructors[classId] || []
+    );
+    const students = useSelector(
+        (state) => state.classPeople.students[classId] || []
+    );
+    const loading = useSelector((state) => state.classPeople.loading);
+    const error = useSelector((state) => state.classPeople.error);
+    const fetchedClasses = useSelector(
+        (state) => state.classPeople.fetchedClasses[classId]
+    );
     const dispatch = useDispatch();
 
     useEffect(() => {
