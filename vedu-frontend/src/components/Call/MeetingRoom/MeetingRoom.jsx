@@ -55,7 +55,15 @@ const MeetingRoom = () => {
 
   useEffect(() => {
     if (!socket.current) {
-      socket.current = io("http://35.180.33.199:80");
+      socket.current = io(
+        `${
+          process.env.REACT_APP_API_BASE_URL_PRODUCTION ||
+          process.env.REACT_APP_API_BASE_URL_LOCAL
+        }`,
+        {
+          path: "/socket.io",
+        }
+      );
 
       socket.current.emit("join", {
         classId,
@@ -142,208 +150,216 @@ const MeetingRoom = () => {
 
   return (
     <>
-    <Navbar showButtons={false}/>
-    <section
-      className={`meeting-room-section ${showCompiler ? "compiler-open" : ""}`}
-    >
-      <div className="meeting-room-container">
-        {IsInstructor && (
-          <div className="instructor-controls">
-            <button
-              className="toggle-compiler-button"
-              onClick={handleToggleCompiler}
-            >
-              <FontAwesomeIcon icon={faCode} />
-              {showCompiler ? " Hide Editor" : " Show Editor"}
-            </button>
-          </div>
-        )}
-
-        {IsInstructor && accessRequests.length > 0 && showRequestModal && (
-          <div className="modal-overlay">
-            <div className="modal-content">
-              <h3>Access Requests</h3>
-              {accessRequests.map((request) => (
-                <div key={request.userId} className="request-item">
-                  <span>
-                    {request.userData.name} is requesting edit access.
-                  </span>
-                  <button
-                    onClick={() => handleRespondToRequest(request.userId, true)}
-                  >
-                    Approve
-                  </button>
-                  <button
-                    onClick={() =>
-                      handleRespondToRequest(request.userId, false)
-                    }
-                  >
-                    Deny
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {showCompiler ? (
-          <Compiler
-            isInstructor={IsInstructor}
-            HasEditAccess={HasEditAccess}
-            socket={socket.current}
-          />
-        ) : (
-          <div className="call-layout-container">
-            <RenderCallLayout />
-          </div>
-        )}
-
-        <div
-          className={`participants-list-container ${
-            showParticipants ? "show-block" : ""
-          }`}
-        >
-          <CallParticipantsList onClose={() => setShowParticipants(false)} />
-        </div>
-
-        <div
-          className={`ai-assistant-container ${
-            showAIAssistant ? "show-block" : ""
-          }`}
-        >
-          {socket.current && (
-            <AIAssistant
-              socket={socket.current}
-              onClose={() => setShowAIAssistant(false)}
-            />
-          )}
-        </div>
-        <div className={`chat-panel-container ${showChat ? "show-block" : ""}`}>
-          <ChatPanel
-            messages={chatMessages}
-            onSendMessage={handleSendMessage}
-            onClose={() => setShowChat(false)}
-            currentUser={userData.name}
-          />
-        </div>
-      </div>
-
-      <div
-        className={`call-controls-container ${
-          showCompiler ? "below-compiler" : ""
+      <Navbar showButtons={false} />
+      <section
+        className={`meeting-room-section ${
+          showCompiler ? "compiler-open" : ""
         }`}
       >
-        {!showCompiler && (
-          <>
-            <CallControls onLeave={() => navigate(`/class/${classId}`)} />
-            <div className="dropdown-menu">
-              <div className="dropdown-trigger">
-                <button
-                  className="dropdown-button"
-                  onClick={() => setDropdownVisible(!dropdownVisible)}
-                >
-                  Change Layout
-                </button>
+        <div className="meeting-room-container">
+          {IsInstructor && (
+            <div className="instructor-controls">
+              <button
+                className="toggle-compiler-button"
+                onClick={handleToggleCompiler}
+              >
+                <FontAwesomeIcon icon={faCode} />
+                {showCompiler ? " Hide Editor" : " Show Editor"}
+              </button>
+            </div>
+          )}
 
-                {dropdownVisible && (
-                  <div className="dropdown-content">
-                    {["Grid", "Speaker-Left", "Speaker-Right"].map(
-                      (item, index) => (
-                        <div key={index}>
-                          <button
-                            onClick={() => {
-                              setLayout(item.toLowerCase().replace("-", " "));
-                              setDropdownVisible(false);
-                            }}
-                            className="dropdown-item"
-                          >
-                            {item}
-                          </button>
-                          {index < 2 && <hr className="dropdown-separator" />}
-                        </div>
-                      )
-                    )}
+          {IsInstructor && accessRequests.length > 0 && showRequestModal && (
+            <div className="modal-overlay">
+              <div className="modal-content">
+                <h3>Access Requests</h3>
+                {accessRequests.map((request) => (
+                  <div key={request.userId} className="request-item">
+                    <span>
+                      {request.userData.name} is requesting edit access.
+                    </span>
+                    <button
+                      onClick={() =>
+                        handleRespondToRequest(request.userId, true)
+                      }
+                    >
+                      Approve
+                    </button>
+                    <button
+                      onClick={() =>
+                        handleRespondToRequest(request.userId, false)
+                      }
+                    >
+                      Deny
+                    </button>
                   </div>
-                )}
+                ))}
               </div>
             </div>
-            <CallStatsButton />
-            <FontAwesomeIcon
-              className="participants-toggle-button"
-              icon={faUsers}
-              onClick={() => setShowParticipants((prev) => !prev)}
+          )}
+
+          {showCompiler ? (
+            <Compiler
+              isInstructor={IsInstructor}
+              HasEditAccess={HasEditAccess}
+              socket={socket.current}
             />
-            <button
-              className="toggle-ai-button"
-              onClick={() => setShowAIAssistant((prev) => !prev)}
-            >
-              <FontAwesomeIcon icon={faRobot} />
-            </button>
-            <button
-              className="toggle-chat-button"
-              onClick={() => setShowChat((prev) => !prev)}
-            >
-              <FontAwesomeIcon icon={faComments} />
-            </button>
-          </>
-        )}
+          ) : (
+            <div className="call-layout-container">
+              <RenderCallLayout />
+            </div>
+          )}
 
-        {showCompiler && (
-          <>
-            <CustomCallControls onLeave={() => navigate(`/class/${classId}`)} />
-            {!HasEditAccess && (
-              <button
-                className="request-access-button"
-                onClick={handleRequestEditAccess}
-              >
-                Request Edit Access
-              </button>
+          <div
+            className={`participants-list-container ${
+              showParticipants ? "show-block" : ""
+            }`}
+          >
+            <CallParticipantsList onClose={() => setShowParticipants(false)} />
+          </div>
+
+          <div
+            className={`ai-assistant-container ${
+              showAIAssistant ? "show-block" : ""
+            }`}
+          >
+            {socket.current && (
+              <AIAssistant
+                socket={socket.current}
+                onClose={() => setShowAIAssistant(false)}
+              />
             )}
+          </div>
+          <div
+            className={`chat-panel-container ${showChat ? "show-block" : ""}`}
+          >
+            <ChatPanel
+              messages={chatMessages}
+              onSendMessage={handleSendMessage}
+              onClose={() => setShowChat(false)}
+              currentUser={userData.name}
+            />
+          </div>
+        </div>
 
-            {IsInstructor && (
-              <div className="user-access-dropdown">
-                <button
-                  className="dropdown-button"
-                  onClick={() => setUserDropdownVisible(!userDropdownVisible)}
-                >
-                  Manage Users
-                </button>
+        <div
+          className={`call-controls-container ${
+            showCompiler ? "below-compiler" : ""
+          }`}
+        >
+          {!showCompiler && (
+            <>
+              <CallControls onLeave={() => navigate(`/class/${classId}`)} />
+              <div className="dropdown-menu">
+                <div className="dropdown-trigger">
+                  <button
+                    className="dropdown-button"
+                    onClick={() => setDropdownVisible(!dropdownVisible)}
+                  >
+                    Change Layout
+                  </button>
 
-                {userDropdownVisible && (
-                  <div className="dropdown-content user-list-dropdown">
-                    {connectedUsers.map((user) => (
-                      <div key={user.userId} className="user-item">
-                        <span>{user.userData.name}</span>
-                        <button
-                          onClick={() =>
-                            handleUpdateUserAccess(
-                              user.userId,
-                              !user.hasEditAccess
-                            )
-                          }
-                        >
-                          {user.hasEditAccess ? (
-                            <FontAwesomeIcon
-                              icon={faTimes}
-                              title="Remove Access"
-                            />
-                          ) : (
-                            <FontAwesomeIcon
-                              icon={faCheck}
-                              title="Grant Access"
-                            />
-                          )}
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                  {dropdownVisible && (
+                    <div className="dropdown-content">
+                      {["Grid", "Speaker-Left", "Speaker-Right"].map(
+                        (item, index) => (
+                          <div key={index}>
+                            <button
+                              onClick={() => {
+                                setLayout(item.toLowerCase().replace("-", " "));
+                                setDropdownVisible(false);
+                              }}
+                              className="dropdown-item"
+                            >
+                              {item}
+                            </button>
+                            {index < 2 && <hr className="dropdown-separator" />}
+                          </div>
+                        )
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
-            )}
-          </>
-        )}
-      </div>
-    </section>
+              <CallStatsButton />
+              <FontAwesomeIcon
+                className="participants-toggle-button"
+                icon={faUsers}
+                onClick={() => setShowParticipants((prev) => !prev)}
+              />
+              <button
+                className="toggle-ai-button"
+                onClick={() => setShowAIAssistant((prev) => !prev)}
+              >
+                <FontAwesomeIcon icon={faRobot} />
+              </button>
+              <button
+                className="toggle-chat-button"
+                onClick={() => setShowChat((prev) => !prev)}
+              >
+                <FontAwesomeIcon icon={faComments} />
+              </button>
+            </>
+          )}
+
+          {showCompiler && (
+            <>
+              <CustomCallControls
+                onLeave={() => navigate(`/class/${classId}`)}
+              />
+              {!HasEditAccess && (
+                <button
+                  className="request-access-button"
+                  onClick={handleRequestEditAccess}
+                >
+                  Request Edit Access
+                </button>
+              )}
+
+              {IsInstructor && (
+                <div className="user-access-dropdown">
+                  <button
+                    className="dropdown-button"
+                    onClick={() => setUserDropdownVisible(!userDropdownVisible)}
+                  >
+                    Manage Users
+                  </button>
+
+                  {userDropdownVisible && (
+                    <div className="dropdown-content user-list-dropdown">
+                      {connectedUsers.map((user) => (
+                        <div key={user.userId} className="user-item">
+                          <span>{user.userData.name}</span>
+                          <button
+                            onClick={() =>
+                              handleUpdateUserAccess(
+                                user.userId,
+                                !user.hasEditAccess
+                              )
+                            }
+                          >
+                            {user.hasEditAccess ? (
+                              <FontAwesomeIcon
+                                icon={faTimes}
+                                title="Remove Access"
+                              />
+                            ) : (
+                              <FontAwesomeIcon
+                                icon={faCheck}
+                                title="Grant Access"
+                              />
+                            )}
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </section>
     </>
   );
 };
