@@ -19,13 +19,10 @@ function Class() {
   const { classId } = useParams();
   const [classDetails, setClassDetails] = useState(null);
   const navigate = useNavigate();
-  const { fetchedClasses } = useSelector((state) => ({
-    instructors: state.classPeople.instructors[classId] || [],
-    students: state.classPeople.students[classId] || [],
-    loading: state.classPeople.loading,
-    error: state.classPeople.error,
-    fetchedClasses: state.classPeople.fetchedClasses[classId],
-  }));
+  const fetchedClasses = useSelector(
+    (state) => state.classPeople.fetchedClasses[classId]
+  );
+
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const foundClass = courses.find((course) => course.id === parseInt(classId));
   const assignments = useSelector((state) => state.assignments[classId]);
