@@ -10,7 +10,9 @@ export const useSubmissions = () => {
 
   const handleDownload = async (submissionId, fileUrl) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/submissions/${submissionId}/download`, {
+      const baseUrl = process.env.REACT_APP_API_BASE_URL_PRODUCTION || process.env.REACT_APP_API_BASE_URL_LOCAL;
+
+      const response = await fetch(`${baseUrl}/api/submissions/${submissionId}/download`, {
         method: 'GET',
       });
 
