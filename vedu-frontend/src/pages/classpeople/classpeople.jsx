@@ -78,9 +78,14 @@ function ClassPeople() {
                         <img
                           src={
                             instructorData.profile_image
-                              ? `http://127.0.0.1:8000/${instructorData.profile_image}`
+                              ? `${
+                                  process.env
+                                    .REACT_APP_API_BASE_URL_PRODUCTION ||
+                                  process.env.REACT_APP_API_BASE_URL_LOCAL
+                                }${instructorData.profile_image}`
                               : "/assets/images/defaultpfp.jpg"
                           }
+
                           alt={`${instructorData.name}'s profile`}
                           className="person-image"
                         />
@@ -123,9 +128,13 @@ function ClassPeople() {
                       <img
                         src={
                           student.student.profile_image
-                            ? `http://127.0.0.1:8000/${student.student.profile_image}`
+                            ? `${
+                                process.env.REACT_APP_API_BASE_URL_PRODUCTION ||
+                                process.env.REACT_APP_API_BASE_URL_LOCAL
+                              }${student.student.profile_image}`
                             : "/assets/images/defaultpfp.jpg"
                         }
+
                         alt={`${student.student.name}'s profile`}
                         className="person-image"
                       />
@@ -162,7 +171,7 @@ function ClassPeople() {
           setModalError={setModalError}
         />
       )}
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }
