@@ -58,7 +58,10 @@ function Submissions() {
                       <img
                         src={
                           submission.student.profile_image
-                            ? `http://127.0.0.1:8000/${submission.student.profile_image}`
+                            ? `${
+                                process.env.REACT_APP_API_BASE_URL_PRODUCTION ||
+                                process.env.REACT_APP_API_BASE_URL_LOCAL
+                              }${submission.student.profile_image}`
                             : "/assets/images/defaultpfp.jpg"
                         }
                         alt={`${submission.student.name}'s avatar`}
@@ -134,7 +137,7 @@ function Submissions() {
           </div>
         </div>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }
